@@ -1,6 +1,6 @@
 #include "zipperlib.h"
 
-ErrorCode compress(char* output, char** input, int compressionMethod)
+ErrorCode compress(char* output, char** input, int inputSize, int compressionMethod)
 {
     return FILE_NOT_FOUND;
 }
