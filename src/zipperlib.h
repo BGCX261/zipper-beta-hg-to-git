@@ -15,14 +15,14 @@
  * Compress the received list of files/directories in a zip file with the selected compression 
  * method in the selected output folder.
  * 
- * @param output Output where the compressed zip file is created.
- * @param input List of files or directories that will be compressed.
- * @param inputSize Size of the list of file or directories.
+ * @param targetPath Output where the compressed zip file is created.
+ * @param inputfilePaths List of files or directories that will be compressed.
+ * @param pathCount Size of the list of file or directories.
  * @param compressionMethod Selected compression method.
  * 
  * @return An error code that will explain the compression result. If the compression task is 
  *         successfull will return OK.
  */
-ErrorCode compress(char* output, char** input, int inputSize, int compressionMethod);
+ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int compressionMethod);
 
 #endif	/* ZIPPERLIB_H */
