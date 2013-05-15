@@ -3,6 +3,7 @@
 #include <string.h>
 #include "help.h"
 #include "outputError.h"
+#include "zipperlib.h"
 
 #define DEFAULT_ARGS 2
 

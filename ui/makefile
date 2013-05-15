@@ -5,8 +5,9 @@ OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 
 OUT = zipper
 
+INCLUDES=-I../src
 
-LIBS = -L/user/local/lib -lm
+LIBS = -L/user/local/lib -L../src/lib -lzipper -lm
 
 #Compiler flags
 CCFLAGS = -fPIC -g -Wall
@@ -25,7 +26,7 @@ obj:
 	@mkdir -p $(patsubst %/, $@/%, $(sort $(dir $(SRC))))
 
 obj/%.o : %.cpp
-	$(CCC) $(CCFLAGS) -c $< -o $@
+	$(CCC) $(INCLUDES) $(CCFLAGS) -c $< -o $@
 
 #archive the library
 $(OUT):$(OBJ)
