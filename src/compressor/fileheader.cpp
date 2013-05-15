@@ -1,22 +1,25 @@
 #include <stdlib.h>
 #include <string.h>
-#include "FileHeader.h"
+#include "fileheader.h"
 
 #define FILE_HEADER_SIGNATURE  0x04034b50
 
 using namespace std;
 
-FileHeader::FileHeader():extraField(0), data(0) {
-    
-    headerSignature = FILE_HEADER_SIGNATURE;
+FileHeader::FileHeader():extraField(0), data(0) 
+{
+    initialize();
 }
 
-FileHeader::FileHeader(const FileHeader& other) : extraField(0), data(0) {
+FileHeader::FileHeader(const FileHeader& other) : extraField(0), data(0) 
+{
     initialize(other);
 }
 
-FileHeader& FileHeader::operator =(const FileHeader& other) {
-    if (&other != this) {
+FileHeader& FileHeader::operator =(const FileHeader& other) 
+{
+    if (&other != this) 
+    {
         release();
         initialize(other);
     }
@@ -24,38 +27,45 @@ FileHeader& FileHeader::operator =(const FileHeader& other) {
     return *this;
 }
 
-FileHeader::~FileHeader() {
+FileHeader::~FileHeader() 
+{
     release();
 }
 
-bool FileHeader::operator ==(const FileHeader& other) {
+bool FileHeader::operator ==(const FileHeader& other) 
+{
     return fileName == other.fileName;
 }
 
-void FileHeader::setExtraField(const char* extraField, const size_t extraFieldLength) {
-    if (this->extraField) {
+void FileHeader::setExtraField(const char* extraField, const size_t extraFieldLength) 
+{
+    if (this->extraField) 
+    {
         free(this->extraField);
         this->extraField = 0;
     }
 
-    if (extraField) {
+    if (extraField) 
+    {
         this->extraFieldLength = extraFieldLength;
         this->extraField = (char*) malloc(extraFieldLength);
         memcpy(this->extraField, extraField, extraFieldLength);
     }
 }
 
-void FileHeader::setData(const char* data, const size_t dataLength) {
-    if (this->data) {
+void FileHeader::setData(const char* data, const size_t dataLength)
+{
+    if (this->data) 
+    {
         free(this->data);
         this->data = 0;
     }
     
     if(data)
     {
-    fileDataLength = dataLength;
-    this->data = (char*) malloc(fileDataLength);
-    memcpy(this->data, data, fileDataLength);
+        dataSize = dataLength;
+        this->data = (char*) malloc(dataSize);
+        memcpy(this->data, data, dataSize);
     }
 }
 
@@ -73,16 +83,37 @@ void FileHeader::initialize(const FileHeader& other)
     fileNameLength = other.fileNameLength;
     fileName = other.fileName;
     setExtraField(other.extraField, other.extraFieldLength);
-    setData(other.data, other.fileDataLength);
+    setData(other.data, other.dataSize);
 }
 
-void FileHeader::release() {
-    if (data) {
+void FileHeader::initialize()
+{
+    headerSignature = FILE_HEADER_SIGNATURE;
+    versionToExtract = 0;
+    flag = 0;
+    compressionMethod = 0;
+    lastModificationTime = 0;
+    lastModificationDate = 0;
+    crc = 0;
+    compressedSize = 0;
+    unCompressedSize = 0;
+    fileNameLength = 0;
+    extraFieldLength = 0;
+    extraField = 0;
+    data = 0;
+    dataSize = 0;
+}
+
+void FileHeader::release() 
+{
+    if (data) 
+    {
         free(data);
         data = 0;
     }
 
-    if (extraField) {
+    if (extraField) 
+    {
         free(extraField);
         extraField = 0;
     }

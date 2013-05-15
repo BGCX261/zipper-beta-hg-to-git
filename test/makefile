@@ -1,6 +1,7 @@
 # source files
 
 SRC = interface/interfacetest.cpp \
+      compressor/fileheadertest.cpp \
       testrunner.cpp 
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))

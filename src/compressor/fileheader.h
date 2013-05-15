@@ -32,7 +32,19 @@ struct FileHeader
      * @return The initialized FileHeader
      */
     FileHeader& operator=(const FileHeader& other);
+    
+    /**
+     * To free memory used.
+     */
     ~FileHeader();
+    
+    /**
+     * Compare the names and return true if this are equals.
+     * 
+     * @param other Another file header
+     * 
+     * @return True if the names are equals
+     */
     bool operator==(const FileHeader& other);
     
     /**
@@ -109,7 +121,7 @@ struct FileHeader
     /**
      * Size of the data.
      */
-    size_t fileDataLength;
+    size_t dataSize;
     
     /**
      * Set the data.
@@ -134,6 +146,11 @@ private:
      * @param other Other file header
      */
     void initialize(const FileHeader& other);
+    
+    /**
+     * Initialize the attributes with default values.
+     */
+    void initialize();
     
     /**
      * To free memory used on this file header
