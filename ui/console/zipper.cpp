@@ -69,19 +69,14 @@ char** getSourceCompressionArgs(char** argv, int end)
 /**
  * This is a False Compressor 
  */
-int falseCompressor(char* output, char** input, int compressionMethod)
-{
-    printf("Compress Method:[%d]\n", compressionMethod);
-    printf("Dest:[%s]\n", output);
-    return 0;
-}
+
 
 /**
  * The compress Function that gets the source, destiny and compressionMethod arguments
  * @param argc The number of arguments introduced by console 
  * @param argv The arguments introduced by console
  */
-void compress(int argc, char **argv)
+void compressOption(int argc, char **argv)
 {
     int endSourceArgs = argc - 2; //index that ends the source or input arguments
     int compressionMethod = argv[argc - 1][0] - '0'; // gets the number of compression method 
@@ -90,7 +85,7 @@ void compress(int argc, char **argv)
     char* destPath = argv[endSourceArgs];
     if (sourcePaths)
     {
-	int errorCode = falseCompressor(destPath, sourcePaths, compressionMethod);
+	int errorCode = compress(destPath, sourcePaths, sourcePathsSize,compressionMethod);
 	parseErrorCode(errorCode);
     }
     delete[] sourcePaths;
@@ -122,7 +117,7 @@ int main(int argc, char **argv)
 	    switch (value)
 	    {
 		case 'c':
-		    compress(argc, argv);
+		    compressOption(argc, argv);
 		    break;
 		case 'h':
 		    help();
