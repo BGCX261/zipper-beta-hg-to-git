@@ -1,6 +1,6 @@
 /*
  * File:   crctest.h
- * Author: luis
+ * Author: Luis Aguirre
  * Description: Test the crc32 calculation.
  *
  * Created on 15-05-2013, 06:02:51 PM

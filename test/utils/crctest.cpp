@@ -1,6 +1,6 @@
 /*
  * File:   crctest.cpp
- * Author: luis
+ * Author: Luis Aguirre
  * Description: Implementation of the test for the crc.
  *
  * Created on 15-05-2013, 06:02:51 PM
