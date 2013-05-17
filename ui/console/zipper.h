@@ -22,7 +22,7 @@ public:
 private:
     static char* executeOption(char option,int argc, char** argv);
     static char* compressOption(int argc,char** argv);
-    static char* helpOption();
+    static char* helpOption(int argc);
     static char* errorCodeToString(ErrorCode errorCode);
     static char** getSourceCompressionArgs(char** argv, int end);
     

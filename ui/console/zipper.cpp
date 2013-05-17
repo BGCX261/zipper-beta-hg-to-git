@@ -21,10 +21,10 @@ char* ConsoleZipper::executeOption(char option, int argc, char** argv)
     switch (option)
     {
         case 'c':
-            return compressOption(argc,argv);
+            return compressOption(argc, argv);
             break;
         case 'h':
-            return helpOption();
+            return helpOption(argc);
             break;
         default:
             return UNKNOW_OPTION;
@@ -53,9 +53,11 @@ char* ConsoleZipper::compressOption(int argc, char** argv)
 
 }
 
-char* ConsoleZipper::helpOption()
+char* ConsoleZipper::helpOption(int argc)
 {
-    return HELP_TEXT;
+    if (argc == DEFAULT_ARGS)
+        return HELP_TEXT;
+    return UNKNOW_ARGS;
 }
 
 char** ConsoleZipper::getSourceCompressionArgs(char** argv, int end)
