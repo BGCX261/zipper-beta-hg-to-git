@@ -1,6 +1,7 @@
 # source files
 
 SRC = interface/interfacetest.cpp \
+      console/consoletest.cpp\
       testrunner.cpp 
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
@@ -9,6 +10,7 @@ OUT = zippertest
 
 #include directories
 INCLUDES = -I../src \
+           -I../ui\
            -Ithird-party/cppunit-1.12.1/include
 
 #library paths

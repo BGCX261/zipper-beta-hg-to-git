@@ -1,8 +1,8 @@
 
 #include "consoletest.h"
-#include "..\console\zipper.h"
-#include "..\console\help.h"
-#include "..\console\outputerror.h"
+#include "..\..\ui\console\zipper.h"
+#include "..\..\ui\console\help.h"
+#include "..\..\ui\console\outputerror.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ConsoleTest);
 
