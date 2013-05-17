@@ -1,6 +1,7 @@
 /*
- * File:   utilstest.h
+ * File:   crctest.h
  * Author: luis
+ * Description: Test the crc32 calculation.
  *
  * Created on 15-05-2013, 06:02:51 PM
  */
@@ -10,9 +11,9 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-class crctest : public CPPUNIT_NS::TestFixture 
+class CRCTest : public CPPUNIT_NS::TestFixture 
 {
-    CPPUNIT_TEST_SUITE(crctest);
+    CPPUNIT_TEST_SUITE(CRCTest);
 
     CPPUNIT_TEST(testCrc32);
     CPPUNIT_TEST(testCrc32Size0);
@@ -22,8 +23,8 @@ class crctest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    crctest();
-    virtual ~crctest();
+    CRCTest();
+    virtual ~CRCTest();
     void setUp();
     void tearDown();
 

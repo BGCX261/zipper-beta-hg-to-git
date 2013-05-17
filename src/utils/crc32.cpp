@@ -2,7 +2,7 @@
 #include "crc32.h"
 
 /**
- * Necesary table for the calculation of the CRC-32
+ * Nedded table to get the CRC-32 code.
  */
 const unsigned int crcTable[256] = {
     0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA, 0x076DC419, 0x706AF48F,
@@ -53,15 +53,15 @@ const unsigned int crcTable[256] = {
 
 unsigned int crc32(const char* buffer, int bufferSize)
 {
-    unsigned long crc;
-    int c;
+    unsigned int crc;
+    int asciiValue;
     crc = 0xFFFFFFFF;
     if (buffer && (bufferSize > 0))
     {
         while (bufferSize--)
         {
-            c = *buffer;
-            crc = ((crc >> 8) & 0x00FFFFFF) ^ crcTable[ (crc^c) & 0xFF ];
+            asciiValue = *buffer;
+            crc = ((crc >> 8) & 0x00FFFFFF) ^ crcTable[ (crc^asciiValue) & 0xFF ];
             buffer++;
         }
     }
