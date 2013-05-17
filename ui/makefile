@@ -1,9 +1,10 @@
 # source files
 
-SRC = console/zipper.cpp
+SRC = console/main.cpp \
+console/zipper.cpp
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 
-OUT = zipper
+OUT = zipperZ
 
 INCLUDES=-I../src
 
