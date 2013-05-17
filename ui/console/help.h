@@ -24,5 +24,6 @@
 #define HELP_DESCRIPTION "Help(-h):\n\
                           \tDisplay the help text of all options\n"
 
+#define HELP_TEXT APLICATION_DESCRIPTION COMPRESSION_DESCRIPTION COMPRESSION_EXAMPLE HELP_DESCRIPTION
 #endif	/* HELP_H */
 
