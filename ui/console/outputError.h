@@ -4,6 +4,9 @@
 
 #include "help.h"
 
+/**
+ *Here is defined the output error for user
+ */
 
 #define OPTION_ERROR "Zipper:unknown option\n"
 

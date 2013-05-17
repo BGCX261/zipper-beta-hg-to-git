@@ -1,6 +1,5 @@
 #include "zipper.h"
-#include "outputerror.h"
-#include "help.h"
+
 
 char* ConsoleZipper::runCommand(int argc, char** argv)
 {

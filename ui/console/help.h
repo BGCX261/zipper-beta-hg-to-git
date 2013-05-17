@@ -2,6 +2,10 @@
 #ifndef HELP_H
 #define	HELP_H
 
+/**
+ *Here is defined the help for user
+ */
+
 #define APLICATION_DESCRIPTION "Zipper Help:\n"
 
 #define COMPRESSION_DESCRIPTION "Compress(-c): \n\

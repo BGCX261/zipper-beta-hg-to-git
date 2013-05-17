@@ -4,7 +4,7 @@ SRC = console/main.cpp \
 console/zipper.cpp
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 
-OUT = zipperZ
+OUT = consoleZipper
 
 INCLUDES=-I../src
 
