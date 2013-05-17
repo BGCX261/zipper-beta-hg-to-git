@@ -2,6 +2,7 @@
 
 SRC = interface/interfacetest.cpp \
       compressor/fileheadertest.cpp \
+      utils/fileutilstest.cpp \
       testrunner.cpp 
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))

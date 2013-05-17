@@ -1,6 +1,7 @@
 /*
  * File:   InterfaceTest.h
- * Author: dann
+ * Author: Daniela Meneses
+ * Description: Implement test for the communication with the zipper library.
  *
  * Created on May 14, 2013, 4:34:02 PM
  */
@@ -9,6 +10,7 @@
 #define	INTERFACETEST_H
 
 #include <cppunit/extensions/HelperMacros.h>
+#include "zipperlib.h"
 
 class InterfaceTest : public CPPUNIT_NS::TestFixture
 {

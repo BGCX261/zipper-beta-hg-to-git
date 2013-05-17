@@ -1,12 +1,12 @@
 /*
  * File:   InterfaceTest.cpp
- * Author: dann
+ * Author: Daniela Meneses
+ * Description: Test implementation.
  *
  * Created on May 14, 2013, 4:34:02 PM
  */
 
 #include "interfacetest.h"
-#include "zipperlib.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(InterfaceTest);
 
