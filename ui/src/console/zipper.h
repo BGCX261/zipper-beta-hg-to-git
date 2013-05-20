@@ -31,7 +31,7 @@ public:
      * @param argv The arguments introduced by console
      * @return The output errors for user
      */
-    static char* runCommand(int argc, char** argv);
+    static const char* runCommand(int argc, char** argv);
 private:
     
     /**
@@ -41,7 +41,7 @@ private:
      * @param argv The arguments introduced by console
      * @return The output errors for user
      */
-    static char* executeOption(char option, int argc, char** argv);
+    static const char* executeOption(char option, int argc, char** argv);
 
     /**
      *The compress Function that gets the source and destiny arguments
@@ -49,14 +49,14 @@ private:
      * @param argv The arguments introduced by console
      * @return The output errors for user
      */
-    static char* compressOption(int argc, char** argv);
+    static const char* compressOption(int argc, char** argv);
 
     /**
      * 
      * @param argc The parameters of the command
      * @return The help text for user
      */
-    static char* helpOption(int argc);
+    static const char* helpOption(int argc);
     /**
      * Convert the error code from compressor to string
      * This codes are the following
@@ -67,7 +67,7 @@ private:
      * @param errorCode The number of error Code
      * @return The error code to String
      */
-    static char* errorCodeToString(ErrorCode errorCode);
+    static const char* errorCodeToString(ErrorCode errorCode);
 
     /**
      * Get the Source Paths for compression

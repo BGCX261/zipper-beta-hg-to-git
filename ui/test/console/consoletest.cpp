@@ -16,7 +16,7 @@ void ConsoleTest::itShouldShowTheHelpWhenTheWrittenCommandIsHWithoutArgs()
     char ** command = new char *[2];
     command[0] = "./zipper";
     command[1] = "-h";
-    char* output = ConsoleZipper::runCommand(2, command);
+    const char* output = ConsoleZipper::runCommand(2, command);
     CPPUNIT_ASSERT(strcmp(output, HELP_TEXT) == 0);
 }
 
@@ -26,7 +26,7 @@ void ConsoleTest::itShouldShowAnUnknowArgsErrorWhenTheWrittenCommandIsHWithArgs(
     command[0] = "./zipper";
     command[1] = "-h";
     command[2] = "dir1";
-    char* output = ConsoleZipper::runCommand(3, command);
+    const char* output = ConsoleZipper::runCommand(3, command);
     CPPUNIT_ASSERT(strcmp(output, UNKNOW_ARGS) == 0);
 }
 
@@ -36,7 +36,7 @@ void ConsoleTest::itShouldShowAnUnknowCompressionArgsWhenTheWrittenCCommandIsWro
     command[0] = "./zipper";
     command[1] = "-c";
     command[2] = "src1";
-    char* output = ConsoleZipper::runCommand(3, command);
+    const char* output = ConsoleZipper::runCommand(3, command);
     CPPUNIT_ASSERT(strcmp(output, UNKNOW_COMPRESSION_ARGS) == 0);
 
 }
@@ -47,7 +47,7 @@ void ConsoleTest::itShouldShowAnUnknowOptionWhenTheCommandDoesNotExists()
     command[0] = "./zipper";
     command[1] = "-P";
     command[2] = "src1";
-    char* output = ConsoleZipper::runCommand(3, command);
+    const char* output = ConsoleZipper::runCommand(3, command);
     CPPUNIT_ASSERT(strcmp(output, UNKNOW_OPTION) == 0);
 
 }
@@ -56,7 +56,7 @@ void ConsoleTest::itShouldShowAnUnknowArgsErrorWhenTheInputCommandDoesNotMatch()
 {
     char ** command = new char *[1];
     command[0] = "./zipper";
-    char* output = ConsoleZipper::runCommand(1, command);
+    const char* output = ConsoleZipper::runCommand(1, command);
     CPPUNIT_ASSERT(strcmp(output, UNKNOW_ARGS) == 0);
 
 }

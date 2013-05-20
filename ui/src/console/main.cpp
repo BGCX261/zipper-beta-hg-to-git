@@ -18,7 +18,7 @@ using namespace std;
 int main(int argc, char** argv)
 {
 
-    char* resp=executeCommand(argc,argv);
+    const char* resp=executeCommand(argc,argv);
     printf("%s",resp);
     return 0;
     

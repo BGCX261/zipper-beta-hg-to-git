@@ -10,6 +10,6 @@
  * @param argv The arguments introduced by console
  * @return The output errors for user
  */
-char* executeCommand(int argc, char** argv);
+const char* executeCommand(int argc, char** argv);
 
 #endif	/* CONSOLELIB_H */

@@ -1,13 +1,13 @@
 
 #include "zipper.h"
 
-char* ConsoleZipper::runCommand(int argc, char** argv)
+const char* ConsoleZipper::runCommand(int argc, char** argv)
 {
     if (argc >= DEFAULT_ARGS)
     {
         char* option = argv[1];
         char value = option[1];
-        return executeOption(value, argc, argv);
+        return (strlen(option)==2) ? executeOption(value, argc, argv):UNKNOW_OPTION;
     }
     else
     {
@@ -15,7 +15,7 @@ char* ConsoleZipper::runCommand(int argc, char** argv)
     }
 }
 
-char* ConsoleZipper::executeOption(char option, int argc, char** argv)
+const char* ConsoleZipper::executeOption(char option, int argc, char** argv)
 {
     switch (option)
     {
@@ -32,7 +32,7 @@ char* ConsoleZipper::executeOption(char option, int argc, char** argv)
 
 }
 
-char* ConsoleZipper::compressOption(int argc, char** argv)
+const char* ConsoleZipper::compressOption(int argc, char** argv)
 {
     char* compressionNumberArgs = argv[argc - 1];
     int endSourceArgs = (strlen(compressionNumberArgs) > 1) ? (argc - 1) : (argc - 2);
@@ -45,7 +45,6 @@ char* ConsoleZipper::compressOption(int argc, char** argv)
     if (sourcePaths)
     {
         ErrorCode errorCode = (compressionMethod == NOT_COMPRESSION_METHOD) ? compress(destPath, sourcePaths, sourcePathsSize, 0) : compress(destPath, sourcePaths, sourcePathsSize, compressionMethod);
-        printf("Compression Method:[%d]",compressionMethod);
         delete[] sourcePaths;
         return errorCodeToString(errorCode);
 
@@ -57,7 +56,7 @@ char* ConsoleZipper::compressOption(int argc, char** argv)
 
 }
 
-char* ConsoleZipper::helpOption(int argc)
+const char* ConsoleZipper::helpOption(int argc)
 {
     if (argc == DEFAULT_ARGS)
         return HELP_TEXT;
@@ -81,7 +80,7 @@ char** ConsoleZipper::getSourceCompressionArgs(char** argv, int end)
     return arguments;
 }
 
-char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
+const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
 {
     switch (errorCode)
     {
