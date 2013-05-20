@@ -19,7 +19,9 @@
 \t\tapplied compression algorithm introduced\n\
 \t\tthe argument is a number that represents that\n\
 \t\tcompression algorithm will be used\n\
-\t\tAlgorithms are:\n"
+\t\tAlgorithms are:\n\
+\t\t0-Non Compression Algorithm\n\
+\t\t8-Deflate\n"
 
 #define COMPRESSION_EXAMPLE "\tExample:\n\n\
 \tIn order to use the compression(-c) option, \n\
