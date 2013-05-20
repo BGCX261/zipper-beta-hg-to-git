@@ -1,14 +1,15 @@
 # source files
 
-SRC = console/main.cpp \
-console/zipper.cpp
+SRC = src/console/main.cpp \
+
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 
-OUT = consoleZipper
+OUT = zipper
 
-INCLUDES=-I../src
+INCLUDES=-I ../src \
+         -I src
 
-LIBS = -L/user/local/lib -L../src/lib -lzipper -lm
+LIBS = -L/user/local/lib -L../src/lib -L src/lib -lconsole -lzipper -lm
 
 #Compiler flags
 CCFLAGS = -fPIC -g -Wall
