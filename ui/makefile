@@ -1,18 +1,15 @@
 # source files
 
-SRC = interface/interfacetest.cpp \
-      testrunner.cpp 
+SRC = src/console/main.cpp \
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 
-OUT = zippertest
+OUT = zipper
 
-#include directories
-INCLUDES = -I../src \
-           -Ithird-party/cppunit-1.12.1/include
+INCLUDES=-I ../src \
+         -I src
 
-#library paths
-LIBS = -L/user/local/lib -Lthird-party/cppunit-1.12.1/src/cppunit/.libs -L../src/lib -lzipper -lcppunit -lm
+LIBS = -L/user/local/lib -L../src/lib -L src/lib -lconsole -lzipper -lm
 
 #Compiler flags
 CCFLAGS = -fPIC -g -Wall
