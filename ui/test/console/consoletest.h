@@ -1,3 +1,10 @@
+/* 
+ * File:   consoletest.h
+ * Author: Kenji Lozano
+ * Description: Tests for the console user interface
+ *
+ */
+
 #ifndef CONSOLETEST_H
 #define	CONSOLETEST_H
 

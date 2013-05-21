@@ -1,8 +1,8 @@
 /* 
  * File:   main.cpp
- * Author: Kenji
+ * Author: Kenji Lozano
+ * Description: The Main that recives the arguments to execute command
  *
- * Created on 16 de mayo de 2013, 18:41
  */
 
 #include <cstdlib>
@@ -12,8 +12,13 @@
 
 using namespace std;
 
-/*
+/**
+ * Execute the command introduced by console
  * 
+ * @param argc The number of arguments introduced by console
+ * @param argv The arguments introduced by console
+ * 
+ * @return The error 
  */
 int main(int argc, char** argv)
 {
