@@ -29,6 +29,16 @@ class FileUtilsTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testExistWhenDoExist);
     CPPUNIT_TEST(testExistWhenDoNotExist);
     CPPUNIT_TEST(testExistWhenIsNull);
+    
+    CPPUNIT_TEST(testListFilesFromADirectory);
+    CPPUNIT_TEST(testListFilesFromManyDirectories);
+    CPPUNIT_TEST(testListFilesWhenAFileDoesNotExist);
+    CPPUNIT_TEST(testListFilesWhenAPathIsNull);
+    CPPUNIT_TEST(testListFilesCheckNames);
+
+    CPPUNIT_TEST(testGetFileName);
+    CPPUNIT_TEST(testGetFileNameWhenItDoesnNotHaveASlash);
+    CPPUNIT_TEST(testGetFileNameWhenIsNullPath);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -52,6 +62,16 @@ private:
     void testExistWhenDoExist();
     void testExistWhenDoNotExist();
     void testExistWhenIsNull();
+    
+    void testListFilesFromADirectory();
+    void testListFilesFromManyDirectories();
+    void testListFilesWhenAFileDoesNotExist();
+    void testListFilesWhenAPathIsNull();
+    void testListFilesCheckNames();
+    
+    void testGetFileName();
+    void testGetFileNameWhenItDoesnNotHaveASlash();
+    void testGetFileNameWhenIsNullPath();
 };
 
 #endif	/* FILEUTILSTEST_H */
