@@ -54,17 +54,16 @@ std::list<Path>* getFiles(const char** paths, int pathsCount) throw (FileNotFoun
         {
             if (exist(paths[i]))
             {
+                std::string fullPath = paths[i];
+                std::string name = getFileName(fullPath);
+
                 if (isFile(paths[i]))
                 {
-                    std::string fullPath = paths[i];
-                    std::string name = getFileName(fullPath);
                     Path path(fullPath, name);
                     response->push_back(path);
                 }
                 else
                 {
-                    std::string fullPath = paths[i];
-                    std::string name = getFileName(fullPath);
                     name.append("/");
                     Path path(fullPath, name);
                     response->push_back(path);
@@ -106,13 +105,14 @@ void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list)
     {
         if (strncmp(entry->d_name, "..", 2) != 0 && strncmp(entry->d_name, ".", 1) != 0)
         {
+            std::string fullPath = dirPath;
+            fullPath.append("/");
+            fullPath.append(entry->d_name);
+            std::string name = baseDir;
+            name.append(entry->d_name);
+
             if (entry->d_type == DT_DIR)
             {
-                std::string fullPath = dirPath;
-                fullPath.append("/");
-                fullPath.append(entry->d_name);
-                std::string name = baseDir;
-                name.append(entry->d_name);
                 name.append("/");
                 Path path(fullPath, name);
                 list.push_back(path);
@@ -120,11 +120,6 @@ void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list)
             }
             else
             {
-                std::string fullPath = dirPath;
-                fullPath.append("/");
-                fullPath.append(entry->d_name);
-                std::string name = baseDir;
-                name.append(entry->d_name);
                 Path path(fullPath, name);
                 list.push_back(path);
             }

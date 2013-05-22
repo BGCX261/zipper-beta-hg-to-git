@@ -9,7 +9,7 @@
 #ifndef FILEUTILS_H
 #define	FILEUTILS_H
 #include <list>
-#include "filenotfoundexpcetion.h"
+#include "filenotfoundexception.h"
 #include "path.h"
 #include "nullpathexception.h"
 

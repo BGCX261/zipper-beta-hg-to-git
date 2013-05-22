@@ -1,5 +1,5 @@
 /* 
- * File:   NullPath.h
+ * File:   nullpathexception.h
  * Author: Daniela Meneses
  * Description: Define a file exception.
  * 
