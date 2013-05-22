@@ -1,6 +1,7 @@
 # source files
 
 SRC = compressor/fileheader.cpp \
+      compressor/zipbuilder.cpp\
       utils/fileutils.cpp \
       utils/crc32.cpp \
       zipperlib.cpp
