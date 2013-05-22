@@ -7,6 +7,8 @@
  */
 
 #include "fileutilstest.h"
+#include <stdlib.h>
+#include <fstream>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FileUtilsTest);
@@ -101,3 +103,116 @@ void FileUtilsTest::testExistWhenIsNull()
     CPPUNIT_ASSERT_EQUAL(false, fileExist);
 }
 
+void FileUtilsTest::testListFilesFromADirectory()
+{
+    int expectedFilesCount = 7;
+    int inputCount = 1;
+    const char* directory = "resources/directorytest";
+    const char** paths = (const char**) calloc(inputCount, sizeof (char*));
+    paths[0] = directory;
+    std::list<Path>* files = getFiles(paths, inputCount);
+    int filesCount = files->size();
+    CPPUNIT_ASSERT_EQUAL(expectedFilesCount, filesCount);
+
+    free(paths);
+}
+
+void FileUtilsTest::testListFilesFromManyDirectories()
+{
+    int expectedFilesCount = 6;
+    int inputCount = 3;
+    const char* directory1 = "resources/directorytest/dir1";
+    const char* directory2 = "resources/directorytest/dir2";
+    const char* file1 = "resources/directorytest/file1";
+    const char** paths = (const char**) calloc(inputCount, sizeof (char*));
+    paths[0] = directory1;
+    paths[1] = directory2;
+    paths[2] = file1;
+    std::list<Path>* files = getFiles(paths, inputCount);
+    int filesCount = files->size();
+    CPPUNIT_ASSERT_EQUAL(expectedFilesCount, filesCount);
+
+    free(paths);
+}
+
+void FileUtilsTest::testListFilesWhenAFileDoesNotExist()
+{
+    int inputCount = 1;
+    const char* falseDirectory = "resources/somedirectory";
+    const char** paths = (const char**) calloc(inputCount, sizeof (char*));
+    paths[0] = falseDirectory;
+
+    CPPUNIT_ASSERT_THROW(getFiles(paths, inputCount), FileNotFoundExpcetion);
+
+    free(paths);
+}
+
+void FileUtilsTest::testListFilesWhenAPathIsNull()
+{
+    int inputCount = 1;
+    const char* falseDirectory = NULL;
+    const char** paths = (const char**) calloc(inputCount, sizeof (char*));
+    paths[0] = falseDirectory;
+
+    CPPUNIT_ASSERT_THROW(getFiles(paths, inputCount), NullPathException);
+}
+
+void FileUtilsTest::testListFilesCheckNames()
+{
+    int inputCount = 1;
+    const char* directory = "resources/directorytest";
+    const char** paths = (const char**) calloc(inputCount, sizeof (char*));
+    paths[0] = directory;
+    std::list<Path>* files = getFiles(paths, inputCount);
+    int filesCount = files->size();
+
+    std::string newLine;
+    std::ifstream file;
+    file.open("resources/directorytestresume");
+    int testCount = 0;
+
+    while (testCount < filesCount)
+    {
+        getline(file, newLine);
+        Path path = files->front();
+        files->pop_front();
+        CPPUNIT_ASSERT(newLine.compare(path.fullPath) == 0);
+        files->push_back(path);
+        testCount++;
+    }
+
+    testCount = 0;
+
+    while (testCount < filesCount)
+    {
+        getline(file, newLine);
+        Path path = files->front();
+        files->pop_front();
+        CPPUNIT_ASSERT(newLine.compare(path.relativePath) == 0);
+        files->push_back(path);
+        testCount++;
+    }
+
+    file.close();
+}
+
+void FileUtilsTest::testGetFileName()
+{
+    std::string expected = "file1";
+    std::string response = getFileName("/folder/file1");
+    CPPUNIT_ASSERT(expected.compare(response) == 0);
+}
+
+void FileUtilsTest::testGetFileNameWhenItDoesnNotHaveASlash()
+{
+    std::string expected = "somefile";
+    std::string response = getFileName("somefile");
+    CPPUNIT_ASSERT(expected.compare(response) == 0);
+}
+
+void FileUtilsTest::testGetFileNameWhenIsNullPath()
+{    
+    std::string expected;
+    std::string response = getFileName(expected);
+    CPPUNIT_ASSERT(expected.compare(response) == 0);
+}

@@ -1,0 +1,14 @@
+resources/directorytest
+resources/directorytest/file1
+resources/directorytest/dir1
+resources/directorytest/dir1/dir3
+resources/directorytest/dir1/dir3/file2
+resources/directorytest/dir2
+resources/directorytest/dir2/file3
+directorytest/
+directorytest/file1
+directorytest/dir1/
+directorytest/dir1/dir3/
+directorytest/dir1/dir3/file2
+directorytest/dir2/
+directorytest/dir2/file3

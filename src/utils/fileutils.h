@@ -8,6 +8,10 @@
 
 #ifndef FILEUTILS_H
 #define	FILEUTILS_H
+#include <list>
+#include "filenotfoundexception.h"
+#include "path.h"
+#include "nullpathexception.h"
 
 /**
  * Check if the file in the given path is a file. If the path doesn't exist return false.
@@ -35,6 +39,29 @@ bool isDirectory(const char* path);
  * @return true if the file or directory exist, false in other case.
  */
 bool exist(const char* path);
+
+/**
+ * Get all the files recursively from the directories in the list of given paths. If some path in 
+ * in the list of path is a file just adds it to the result list.
+ * 
+ * @param paths Contain paths of files or directories.
+ * @param pathsCount Size of the given list of paths.
+ * 
+ * @return List that will contain all the files and directories inside the given path in order
+ * of appearance.
+ */
+std::list<Path>* getFiles(const char** paths, int pathsCount) throw (FileNotFoundExpcetion, NullPathException);
+
+/**
+ * Get the file name inside a given path. 
+ * For example: If the path is /folder1/file1.txt it will return file1.txt.
+ * Always will search the last slash in the path.
+ * 
+ * @param path Path to get the filename.
+ * 
+ * @return The filename, if is not found will return the given path.
+ */
+std::string getFileName(const std::string& path);
 
 #endif	/* FILEUTILS_H */
 
