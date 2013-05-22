@@ -4,7 +4,7 @@
 #include <string>
 #include <string.h>
 
-void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list);
+void listFiles(std::string dirPath, std::string baseDir, std::list<Path> & list);
 
 struct stat st_info;
 
@@ -54,20 +54,15 @@ std::list<Path>* getFiles(const char** paths, int pathsCount) throw (FileNotFoun
         {
             if (exist(paths[i]))
             {
+                bool isDir = isDirectory(paths[i]);
                 std::string fullPath = paths[i];
-                std::string name = getFileName(fullPath);
+                std::string relativePath = getFileName(fullPath);
+                Path path(fullPath, relativePath, isDir);
+                response->push_back(path);
 
-                if (isFile(paths[i]))
+                if (isDir)
                 {
-                    Path path(fullPath, name);
-                    response->push_back(path);
-                }
-                else
-                {
-                    name.append("/");
-                    Path path(fullPath, name);
-                    response->push_back(path);
-                    listFiles(paths[i], name, *response);
+                    listFiles(path.fullPath, path.relativePath, *response);
                 }
             }
             else
@@ -87,17 +82,18 @@ std::list<Path>* getFiles(const char** paths, int pathsCount) throw (FileNotFoun
 /**
  * Inner method that add all the files in the dirPath to the given list.
  * 
- * @param dirPath Absolute path where the function will search files.
- * @param baseDir Relative path.
+ * @param fullPath Absolute path where the function will search files.
+ * @param relativePath Relative path.
  * @param list List where the found files will be added as a Path struct.
  */
-void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list)
+void listFiles(std::string fullPath, std::string relativePath, std::list<Path> & list)
 {
     DIR* directory;
     struct dirent* entry;
 
-    if ((directory = opendir(dirPath)) == NULL)
+    if ((directory = opendir(fullPath.c_str())) == NULL)
     {
+        //TODO:log
         return;
     }
 
@@ -105,23 +101,13 @@ void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list)
     {
         if (strncmp(entry->d_name, "..", 2) != 0 && strncmp(entry->d_name, ".", 1) != 0)
         {
-            std::string fullPath = dirPath;
-            fullPath.append("/");
-            fullPath.append(entry->d_name);
-            std::string name = baseDir;
-            name.append(entry->d_name);
+            bool isDir = entry->d_type == DT_DIR;
+            Path path(fullPath, relativePath, entry->d_name, isDir);
+            list.push_back(path);
 
-            if (entry->d_type == DT_DIR)
+            if (isDir)
             {
-                name.append("/");
-                Path path(fullPath, name);
-                list.push_back(path);
-                listFiles(fullPath.c_str(), name, list);
-            }
-            else
-            {
-                Path path(fullPath, name);
-                list.push_back(path);
+                listFiles(path.fullPath, path.relativePath, list);
             }
         }
     }

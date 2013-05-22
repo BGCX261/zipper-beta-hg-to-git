@@ -176,7 +176,11 @@ void FileUtilsTest::testListFilesCheckNames()
         getline(file, newLine);
         Path path = files->front();
         files->pop_front();
-        CPPUNIT_ASSERT(newLine.compare(path.fullPath) == 0);
+        std::string message = "Full paths: ";
+        message.append(newLine);
+        message.append(" != ");
+        message.append(path.fullPath);
+        CPPUNIT_ASSERT_MESSAGE(message, newLine.compare(path.fullPath) == 0);
         files->push_back(path);
         testCount++;
     }
@@ -188,7 +192,11 @@ void FileUtilsTest::testListFilesCheckNames()
         getline(file, newLine);
         Path path = files->front();
         files->pop_front();
-        CPPUNIT_ASSERT(newLine.compare(path.relativePath) == 0);
+        std::string message = "Relative paths: ";
+        message.append(newLine);
+        message.append(" != ");
+        message.append(path.relativePath);
+        CPPUNIT_ASSERT_MESSAGE(message, newLine.compare(path.relativePath) == 0);
         files->push_back(path);
         testCount++;
     }
@@ -211,7 +219,7 @@ void FileUtilsTest::testGetFileNameWhenItDoesnNotHaveASlash()
 }
 
 void FileUtilsTest::testGetFileNameWhenIsNullPath()
-{    
+{
     std::string expected;
     std::string response = getFileName(expected);
     CPPUNIT_ASSERT(expected.compare(response) == 0);
