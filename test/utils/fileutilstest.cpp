@@ -9,6 +9,8 @@
 #include "fileutilstest.h"
 #include <stdlib.h>
 #include <fstream>
+#include <stdlib.h>
+#include <fstream>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FileUtilsTest);
@@ -215,4 +217,35 @@ void FileUtilsTest::testGetFileNameWhenIsNullPath()
     std::string expected;
     std::string response = getFileName(expected);
     CPPUNIT_ASSERT(expected.compare(response) == 0);
+}
+
+void FileUtilsTest::testRecoverLastModiticationTDGivenAFile()
+{
+    int year = 2013 - 1900; /*Following the tm structure format*/
+    int month = 4;
+    int day = 17;
+    int hour = 21;  /*It does not take account the horary zone*/
+    int minute = 42;
+    int second = 22;
+    
+    tm* result = recoverLastModificationDateAndTime("resources/song.mp3");
+    CPPUNIT_ASSERT(result->tm_year == year);
+    CPPUNIT_ASSERT(result->tm_mon == month);
+    CPPUNIT_ASSERT(result->tm_mday == day);
+    CPPUNIT_ASSERT(result->tm_hour == hour);
+    CPPUNIT_ASSERT(result->tm_min == minute);
+    CPPUNIT_ASSERT(result->tm_sec == second);
+    
+}
+
+void FileUtilsTest::testRecoverLastModificationTDGivenADirectory()
+{
+    tm* result = recoverLastModificationDateAndTime("resources/directorytest");
+    CPPUNIT_ASSERT(result == NULL);
+}
+
+void FileUtilsTest::testRecoverLastModificationTDWhenDoNotExist()
+{
+    tm* result = recoverLastModificationDateAndTime("resources/notexist");
+    CPPUNIT_ASSERT(result == NULL);
 }

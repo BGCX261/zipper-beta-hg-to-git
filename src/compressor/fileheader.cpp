@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "fileheader.h"
+#include "../utils/crc32.h"
+#include "../utils/fileutils.h"
+#include "../utils/zipperutils.h"
 
 #define FILE_HEADER_SIGNATURE  0x04034b50
 
@@ -117,4 +121,40 @@ void FileHeader::release()
         free(extraField);
         extraField = 0;
     }
+}
+
+FileHeader* createFileHeader(char* path, short compressionMethod)
+{
+    FILE* file = fopen(path, "rb");
+    fseek(file, 0, SEEK_END);
+    int dataSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    char* data = (char*) malloc(dataSize);
+    fread(data, sizeof(char), dataSize, file);
+    tm* time = recoverLastModificationDateAndTime(path);
+    
+    FileHeader* header = new FileHeader();
+    header->versionToExtract = 10;
+    header->flag = 0;
+    header->compressionMethod = compressionMethod;
+    header->lastModificationTime = parseTimeToMSDosFormat(time);
+    header->lastModificationDate = parseDateToMSDosFormat(time);
+    header->crc = crc32(data, dataSize);
+    header->unCompressedSize = dataSize;
+    header->fileNameLength = strlen(path);
+    header->extraFieldLength = 0;
+    header->fileName = path;
+    
+    switch (compressionMethod)
+    {
+        case 0: header->unCompressedSize = dataSize;
+                header->setData(data, dataSize);
+            break;
+        case 8: header->unCompressedSize = dataSize;
+                header->setData(data, dataSize);
+            break; 
+    }
+    free(data);
+    fclose(file);
+    return header;
 }

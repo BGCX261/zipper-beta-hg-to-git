@@ -128,3 +128,14 @@ void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list)
 
     closedir(directory);
 }
+tm* recoverLastModificationDateAndTime(const char* path)
+{
+    if (!exist(path) || isDirectory(path))
+    {
+        return NULL;
+    }
+    struct tm* tmModifiedTime;
+    stat(path, &st_info);
+    tmModifiedTime = gmtime(&(st_info.st_mtime));
+    return tmModifiedTime;
+}

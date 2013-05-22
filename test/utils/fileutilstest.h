@@ -39,6 +39,10 @@ class FileUtilsTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testGetFileName);
     CPPUNIT_TEST(testGetFileNameWhenItDoesnNotHaveASlash);
     CPPUNIT_TEST(testGetFileNameWhenIsNullPath);
+    
+    CPPUNIT_TEST(testRecoverLastModiticationTDGivenAFile);
+    CPPUNIT_TEST(testRecoverLastModificationTDGivenADirectory);
+    CPPUNIT_TEST(testRecoverLastModificationTDWhenDoNotExist);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -72,6 +76,10 @@ private:
     void testGetFileName();
     void testGetFileNameWhenItDoesnNotHaveASlash();
     void testGetFileNameWhenIsNullPath();
+    
+    void testRecoverLastModiticationTDGivenAFile();
+    void testRecoverLastModificationTDGivenADirectory();
+    void testRecoverLastModificationTDWhenDoNotExist();
 };
 
 #endif	/* FILEUTILSTEST_H */

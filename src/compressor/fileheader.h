@@ -124,6 +124,11 @@ struct FileHeader
     size_t dataSize;
     
     /**
+     * offset of the file header in the file.
+     */
+    int offset;
+    
+    /**
      * Set the data.
      * 
      * @param data New value for the data
@@ -157,5 +162,15 @@ private:
      */
     void release();
 };
+
+/**
+ * Create a file header given a PATH.
+ * 
+ * @param path Path of the file
+ * 
+ * @return The file header builded
+ */
+FileHeader* createFileHeader(char* path);
+
 
 #endif	/* FILEHEADER_H */

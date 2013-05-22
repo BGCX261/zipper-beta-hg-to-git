@@ -9,6 +9,7 @@
 #ifndef FILEUTILS_H
 #define	FILEUTILS_H
 #include <list>
+#include <iostream>
 #include "filenotfoundexception.h"
 #include "path.h"
 #include "nullpathexception.h"
@@ -62,6 +63,16 @@ std::list<Path>* getFiles(const char** paths, int pathsCount) throw (FileNotFoun
  * @return The filename, if is not found will return the given path.
  */
 std::string getFileName(const std::string& path);
+
+/**
+ * Recover the last modification date and time of a file. If is directory
+ * return null.
+ * 
+ * @param path Path of the file
+ * 
+ * @return A time struct with the last modification date and time
+ */
+tm* recoverLastModificationDateAndTime(const char* path);
 
 #endif	/* FILEUTILS_H */
 
