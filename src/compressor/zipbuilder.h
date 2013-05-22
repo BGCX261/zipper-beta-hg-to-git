@@ -8,6 +8,8 @@
 #ifndef ZIPBUILDER_H
 #define	ZIPBUILDER_H
 
+#define C_DIRECTORY_PARTIAL_SIZE 46
+
 #include "fileheader.h"
 #include <list>
 
@@ -19,9 +21,11 @@ public:
     ZipBuilder();
     ZipBuilder(const ZipBuilder& other);
     ~ZipBuilder();
-    void addFile(PATH path);
+    void addFile(Path path);
     char* getZipStructure();
 private:
+    conCat(char*& buffer, const char* toCopy, size_t since, const size_t size);
+    void buildFileHeaders();
     void buildCentralDirectory(FileHeader fileHeader);
     void buildEndOfCentralDirectory(int fHeaderCount, int offsetCDirectory);
     
