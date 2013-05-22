@@ -1,7 +1,7 @@
 /* 
  * File:   zipbuilder.h
  * Author: Kenji
- * Description
+ * Description: The builder of the zip file
  *
  */
 
@@ -25,6 +25,11 @@ private:
     void buildCentralDirectory(FileHeader fileHeader);
     void buildEndOfCentralDirectory(int fHeaderCount, int offsetCDirectory);
     
+    list<FileHeader> fileHeaders;
+    char* buffer;
+    int cDirectoryOffset;
+    int endOfCDirectoryOffset;
+    int bufferSize;
 
 
 };
