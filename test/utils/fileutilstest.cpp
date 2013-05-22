@@ -101,3 +101,34 @@ void FileUtilsTest::testExistWhenIsNull()
     CPPUNIT_ASSERT_EQUAL(false, fileExist);
 }
 
+void FileUtilsTest::testRecoverLastModiticationTDGivenAFile()
+{
+    /*Following the tm structure format*/
+    int year = 2013 - 1900;
+    int month = 4;
+    int day = 17;
+    int hour = 21;  /*It does not take account the horary zone*/
+    int minute = 42;
+    int second = 22;
+    
+    tm* result = recoverLastModificationDateAndTime("resources/song.mp3");
+    CPPUNIT_ASSERT(result->tm_year == year);
+    CPPUNIT_ASSERT(result->tm_mon == month);
+    CPPUNIT_ASSERT(result->tm_mday == day);
+    CPPUNIT_ASSERT(result->tm_hour == hour);
+    CPPUNIT_ASSERT(result->tm_min == minute);
+    CPPUNIT_ASSERT(result->tm_sec == second);
+    
+}
+
+void FileUtilsTest::testRecoverLastModificationTDGivenADirectory()
+{
+    tm* result = recoverLastModificationDateAndTime("resources/directorytest");
+    CPPUNIT_ASSERT(result == NULL);
+}
+
+void FileUtilsTest::testRecoverLastModificationTDWhenDoNotExist()
+{
+    tm* result = recoverLastModificationDateAndTime("resources/notexist");
+    CPPUNIT_ASSERT(result == NULL);
+}

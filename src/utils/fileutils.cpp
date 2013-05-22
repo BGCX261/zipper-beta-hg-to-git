@@ -32,3 +32,15 @@ bool exist(const char* path)
 
     return false;
 }
+
+tm* recoverLastModificationDateAndTime(const char* path)
+{
+    if (!exist(path) || isDirectory(path))
+    {
+        return NULL;
+    }
+    struct tm* tmModifiedTime;
+    stat(path, &st_info);
+    tmModifiedTime = gmtime(&(st_info.st_mtime));
+    return tmModifiedTime;
+}

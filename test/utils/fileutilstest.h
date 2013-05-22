@@ -29,6 +29,10 @@ class FileUtilsTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testExistWhenDoExist);
     CPPUNIT_TEST(testExistWhenDoNotExist);
     CPPUNIT_TEST(testExistWhenIsNull);
+    
+    CPPUNIT_TEST(testRecoverLastModiticationTDGivenAFile);
+    CPPUNIT_TEST(testRecoverLastModificationTDGivenADirectory);
+    CPPUNIT_TEST(testRecoverLastModificationTDWhenDoNotExist);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -52,7 +56,10 @@ private:
     void testExistWhenDoExist();
     void testExistWhenDoNotExist();
     void testExistWhenIsNull();
+    
+    void testRecoverLastModiticationTDGivenAFile();
+    void testRecoverLastModificationTDGivenADirectory();
+    void testRecoverLastModificationTDWhenDoNotExist();
 };
 
 #endif	/* FILEUTILSTEST_H */
-

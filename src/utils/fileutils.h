@@ -9,6 +9,8 @@
 #ifndef FILEUTILS_H
 #define	FILEUTILS_H
 
+#include <iostream>
+
 /**
  * Check if the file in the given path is a file. If the path doesn't exist return false.
  * 
@@ -35,6 +37,16 @@ bool isDirectory(const char* path);
  * @return true if the file or directory exist, false in other case.
  */
 bool exist(const char* path);
+
+    /**
+     * Recover the last modification date and time of a file. If is directory
+     * return null.
+     * 
+     * @param path Path of the file
+     * 
+     * @return A time struct with the last modification date and time
+     */
+    tm* recoverLastModificationDateAndTime(const char* path);
 
 #endif	/* FILEUTILS_H */
 
