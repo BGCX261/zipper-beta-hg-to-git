@@ -4,7 +4,7 @@ SRC = interface/interfacetest.cpp \
       compressor/fileheadertest.cpp \
       utils/fileutilstest.cpp \
       utils/crctest.cpp \
-      utils/zipperutils.cpp \
+      utils/zipperutilstest.cpp \
       testrunner.cpp 
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
