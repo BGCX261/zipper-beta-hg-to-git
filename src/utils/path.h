@@ -11,6 +11,12 @@
 #include <string>
 
 /**
+ * Directory separator for files.
+ * 
+ */
+const std::string DIRECTORY_SEPARATOR = "/";
+
+/**
  * Structure to manage absolute and relative path of a file.
  */
 struct Path
@@ -24,16 +30,11 @@ struct Path
      * Relative path of a file.
      */
     std::string relativePath;
-
+    
     /**
-     * Path structure constructor. Just set the values.
-     * 
-     * @param fullPath Absolute path.
-     * @param relativePath Relative Path.
+     * Tell if the path owner is a file or directory.
      */
-    Path(std::string fullPath, std::string relativePath) : fullPath(fullPath), relativePath(relativePath)
-    {
-    }
+    bool isDir;
 
     /**
      * Path structure constructor. Set the values and add a (/) in the relative path when is a directory.
@@ -42,11 +43,14 @@ struct Path
      * @param relativePath Relative Path.
      * @param isDir Tells when the path owner is a file or directory.
      */
-    Path(std::string fullPath, std::string relativePath, bool isDir) : fullPath(fullPath), relativePath(relativePath)
+    Path(const std::string& fullPath, bool isDir) : fullPath(fullPath), isDir(isDir)
     {
+        size_t found = fullPath.find_last_of(DIRECTORY_SEPARATOR);
+        this->relativePath = fullPath.substr(found + 1);
+        
         if (isDir)
         {
-            this->relativePath.append("/");
+            this->relativePath.append(DIRECTORY_SEPARATOR);
         }
     }
 
@@ -58,17 +62,17 @@ struct Path
      * @param relativePath Relative Path.
      * @param isDir Tells when the path owner is a file or directory.
      */
-    Path(std::string fullPath, std::string relativePath, std::string filename, bool isDir)
+    Path(const Path& parent, const std::string& filename, bool isDir): isDir(isDir)
     {
-        this->fullPath = fullPath;
-        this->fullPath.append("/");
+        this->fullPath = parent.fullPath;
+        this->fullPath.append(DIRECTORY_SEPARATOR);
         this->fullPath.append(filename);
-        this->relativePath = relativePath;
+        this->relativePath = parent.relativePath;
         this->relativePath.append(filename);
 
         if (isDir)
         {
-            this->relativePath.append("/");
+            this->relativePath.append(DIRECTORY_SEPARATOR);
         }
     }
 };

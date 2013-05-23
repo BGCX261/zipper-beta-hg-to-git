@@ -110,7 +110,7 @@ void FileUtilsTest::testListFilesFromADirectory()
     const char* directory = "resources/directorytest";
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = directory;
-    std::list<Path>* files = getFiles(paths, inputCount);
+    std::list<Path>* files = explorePaths(paths, inputCount);
     int filesCount = files->size();
     CPPUNIT_ASSERT_EQUAL(expectedFilesCount, filesCount);
 
@@ -128,7 +128,7 @@ void FileUtilsTest::testListFilesFromManyDirectories()
     paths[0] = directory1;
     paths[1] = directory2;
     paths[2] = file1;
-    std::list<Path>* files = getFiles(paths, inputCount);
+    std::list<Path>* files = explorePaths(paths, inputCount);
     int filesCount = files->size();
     CPPUNIT_ASSERT_EQUAL(expectedFilesCount, filesCount);
 
@@ -142,7 +142,7 @@ void FileUtilsTest::testListFilesWhenAFileDoesNotExist()
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = falseDirectory;
 
-    CPPUNIT_ASSERT_THROW(getFiles(paths, inputCount), FileNotFoundExpcetion);
+    CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount), FileNotFoundExpcetion);
 
     free(paths);
 }
@@ -154,7 +154,7 @@ void FileUtilsTest::testListFilesWhenAPathIsNull()
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = falseDirectory;
 
-    CPPUNIT_ASSERT_THROW(getFiles(paths, inputCount), NullPathException);
+    CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount), NullPathException);
 }
 
 void FileUtilsTest::testListFilesCheckNames()
@@ -163,7 +163,7 @@ void FileUtilsTest::testListFilesCheckNames()
     const char* directory = "resources/directorytest";
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = directory;
-    std::list<Path>* files = getFiles(paths, inputCount);
+    std::list<Path>* files = explorePaths(paths, inputCount);
     int filesCount = files->size();
 
     std::string newLine;
@@ -206,21 +206,21 @@ void FileUtilsTest::testListFilesCheckNames()
 
 void FileUtilsTest::testGetFileName()
 {
+    Path path("/folder/file1", false);
     std::string expected = "file1";
-    std::string response = getFileName("/folder/file1");
-    CPPUNIT_ASSERT(expected.compare(response) == 0);
+    CPPUNIT_ASSERT(expected.compare(path.relativePath) == 0);
 }
 
 void FileUtilsTest::testGetFileNameWhenItDoesnNotHaveASlash()
 {
+    Path path("somefile", false);
     std::string expected = "somefile";
-    std::string response = getFileName("somefile");
-    CPPUNIT_ASSERT(expected.compare(response) == 0);
+    CPPUNIT_ASSERT(expected.compare(path.relativePath) == 0);
 }
 
-void FileUtilsTest::testGetFileNameWhenIsNullPath()
+void FileUtilsTest::testGetFileNameWhenIsEmpty()
 {
-    std::string expected;
-    std::string response = getFileName(expected);
-    CPPUNIT_ASSERT(expected.compare(response) == 0);
+    Path path("", false);
+    std::string expected = "";
+    CPPUNIT_ASSERT(expected.compare(path.relativePath) == 0);
 }
