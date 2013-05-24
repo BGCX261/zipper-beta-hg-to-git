@@ -4,7 +4,29 @@
 #include <string>
 #include <string.h>
 
-void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list);
+/**
+ * Check if the given path is not null and exist.
+ * 
+ * @param path Given path to check.
+ */
+void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException, OpenFileException);
+
+/**
+ * Create a Path and search inside the path more files.
+ * 
+ * @param path Given path to search recursively.
+ * @param files List where all the found files inside path will be added.
+ */
+void explorePath(const char* path, std::list<Path>& files) throw (FileException);
+
+/**
+ * Push the parent path into the list, then if the path is a diretory, explore the files inside that
+ * directory to add them to the list. 
+ * 
+ * @param parent Path that contain the full and relative path of a file or directory.
+ * @param list List where the found files will be added as Path structures.
+ */
+void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileException);
 
 struct stat st_info;
 
@@ -38,91 +60,63 @@ bool exist(const char* path)
     return false;
 }
 
-std::string getFileName(const std::string& path)
-{
-    size_t found = path.find_last_of("/\\");
-    return path.substr(found + 1);
-}
-
-std::list<Path>* getFiles(const char** paths, int pathsCount) throw (FileNotFoundExpcetion, NullPathException)
+std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException)
 {
     std::list<Path>* response = new std::list<Path>();
 
     for (int i = 0; i < pathsCount; i++)
     {
-        if (paths[i])
-        {
-            if (exist(paths[i]))
-            {
-                std::string fullPath = paths[i];
-                std::string name = getFileName(fullPath);
-
-                if (isFile(paths[i]))
-                {
-                    Path path(fullPath, name);
-                    response->push_back(path);
-                }
-                else
-                {
-                    name.append("/");
-                    Path path(fullPath, name);
-                    response->push_back(path);
-                    listFiles(paths[i], name, *response);
-                }
-            }
-            else
-            {
-                throw FileNotFoundExpcetion(paths[i]);
-            }
-        }
-        else
-        {
-            throw NullPathException();
-        }
+        explorePath(paths[i], *response);
     }
 
     return response;
 }
 
-/**
- * Inner method that add all the files in the dirPath to the given list.
- * 
- * @param dirPath Absolute path where the function will search files.
- * @param baseDir Relative path.
- * @param list List where the found files will be added as a Path struct.
- */
-void listFiles(const char* dirPath, std::string baseDir, std::list<Path> & list)
+void explorePath(const char* path, std::list<Path>& files)throw (FileException)
 {
-    DIR* directory;
-    struct dirent* entry;
+    checkPath(path);
+    bool isDir = isDirectory(path);
+    Path file(path, isDir);
+    listFiles(file, files);
+}
 
-    if ((directory = opendir(dirPath)) == NULL)
+void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException, OpenFileException)
+{
+    if (!path)
     {
+        throw NullPathException();
+    }
+    if (!exist(path))
+    {
+        throw FileNotFoundExpcetion(path);
+    }
+}
+
+void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileException)
+{
+    list.push_back(parent);
+
+    if (!parent.isDir)
         return;
+    
+    DIR* directory = 0;
+    struct dirent* entry = 0;
+
+    if ((directory = opendir(parent.fullPath.c_str())) == NULL)
+    {
+        throw OpenFileException(parent.fullPath.c_str());
     }
 
-    while ((entry = readdir(directory)) != NULL)
+    while ((entry = readdir(directory)))
     {
-        if (strncmp(entry->d_name, "..", 2) != 0 && strncmp(entry->d_name, ".", 1) != 0)
-        {
-            std::string fullPath = dirPath;
-            fullPath.append("/");
-            fullPath.append(entry->d_name);
-            std::string name = baseDir;
-            name.append(entry->d_name);
+        bool isNotCurrentOrParentDirectory = strncmp(entry->d_name, "..", 2) != 0 &&
+                strncmp(entry->d_name, ".", 1) != 0;
 
-            if (entry->d_type == DT_DIR)
-            {
-                name.append("/");
-                Path path(fullPath, name);
-                list.push_back(path);
-                listFiles(fullPath.c_str(), name, list);
-            }
-            else
-            {
-                Path path(fullPath, name);
-                list.push_back(path);
-            }
+        if (isNotCurrentOrParentDirectory)
+        {
+            bool isDir = entry->d_type == DT_DIR;
+            Path path(parent, entry->d_name, isDir);
+            listFiles(path, list);
         }
     }
 

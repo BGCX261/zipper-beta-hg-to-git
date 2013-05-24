@@ -11,6 +11,12 @@
 #include <string>
 
 /**
+ * Directory separator for files.
+ * 
+ */
+const std::string DIRECTORY_SEPARATOR = "/";
+
+/**
  * Structure to manage absolute and relative path of a file.
  */
 struct Path
@@ -19,19 +25,56 @@ struct Path
      * Absolute path of a file.
      */
     std::string fullPath;
-    
+
     /**
      * Relative path of a file.
      */
     std::string relativePath;
+    
+    /**
+     * Tell if the path owner is a file or directory.
+     */
+    bool isDir;
 
     /**
-     * Path structure constructor.
+     * Path structure constructor. Set the values and add a (/) in the relative path when is a directory.
      * 
      * @param fullPath Absolute path.
      * @param relativePath Relative Path.
+     * @param isDir Tells when the path owner is a file or directory.
      */
-    Path(std::string fullPath, std::string relativePath) : fullPath(fullPath), relativePath(relativePath){}
+    Path(const std::string& fullPath, bool isDir) : fullPath(fullPath), isDir(isDir)
+    {
+        size_t found = fullPath.find_last_of(DIRECTORY_SEPARATOR);
+        this->relativePath = fullPath.substr(found + 1);
+        
+        if (isDir)
+        {
+            this->relativePath.append(DIRECTORY_SEPARATOR);
+        }
+    }
+
+    /**
+     * Path structure constructor. Set the values, adds the filename to the fullPath and the 
+     * relativePath and put a (/) at the end of the relative path if is a directory.
+     * 
+     * @param fullPath Absolute path.
+     * @param relativePath Relative Path.
+     * @param isDir Tells when the path owner is a file or directory.
+     */
+    Path(const Path& parent, const std::string& filename, bool isDir): isDir(isDir)
+    {
+        this->fullPath = parent.fullPath;
+        this->fullPath.append(DIRECTORY_SEPARATOR);
+        this->fullPath.append(filename);
+        this->relativePath = parent.relativePath;
+        this->relativePath.append(filename);
+
+        if (isDir)
+        {
+            this->relativePath.append(DIRECTORY_SEPARATOR);
+        }
+    }
 };
 
 #endif	/* PATH_H */

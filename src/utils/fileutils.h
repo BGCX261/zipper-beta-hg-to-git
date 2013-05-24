@@ -9,8 +9,9 @@
 #ifndef FILEUTILS_H
 #define	FILEUTILS_H
 #include <list>
-#include "filenotfoundexception.h"
 #include "path.h"
+#include "openfileexception.h"
+#include "filenotfoundexception.h"
 #include "nullpathexception.h"
 
 /**
@@ -50,18 +51,7 @@ bool exist(const char* path);
  * @return List that will contain all the files and directories inside the given path in order
  * of appearance.
  */
-std::list<Path>* getFiles(const char** paths, int pathsCount) throw (FileNotFoundExpcetion, NullPathException);
-
-/**
- * Get the file name inside a given path. 
- * For example: If the path is /folder1/file1.txt it will return file1.txt.
- * Always will search the last slash in the path.
- * 
- * @param path Path to get the filename.
- * 
- * @return The filename, if is not found will return the given path.
- */
-std::string getFileName(const std::string& path);
+std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException);
 
 #endif	/* FILEUTILS_H */
 
