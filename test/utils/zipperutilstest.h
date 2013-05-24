@@ -15,10 +15,12 @@ class ZipperUtilsTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(ZipperUtilsTest);
 
     CPPUNIT_TEST(testParseDate);
+    CPPUNIT_TEST(testParseDate2);
     CPPUNIT_TEST(testParseDateGivenValuesInZero);
     CPPUNIT_TEST(testParseDateGivenANull);
     
     CPPUNIT_TEST(testParseTime);
+    CPPUNIT_TEST(testParseTime2);
     CPPUNIT_TEST(testParseTimeGivenValuesInZero);
     CPPUNIT_TEST(testParseTimeGivenANull);
 
@@ -32,10 +34,12 @@ public:
 
 private:
     void testParseDate();
+    void testParseDate2();
     void testParseDateGivenValuesInZero();
     void testParseDateGivenANull();
     
     void testParseTime();
+    void testParseTime2();
     void testParseTimeGivenValuesInZero();
     void testParseTimeGivenANull();
 };

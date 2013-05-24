@@ -9,16 +9,16 @@ short parseDateToMSDosFormat(tm* date)
     }
     
     char buffer[11];
-    strftime(buffer, 11, "%Y:%m:%d", date);
     int year;
     int month;
     int day;
     
+    strftime(buffer, 11, "%Y:%m:%d", date);
     sscanf(buffer, "%d:%d:%d", &year, &month, &day);
     
     if(year != 0)
     {
-        year -= 1980;
+        year -= 1980; //Following the MS-Dos date standard format
     }
     
     return (short) (year << 9) | (month << 5) | day; // Store the year month and day
@@ -32,15 +32,16 @@ short parseTimeToMSDosFormat(tm* time)
     }
     
     char buffer[11];
-    strftime(buffer, 11, "%H:%M:%S", time);
     int hour;
     int minute;
     int second;
+    
+    strftime(buffer, 11, "%H:%M:%S", time);
     sscanf(buffer, "%d:%d:%d", &hour, &minute, &second);
     
     if (second != 0)
     {
-        second /= 2;
+        second /= 2; //Following the MS-Dos date standard format
     }
     
     return (short) (hour << 11) | (minute << 5) | second; // Store the hour minute and second

@@ -39,6 +39,18 @@ void ZipperUtilsTest::testParseDate()
     CPPUNIT_ASSERT(result == expected);
 }
 
+void ZipperUtilsTest::testParseDate2()
+{
+    struct tm date;
+    date.tm_year = 2013 - 1900; //Following the tm structure
+    date.tm_mon = 2 - 1; //Following the tm structure
+    date.tm_mday = 4;
+    short expected = 16964;
+    short result = parseDateToMSDosFormat(&date);
+    
+    CPPUNIT_ASSERT(result == expected);
+}
+
 void ZipperUtilsTest::testParseDateGivenValuesInZero()
 {
     struct tm date;
@@ -63,6 +75,18 @@ void ZipperUtilsTest::testParseTime()
     time.tm_min = 30;
     time.tm_sec = 8;
     short expected = 23492;
+    short result = parseTimeToMSDosFormat(&time);
+    
+    CPPUNIT_ASSERT(result == expected);
+}
+
+void ZipperUtilsTest::testParseTime2()
+{
+    struct tm time;
+    time.tm_hour = 22;
+    time.tm_min = 12;
+    time.tm_sec = 20;
+    short expected = 45450;
     short result = parseTimeToMSDosFormat(&time);
     
     CPPUNIT_ASSERT(result == expected);
