@@ -10,6 +10,7 @@
 #ifndef FILEHEADER_H
 #define	FILEHEADER_H
 #include <string>
+#include "../utils/path.h"
 
 struct FileHeader
 {
@@ -124,6 +125,11 @@ struct FileHeader
     size_t dataSize;
     
     /**
+     * offset of the file header in the file.
+     */
+    int offset;
+    
+    /**
      * Set the data.
      * 
      * @param data New value for the data
@@ -138,6 +144,23 @@ struct FileHeader
      * @param extraFieldLength Length of the new extra field
      */
     void setExtraField(const char* extraField, const size_t extraFieldLength);
+    
+    /**
+     * Calculate the size of the file header in bytes.
+     * 
+     * @return The size of the file header.
+     */
+    int size();
+    
+    /**
+     * Compare all attributes of the file header with the other. If all attributes 
+     * are equals return true
+     * 
+     * @param other Another file header
+     * 
+     * @return If all attributes of the file header are equals than the other
+     */
+    bool compare(const FileHeader& other);
     
 private:
     /**
@@ -157,5 +180,24 @@ private:
      */
     void release();
 };
+
+/**
+ * Create a file header given a Path.
+ * 
+ * @param path Path of the file
+ * @param compressionMethod Compression Method that will be used to compress 
+ * the file header.
+ * 
+ * @return The file header builded
+ */
+FileHeader* createFileHeader(const Path* path, const short compressionMethod);
+
+/**
+ * Store all content of the file header in a buffer. The buffer must be free later.
+ * 
+ * @param fileHeader File header that will be stored in the buffer
+ * @param buffer buffer where the file header will be stored
+ */
+void getBuffer(FileHeader* fileHeader, char*& buffer);
 
 #endif	/* FILEHEADER_H */
