@@ -8,11 +8,12 @@
 
 #ifndef NULLPATHEXCEPTION_H
 #define	NULLPATHEXCEPTION_H
+#include "fileexception.h"
 
 /**
  * Exception that will be throw when a received path is null.
  */
-class NullPathException : public std::exception
+class NullPathException : public FileException
 {
 
     /**
@@ -22,7 +23,7 @@ class NullPathException : public std::exception
      */
     virtual const char* what() const throw ()
     {
-        return "Null path";
+        return "Null path exception";
     }
 };
 

@@ -9,7 +9,7 @@
  * 
  * @param path Given path to check.
  */
-void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException);
+void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException, OpenFileException);
 
 /**
  * Create a Path and search inside the path more files.
@@ -17,7 +17,7 @@ void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException
  * @param path Given path to search recursively.
  * @param files List where all the found files inside path will be added.
  */
-void explorePath(const char* path, std::list<Path>& files) throw (FileNotFoundExpcetion, NullPathException);
+void explorePath(const char* path, std::list<Path>& files) throw (FileException);
 
 /**
  * Push the parent path into the list, then if the path is a diretory, explore the files inside that
@@ -26,7 +26,7 @@ void explorePath(const char* path, std::list<Path>& files) throw (FileNotFoundEx
  * @param parent Path that contain the full and relative path of a file or directory.
  * @param list List where the found files will be added as Path structures.
  */
-void listFiles(const Path& parent, std::list<Path> & list);
+void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileException);
 
 struct stat st_info;
 
@@ -60,7 +60,7 @@ bool exist(const char* path)
     return false;
 }
 
-std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileNotFoundExpcetion, NullPathException)
+std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException)
 {
     std::list<Path>* response = new std::list<Path>();
 
@@ -72,7 +72,7 @@ std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileNot
     return response;
 }
 
-void explorePath(const char* path, std::list<Path>& files)throw (FileNotFoundExpcetion, NullPathException)
+void explorePath(const char* path, std::list<Path>& files)throw (FileException)
 {
     checkPath(path);
     bool isDir = isDirectory(path);
@@ -80,7 +80,7 @@ void explorePath(const char* path, std::list<Path>& files)throw (FileNotFoundExp
     listFiles(file, files);
 }
 
-void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException)
+void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException, OpenFileException)
 {
     if (!path)
     {
@@ -92,7 +92,7 @@ void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException
     }
 }
 
-void listFiles(const Path& parent, std::list<Path> & list)
+void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileException)
 {
     list.push_back(parent);
 
@@ -104,8 +104,7 @@ void listFiles(const Path& parent, std::list<Path> & list)
 
     if ((directory = opendir(parent.fullPath.c_str())) == NULL)
     {
-        //TODO:log
-        return;
+        throw OpenFileException(parent.fullPath.c_str());
     }
 
     while ((entry = readdir(directory)))

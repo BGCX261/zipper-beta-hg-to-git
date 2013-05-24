@@ -14,17 +14,17 @@
 /**
  * Exception that will be thrown when a file doesn't exist. 
  */
-class FileNotFoundExpcetion : public std::exception
+class FileNotFoundExpcetion : public FileException
 {
 public:
 
-    FileNotFoundExpcetion(const char* file) throw () : std::exception()
+    FileNotFoundExpcetion(const char* file) throw () : FileException()
     {
-        message_ = "File not found, ";
+        message_ = "File not found: ";
         message_.append(file);
         message_.append(".");
     }
-    
+
     virtual ~FileNotFoundExpcetion() throw(){}
 
     /**

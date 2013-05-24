@@ -9,8 +9,9 @@
 #ifndef FILEUTILS_H
 #define	FILEUTILS_H
 #include <list>
-#include "filenotfoundexception.h"
 #include "path.h"
+#include "openfileexception.h"
+#include "filenotfoundexception.h"
 #include "nullpathexception.h"
 
 /**
@@ -50,7 +51,7 @@ bool exist(const char* path);
  * @return List that will contain all the files and directories inside the given path in order
  * of appearance.
  */
-std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileNotFoundExpcetion, NullPathException);
+std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException);
 
 #endif	/* FILEUTILS_H */
 
