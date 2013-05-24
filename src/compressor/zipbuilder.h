@@ -12,6 +12,7 @@
 
 #include "fileheader.h"
 #include "../utils/path.h"
+#include "../utils/fileutils.h"
 #include <list>
 
 using namespace std;
@@ -19,25 +20,18 @@ using namespace std;
 class ZipBuilder {
 public:
     ZipBuilder();
+    ZipBuilder(char** input, int inputSize);
     ZipBuilder(const ZipBuilder& other);
     ~ZipBuilder();
-    void addFile(Path path);
-    char* getZipStructure();
-    int zipFileSize();
+    void buildZipFile(ostream outputStream);
 
 private:
-    void conCat(char* buffer, const char* toCopy, size_t since, const size_t size);
     void buildFileHeaders();
     void buildCentralDirectory(FileHeader* fileHeader);
     void buildEndOfCentralDirectory(int fHeaderCount);
-    
-    list<FileHeader> fileHeaders;
-    char* buffer;
-    int currentOffset;
-    int cDirectoryOffset;
-    int endOfCDirectoryOffset;
-    int bufferSize;
 
+    list<FileHeader>* fileHeaders;
+    list<Path>* inputPaths;
 
 };
 
