@@ -53,5 +53,15 @@ bool exist(const char* path);
  */
 std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException);
 
+    /**
+     * Recover the last modification date and time of a file. If is directory
+     * return null.
+     * 
+     * @param path Path of the file
+     * 
+     * @return A time struct with the last modification date and time
+     */
+    tm* recoverLastModificationDateAndTime(const char* path);
+    
 #endif	/* FILEUTILS_H */
 

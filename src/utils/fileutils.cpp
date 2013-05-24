@@ -122,3 +122,17 @@ void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileExcept
 
     closedir(directory);
 }
+
+tm* recoverLastModificationDateAndTime(const char* path)
+{
+    if (!exist(path) || isDirectory(path))
+    {
+        return 0;
+    }
+    
+    struct tm* tmModifiedTime;
+    stat(path, &st_info);
+    tmModifiedTime = gmtime(&(st_info.st_mtime));
+    
+    return tmModifiedTime;
+}
