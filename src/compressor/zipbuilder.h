@@ -31,18 +31,12 @@ public:
      * @param compresssionMethod The number of compressiom method.
      */
     ZipBuilder(char** input, int inputSize, int compresssionMethod);
-    
-    /**
-     * Zip Builder Copy Constructor.
-     * @param other The reference to be copied.
-     */
-    ZipBuilder(const ZipBuilder& other);
-    
+
     /**
      *Zip Builder Destructor.
      */
     ~ZipBuilder();
-    
+
     /**
      * Build the zip file structure given an iostream
      * @param outputStream The outpustream that will store the zip file structure
@@ -51,10 +45,24 @@ public:
 
 private:
     /**
+     * Zip Builder Copy Constructor.
+     * @param other The reference to be copied.
+     */
+    ZipBuilder(const ZipBuilder& other);
+
+    /**
      * Build the FileHeaders for the zip file
      * @param outputStream The output stream that will store the file headers
      */
     void buildFileHeaders(iostream* outputStream);
+
+    /**
+     * Build the file header
+     * @param path The path of file or directory to build file header 
+     * @param outputStream The output stream that will store the file header
+     * @return The assembled file header
+     */
+    FileHeader* buildFileHeader(const Path& path, iostream* outputStream);
     
     /**
      * Build the central directory in the output stream given a file header
@@ -62,7 +70,7 @@ private:
      * @param outputStream The output stream that will store the central directory
      */
     void buildCentralDirectory(FileHeader* fileHeader, iostream* outputStream);
-    
+
     /**
      * Build the end of cental directory
      * @param fHeaderCount The number of file headers in the zip file structure
@@ -70,7 +78,7 @@ private:
      */
     void buildEndOfCentralDirectory(int fHeaderCount, iostream* outputStream);
 
-    list<FileHeader>* fileHeaders;
+    list<FileHeader*>* fileHeaders;
     list<Path>* inputPaths;
     int compressionMethod;
 };
