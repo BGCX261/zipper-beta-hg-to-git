@@ -9,6 +9,10 @@
 #include "fileutilstest.h"
 #include <stdlib.h>
 #include <fstream>
+#include <string.h>
+#include <time.h>
+#include <utime.h>
+#include <stdio.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FileUtilsTest);
@@ -225,15 +229,35 @@ void FileUtilsTest::testGetFileNameWhenIsEmpty()
     CPPUNIT_ASSERT(expected.compare(path.relativePath) == 0);
 }
 
+void setLastModificationTimeOfAFile(const char* path)
+{
+    struct utimbuf utimeBuffer;
+    struct tm modificationTime;
+    memset(&utimeBuffer, 0, sizeof (utimbuf));
+
+    modificationTime.tm_year = 2011 - 1900;
+    modificationTime.tm_mon = 4;
+    modificationTime.tm_mday = 20;
+    modificationTime.tm_hour = 17;
+    modificationTime.tm_min = 42;
+    modificationTime.tm_sec = 22;
+    
+    time(&utimeBuffer.actime);
+    utimeBuffer.modtime = mktime(&modificationTime);
+    utime(path, &utimeBuffer);
+}
+
 void FileUtilsTest::testRecoverLastModiticationTDGivenAFile()
 {
-    int year = 2013 - 1900; /*Following the tm structure format*/
+    setLastModificationTimeOfAFile("resources/song.mp3");
+    
+    int year = 2011 - 1900; /*Following the tm structure format*/
     int month = 4;
-    int day = 17;
-    int hour = 21;  /*It does not take account the horary zone*/
+    int day = 20;
+    int hour = 21; /*It does not take account the horary zone*/
     int minute = 42;
     int second = 22;
-    
+
     tm* result = recoverLastModificationDateAndTime("resources/song.mp3");
     CPPUNIT_ASSERT(result->tm_year == year);
     CPPUNIT_ASSERT(result->tm_mon == month);
@@ -241,7 +265,7 @@ void FileUtilsTest::testRecoverLastModiticationTDGivenAFile()
     CPPUNIT_ASSERT(result->tm_hour == hour);
     CPPUNIT_ASSERT(result->tm_min == minute);
     CPPUNIT_ASSERT(result->tm_sec == second);
-    
+
 }
 
 void FileUtilsTest::testRecoverLastModificationTDGivenADirectory()
