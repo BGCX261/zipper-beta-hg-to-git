@@ -18,7 +18,9 @@ Node* Node::getNode(const std::string& path)
     TreePath newPath(path);
     bool found = false;
 
-    for (std::list<Node*>::iterator it = children_.begin(); it != children_.end() && !found; it++)
+    std::list<Node*>::iterator it = children_.begin();
+
+    while (it != children_.end() && !found)
     {
         Node* node = *it;
         if (node->name_.compare(newPath.folder) == 0)
@@ -33,6 +35,8 @@ Node* Node::getNode(const std::string& path)
                 return node->getNode(newPath.rest);
             }
         }
+        
+        it++;
     }
 
     return NULL;
