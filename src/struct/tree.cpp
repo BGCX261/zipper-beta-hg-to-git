@@ -1,0 +1,43 @@
+#include "tree.h"
+#include <stdio.h>
+
+Tree::Tree(const std::string& zipName)
+{
+    root_ = new Node(zipName, NULL);
+}
+
+Tree::Tree(const Tree& orig)
+{
+    root_ = orig.getRoot();
+}
+
+Tree::~Tree()
+{
+    delete root_;
+}
+
+Node* Tree::getNode(const std::string& path)
+{
+    if (path.empty())
+    {
+        return NULL;
+    }
+
+    return root_->getNode(path);
+}
+
+void Tree::add(const std::string& path)
+{
+    if (path.empty())
+    {
+        return;
+    }
+
+    root_->add(path);
+    printf("Size: %d\n", root_->getChildren().size());
+}
+
+int Tree::countNodes()
+{
+    return root_->countChildren() + 1;
+}

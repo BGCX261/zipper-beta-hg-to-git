@@ -4,6 +4,8 @@ SRC = compressor/fileheader.cpp \
       utils/fileutils.cpp \
       utils/crc32.cpp \
       utils/zipperutils.cpp \
+      struct/node.cpp \
+      struct/tree.cpp \
       zipperlib.cpp
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
