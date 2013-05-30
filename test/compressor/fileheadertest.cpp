@@ -8,6 +8,10 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <utime.h>
 #include "fileheadertest.h"
 #include "compressor/fileheader.h"
 #include "utils/path.h"
@@ -72,10 +76,29 @@ void FileHeaderTest::testSetExtraField()
     CPPUNIT_ASSERT(memcmp(field, header->extraField, extraFieldLength) == 0);
 }
 
+void setLastModificationTime(const char* path)
+{
+    struct utimbuf utimeBuffer;
+    struct tm modificationTime;
+    memset(&utimeBuffer, 0, sizeof (utimbuf));
+
+    modificationTime.tm_year = 2012 - 1900;
+    modificationTime.tm_mon = 4;
+    modificationTime.tm_mday = 20;
+    modificationTime.tm_hour = 17;
+    modificationTime.tm_min = 42;
+    modificationTime.tm_sec = 22;
+
+    time(&utimeBuffer.actime);
+    utimeBuffer.modtime = mktime(&modificationTime);
+    utime(path, &utimeBuffer);
+}
+
 void FileHeaderTest::testCreateFileHeaderGivenAFile()
 {
+    setLastModificationTime("resources/song.mp3");
     FILE* file = fopen("resources/song.mp3", "rb");
-    Path* path = new Path("resources/song.mp3", "song.mp3");
+    Path* path = new Path("resources/song.mp3", false);
     fseek(file, 0, SEEK_END);
     int size = ftell(file);
     fseek(file, 0, SEEK_SET);
@@ -87,8 +110,10 @@ void FileHeaderTest::testCreateFileHeaderGivenAFile()
     expected->versionToExtract = 10;
     expected->flag = 0;
     expected->compressionMethod = 0;
+    //21:42:22           10101 101010 01011
     expected->lastModificationTime = 44363;
-    expected->lastModificationDate = 17073;
+    //2012/05/20         0100000 0101 10100
+    expected->lastModificationDate = 16564;
     expected->crc = 0xA8436532;
     expected->compressedSize = 24691;
     expected->unCompressedSize = 24691;
