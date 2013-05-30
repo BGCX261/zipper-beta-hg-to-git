@@ -34,7 +34,6 @@ void Tree::add(const std::string& path)
     }
 
     root_->add(path);
-    printf("Size: %d\n", root_->getChildren().size());
 }
 
 int Tree::countNodes()

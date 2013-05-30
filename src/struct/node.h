@@ -82,7 +82,7 @@ public:
      * @return Node that the path indicates. If is not found returns NULL.
      */
     Node* getNode(const std::string& path);
-    
+
     /**
      * Add nodes following the path inside this node. If the path already exist with created nodes 
      * don't do anything.
@@ -90,14 +90,14 @@ public:
      * @param path Given path to add.
      */
     void add(const std::string& path);
-    
+
     /**
      * Return the children count of this node.
      * 
      * @return Children count.
      */
     int countChildren();
-    
+
 private:
     /**
      * Node name.
@@ -107,11 +107,38 @@ private:
      * Parent node.
      */
     Node* parent_;
-    
+
     /**
      * Node children.
      */
     std::list<Node*> children_;
+};
+
+/**
+ * Tree path structure that helps to parse a path.
+ * Build two string one containing the first folder of the path and the second containing the rest 
+ * of the path.
+ * For example: Given a/b/c will build a structure with a folder "a" and the rest "b/c"
+ */
+struct TreePath
+{
+    std::string folder;
+    std::string rest;
+
+    TreePath(const std::string& path)
+    {
+        int index = path.find("/");
+
+        if (index > 0)
+        {
+            folder = path.substr(0, index);
+            rest = path.substr(index + 1);
+        }
+        else
+        {
+            folder = path;
+        }
+    }
 };
 
 #endif	/* NODE_H */

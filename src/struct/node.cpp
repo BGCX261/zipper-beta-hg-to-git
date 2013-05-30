@@ -1,33 +1,6 @@
 #include "node.h"
 #include <stdio.h>
 
-/**
- * Tree path structure that helps to parse a path.
- * Build two string one containing the first folder of the path and the second containing the rest 
- * of the path.
- * For example: Given a/b/c will build a struture with a folder "a" and the rest "b/c"
- */
-struct TreePath
-{
-    std::string folder;
-    std::string rest;
-
-    TreePath(const std::string& path)
-    {
-        int index = path.find("/");
-
-        if (index > 0)
-        {
-            folder = path.substr(0, index);
-            rest = path.substr(index + 1);
-        }
-        else
-        {
-            folder = path;
-        }
-    }
-};
-
 Node::Node(const std::string& name, Node* parent) : name_(name), parent_(parent)
 {
 }
@@ -42,7 +15,6 @@ Node::~Node()
 
 Node* Node::getNode(const std::string& path)
 {
-    printf("getNode-Node: %s - ChildsCount: %d\n", name_.c_str(), children_.size());
     TreePath newPath(path);
     bool found = false;
 
@@ -68,14 +40,16 @@ Node* Node::getNode(const std::string& path)
 
 void Node::add(const std::string& path)
 {
-    printf("AddMethod-Node: %s - ChildsCount: %d\n", name_.c_str(), children_.size());
     TreePath newPath(path);
 
     Node* existentNode = getNode(newPath.folder);
 
     if (existentNode)
     {
-        existentNode->add(newPath.rest);
+        if (!newPath.rest.empty())
+        {
+            existentNode->add(newPath.rest);
+        }
     }
     else
     {
@@ -97,7 +71,7 @@ int Node::countChildren()
         Node* node = *it;
         res += node->countChildren() + 1;
     }
-    
+
     return res;
 }
 
