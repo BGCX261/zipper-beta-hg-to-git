@@ -21,7 +21,8 @@
 
 using namespace std;
 
-class ZipBuilder {
+class ZipBuilder
+{
 public:
     /**
      * Zip Builder Constructor. Create the builder of the zip file given
@@ -60,10 +61,9 @@ private:
      * Build the file header
      * @param path The path of file or directory to build file header 
      * @param outputStream The output stream that will store the file header
-     * @return The assembled file header
      */
-    FileHeader* buildFileHeader(const Path& path, iostream* outputStream);
-    
+    void buildFileHeader(const Path& path, iostream* outputStream);
+
     /**
      * Build the central directory in the output stream given a file header
      * @param fileHeader The file header to create the central directory
@@ -78,9 +78,20 @@ private:
      */
     void buildEndOfCentralDirectory(int fHeaderCount, iostream* outputStream);
 
-    list<FileHeader*>* fileHeaders;
-    list<Path>* inputPaths;
-    int compressionMethod;
+    /**
+     * Delete the List of FileHeaders
+     */
+    void deleteFileHeaders();
+    
+    list<FileHeader*>* fileHeaders_;
+    
+    list<Path>* inputPaths_;
+    
+    int compressionMethod_;
+    
+    int currentOffset_;
+    
+    int cDirectoryOffset_;
 };
 
 

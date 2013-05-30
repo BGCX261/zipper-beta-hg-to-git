@@ -13,12 +13,13 @@
 #ifndef ZIPBUILDERTEST_H
 #define	ZIPBUILDERTEST_H
 
-
-
-class ZipBuilderTest : public CPPUNIT_NS::TestFixture {
+class ZipBuilderTest : public CPPUNIT_NS::TestFixture
+{
     CPPUNIT_TEST_SUITE(ZipBuilderTest);
 
-    CPPUNIT_TEST(itShouldBuildTheZipFileWithTheCorrectContent);
+    CPPUNIT_TEST(itShouldBuildTheZipFile);
+    CPPUNIT_TEST(itShouldBuildTheZipFileWithAppropriateSize);
+    //CPPUNIT_TEST(itShouldBuildTheZipFileWithTheCorrectContent);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -33,6 +34,10 @@ private:
      * Test for the content of the zip file
      */
     void itShouldBuildTheZipFileWithTheCorrectContent();
+
+    void itShouldBuildTheZipFileWithAppropriateSize();
+    
+    void itShouldBuildTheZipFile();
 };
 
 #endif	/* ZIPBUILDERTEST_H */
