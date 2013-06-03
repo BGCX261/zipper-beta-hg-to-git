@@ -72,60 +72,53 @@ void ZipBuilder::buildCentralDirectory(FileHeader* fileHeader, iostream* outputS
 {
     int buffersize = C_DIRECTORY_PARTIAL_SIZE + fileHeader->fileNameLength;
     currentOffset_ += buffersize;
-    char* buffer = new char[buffersize];
-    int signature = 0x02014b50;
+    int centralDirectorySignature = 0x02014b50;
     short version = 31;
     short commentLength = 0;
     short diskStart = 0;
     short internalAttribute = 0;
     int externalAtribute = 0;
-    memcpy(buffer+0, &signature, 4);
-    memcpy(buffer+4, &version, 2);
-    memcpy(buffer+6, &fileHeader->versionToExtract, 2);
-    memcpy(buffer+8, &fileHeader->flag, 2);
-    memcpy(buffer+10, &fileHeader->compressionMethod, 2);
-    memcpy(buffer+12, &fileHeader->lastModificationTime, 2);
-    memcpy(buffer+14, &fileHeader->lastModificationDate, 2);
-    memcpy(buffer+16, &fileHeader->crc, 4);
-    memcpy(buffer+20, &fileHeader->compressedSize, 4);
-    memcpy(buffer+24, &fileHeader->unCompressedSize, 4);
-    memcpy(buffer+28, &fileHeader->fileNameLength, 2);
-    memcpy(buffer+30, &fileHeader->extraFieldLength, 2);
-    memcpy(buffer+32, &commentLength, 2);
-    memcpy(buffer+34, &diskStart, 2);
-    memcpy(buffer+36, &internalAttribute, 2);
-    memcpy(buffer+38, &externalAtribute, 4);
-    memcpy(buffer+42, &fileHeader->offset, 4);
-    memcpy(buffer+46, fileHeader->fileName.c_str(), fileHeader->fileNameLength);
-    memcpy(buffer+46+fileHeader->fileNameLength, fileHeader->extraField, fileHeader->extraFieldLength);
 
-    outputStream->write(buffer, buffersize);
-    delete[] buffer;
+    outputStream->write((char*) &centralDirectorySignature, sizeof (int));
+    outputStream->write((char*) &version, sizeof (short));
+    outputStream->write((char*) &fileHeader->versionToExtract, sizeof (short));
+    outputStream->write((char*) &fileHeader->flag, sizeof (short));
+    outputStream->write((char*) &fileHeader->compressionMethod, sizeof (short));
+    outputStream->write((char*) &fileHeader->lastModificationTime, sizeof (short));
+    outputStream->write((char*) &fileHeader->lastModificationDate, sizeof (short));
+    outputStream->write((char*) &fileHeader->crc, sizeof (int));
+    outputStream->write((char*) &fileHeader->compressedSize, sizeof (int));
+    outputStream->write((char*) &fileHeader->unCompressedSize, sizeof (int));
+    outputStream->write((char*) &fileHeader->fileNameLength, sizeof (short));
+    outputStream->write((char*) &fileHeader->extraFieldLength, sizeof (short));
+    outputStream->write((char*) &commentLength, sizeof (short));
+    outputStream->write((char*) &diskStart, sizeof (short));
+    outputStream->write((char*) &internalAttribute, sizeof (short));
+    outputStream->write((char*) &externalAtribute, sizeof (int));
+    outputStream->write((char*) &fileHeader->offset, sizeof (int));
+    outputStream->write(fileHeader->fileName.c_str(), fileHeader->fileNameLength);
+    outputStream->write((char*) fileHeader->extraField, fileHeader->extraFieldLength);
 
 }
 
 void ZipBuilder::buildEndOfCentralDirectory(int fHeaderCount, iostream* outputStream)
 {
-    int cDirectorySize = (currentOffset_-cDirectoryOffset_);
-    int endOfCentralDirectorySize = 22;
+    int cDirectorySize = (currentOffset_ - cDirectoryOffset_);
     int endOfCentralDirectorySignature = 0x06054b50;
-    char* buffer = new char[endOfCentralDirectorySize];
     short numberOfDisk = 0;
     short centralDirectoryStart = 0;
     short cDRecords = fHeaderCount;
     short numberOfCDRecords = fHeaderCount;
     short commentLength = 0;
 
-    memcpy(buffer+0, &endOfCentralDirectorySignature, 4);
-    memcpy(buffer+4, &numberOfDisk, 2);
-    memcpy(buffer+6, &centralDirectoryStart, 2);
-    memcpy(buffer+8, &cDRecords, 2);
-    memcpy(buffer+10, &numberOfCDRecords, 2);
-    memcpy(buffer+12, &cDirectorySize, 4);
-    memcpy(buffer+16, &cDirectoryOffset_, 4);
-    memcpy(buffer+20, &commentLength, 2);
-    outputStream->write(buffer, endOfCentralDirectorySize);
-    delete[] buffer;
+    outputStream->write((char*) &endOfCentralDirectorySignature, sizeof (int));
+    outputStream->write((char*) &numberOfDisk, sizeof (short));
+    outputStream->write((char*) &centralDirectoryStart, sizeof (short));
+    outputStream->write((char*) &cDRecords, sizeof (short));
+    outputStream->write((char*) &numberOfCDRecords, sizeof (short));
+    outputStream->write((char*) &cDirectorySize, sizeof (int));
+    outputStream->write((char*) &cDirectoryOffset_, sizeof (int));
+    outputStream->write((char*) &commentLength, sizeof (short));
 }
 
 void ZipBuilder::deleteFileHeaders()

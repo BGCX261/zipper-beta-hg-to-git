@@ -19,7 +19,11 @@ class ZipBuilderTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(itShouldBuildTheZipFile);
     CPPUNIT_TEST(itShouldBuildTheZipFileWithAppropriateSize);
-    //CPPUNIT_TEST(itShouldBuildTheZipFileWithTheCorrectContent);
+    CPPUNIT_TEST(itShouldBuildTheZipFileWithTheCorrectContent);
+    CPPUNIT_TEST(itShouldBuildTheCentralDirectoryWithAppropriateSize);
+    CPPUNIT_TEST(itShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent);
+    CPPUNIT_TEST(itShouldBuildTheEndOfCentralDirectoryWithAppropriateSize);
+    CPPUNIT_TEST(itShouldBuildTheCentralDirectoryWithTheCorrectContent);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -33,11 +37,21 @@ private:
     /**
      * Test for the content of the zip file
      */
-    void itShouldBuildTheZipFileWithTheCorrectContent();
+    void itShouldBuildTheZipFile();
 
     void itShouldBuildTheZipFileWithAppropriateSize();
-    
-    void itShouldBuildTheZipFile();
+
+    void itShouldBuildTheZipFileWithTheCorrectContent();
+
+    void itShouldBuildTheCentralDirectoryWithAppropriateSize();
+
+    void itShouldBuildTheCentralDirectoryWithTheCorrectContent();
+
+    void itShouldBuildTheEndOfCentralDirectoryWithAppropriateSize();
+
+    void itShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent();
+
+
 };
 
 #endif	/* ZIPBUILDERTEST_H */
