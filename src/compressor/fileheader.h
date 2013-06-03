@@ -12,6 +12,8 @@
 #include <string>
 #include "../utils/path.h"
 
+#define FILE_HEADER_SIGNATURE  0x04034b50
+
 struct FileHeader
 {
     /**
@@ -91,7 +93,7 @@ struct FileHeader
     /**
      * Uncompressed size of the file. If is a directory this is 0.
      */
-    int unCompressedSize;
+    int uncompressedSize;
     
     /**
      * Length of the file name.

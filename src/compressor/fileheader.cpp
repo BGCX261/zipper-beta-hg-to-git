@@ -6,8 +6,6 @@
 #include "../utils/fileutils.h"
 #include "../utils/zipperutils.h"
 
-#define FILE_HEADER_SIGNATURE  0x04034b50
-
 using namespace std;
 
 FileHeader::FileHeader():extraField(0), data(0) 
@@ -88,7 +86,7 @@ bool FileHeader::compare(const FileHeader& other)
             lastModificationDate == other.lastModificationDate &&
             crc == other.crc &&
             compressedSize == other.compressedSize &&
-            unCompressedSize == other.unCompressedSize &&
+            uncompressedSize == other.uncompressedSize &&
             fileNameLength == other.fileNameLength &&
             extraFieldLength == other.extraFieldLength &&
             fileName == other.fileName &&
@@ -106,7 +104,7 @@ void FileHeader::initialize(const FileHeader& other)
     lastModificationDate = other.lastModificationDate;
     crc = other.crc;
     compressedSize = other.compressedSize;
-    unCompressedSize = other.compressedSize;
+    uncompressedSize = other.compressedSize;
     fileNameLength = other.fileNameLength;
     fileName = other.fileName;
     setExtraField(other.extraField, other.extraFieldLength);
@@ -123,7 +121,7 @@ void FileHeader::initialize()
     lastModificationDate = 0;
     crc = 0;
     compressedSize = 0;
-    unCompressedSize = 0;
+    uncompressedSize = 0;
     fileNameLength = 0;
     extraFieldLength = 0;
     extraField = 0;
@@ -175,7 +173,7 @@ FileHeader* createFileHeader(const Path* path, const short compressionMethod)
     header->lastModificationTime = parseTimeToMSDosFormat(time);
     header->lastModificationDate = parseDateToMSDosFormat(time);
     header->crc = crc32(data, dataSize);
-    header->unCompressedSize = dataSize;
+    header->uncompressedSize = dataSize;
     header->fileNameLength = path->relativePath.length();
     header->extraFieldLength = 0;
     header->fileName = path->relativePath;
@@ -212,7 +210,7 @@ void getBuffer(FileHeader* fh, char*& buffer)
         memcpy(buffer + 12, &fh->lastModificationDate, 2);
         memcpy(buffer + 14, &fh->crc, 4);
         memcpy(buffer + 18, &fh->compressedSize, 4);
-        memcpy(buffer + 22, &fh->unCompressedSize, 4);
+        memcpy(buffer + 22, &fh->uncompressedSize, 4);
         memcpy(buffer + 26, &fh->fileNameLength, 2);
         memcpy(buffer + 28, &fh->extraFieldLength, 2);
         memcpy(buffer + 30, fh->fileName.c_str(), fh->fileNameLength);

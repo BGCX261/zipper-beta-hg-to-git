@@ -10,6 +10,7 @@
 #define	FILENOTFOUNDEXPCETION_H
 #include <exception>
 #include <string>
+#include "fileexception.h"
 
 /**
  * Exception that will be thrown when a file doesn't exist. 

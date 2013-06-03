@@ -10,6 +10,10 @@
 #define	ZIPPERUTILS_H
 
 #include <iostream>
+#include <list>
+#include "../compressor/fileheader.h"
+#include "filenotfoundexception.h"
+#include "../exceptions/notzipfileexception.h"
 
 /**
  * Store the date information in two bytes following the MS-Dos standard date format.
@@ -43,6 +47,8 @@ short parseDateToMSDosFormat(tm* date);
  * @return The time parsed
  */
 short parseTimeToMSDosFormat(tm* time);
+
+std::list<FileHeader*>& navigate(const char* path) throw (FileException);
 
 #endif	/* ZIPPERUTILS_H */
 

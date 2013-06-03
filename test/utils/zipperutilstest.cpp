@@ -7,6 +7,8 @@
 
 #include "zipperutilstest.h"
 #include "utils/zipperutils.h"
+#include <list>
+#include <stdlib.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ZipperUtilsTest);
@@ -107,4 +109,53 @@ void ZipperUtilsTest::testParseTimeGivenValuesInZero()
 void ZipperUtilsTest::testParseTimeGivenANull()
 {
     CPPUNIT_ASSERT(parseTimeToMSDosFormat(NULL) == 0);
+}
+
+void ZipperUtilsTest::testNavigateGivenAZipWithOneFile()
+{
+    std::list<FileHeader*> fileHeaders = navigate("resources/oneFile.zip");
+    
+    FileHeader* expected = new FileHeader();
+    
+    FILE* file = fopen("resources/directorytestresume", "rb");
+    fseek(file, 0, SEEK_END);
+    int size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    char* data = (char*) malloc(size);
+    fread(data, sizeof(char), size, file);
+    fclose(file);
+    
+    expected->versionToExtract = 10;
+    expected->lastModificationTime = 35450;
+    expected->lastModificationDate = 17091;
+    expected->crc = 0xE58D0B9E;
+    expected->compressedSize = 375;
+    expected->uncompressedSize = 375;
+    expected->fileNameLength = 19;
+    expected->fileName = "directorytestresume";
+    expected->setData(data, size);
+    
+    FileHeader* result = fileHeaders.back();
+    
+    CPPUNIT_ASSERT(fileHeaders.size() == 1);
+    CPPUNIT_ASSERT(result->compare(*result));
+    
+    free(data);
+    delete expected;
+}
+
+void ZipperUtilsTest::testNavigateGivenAZipWithSeveralFiles()
+{
+    std::list<FileHeader*> fileHeaders = navigate("resources/severalFiles.zip");
+    CPPUNIT_ASSERT(fileHeaders.size() == 7);
+}
+
+void ZipperUtilsTest::testNavigateGivenANonZipFile()
+{
+    CPPUNIT_ASSERT_THROW(navigate("resources/song.mp3"), NotZipFileException);
+}
+
+void ZipperUtilsTest::testNavigateGivenANonExistentFile()
+{
+    CPPUNIT_ASSERT_THROW(navigate("resources/someFile.zip"), FileNotFoundExpcetion);
 }
