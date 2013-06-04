@@ -1,5 +1,10 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "zipperutils.h"
+#include "fileutils.h"
+
+using namespace std;
 
 short parseDateToMSDosFormat(tm* date)
 {
@@ -45,4 +50,65 @@ short parseTimeToMSDosFormat(tm* time)
     }
     
     return (short) (hour << 11) | (minute << 5) | second; // Store the hour minute and second
+}
+
+std::list<FileHeader*>& navigate(const char* path) throw (FileException)
+{
+    list<FileHeader*>* fileHeaders = new list<FileHeader*>();
+    int signature;
+    const char* zipExtension = ".zip";
+    FILE* file = fopen(path, "rb");
+    
+    if (!exist(path))
+    {
+        throw FileNotFoundExpcetion(path);
+    }
+    
+    fread(&signature, sizeof(int), 1, file);
+    
+    if(strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0 ||
+            signature != FILE_HEADER_SIGNATURE)
+    {
+        throw NotZipFileException(path);
+    }
+    
+    while(feof(file) == 0)
+    {   
+        
+        if(signature == FILE_HEADER_SIGNATURE)
+        {
+            FileHeader* fh = new FileHeader();
+            fread(&fh->versionToExtract, sizeof(short), 1, file);
+            fread(&fh->flag, sizeof(short), 1, file);
+            fread(&fh->compressionMethod, sizeof(short), 1, file);   
+            fread(&fh->lastModificationTime, sizeof(short), 1, file);   
+            fread(&fh->lastModificationDate, sizeof(short), 1, file);
+            fread(&fh->crc, sizeof(int), 1, file);
+            fread(&fh->compressedSize, sizeof(int), 1, file);
+            fread(&fh->uncompressedSize, sizeof(int), 1, file);
+            fread(&fh->fileNameLength, sizeof(short), 1, file);
+            fread(&fh->extraFieldLength, sizeof(short), 1, file);
+            
+            char* fileName = (char*) malloc(fh->fileNameLength);
+            fread(fileName, sizeof(char), fh->fileNameLength, file);
+            fh->fileName = fileName;
+            free(fileName);
+            
+            char* extraField = (char*) malloc(fh->extraFieldLength);
+            fread(extraField, sizeof(char), fh->extraFieldLength, file);
+            fh->setExtraField(extraField, fh->extraFieldLength);
+            free(extraField);
+            
+            char* data = (char*) malloc(fh->compressedSize);
+            fread(data, sizeof(char), fh->compressedSize, file);
+            fh->setData(data, fh->compressedSize);
+            free(data);
+            
+            fileHeaders->push_back(fh);
+        }
+        
+        fread(&signature, sizeof(int), 1, file);
+    }
+    
+    return *fileHeaders;
 }
