@@ -51,7 +51,7 @@ void FileHeaderTest::testStructure()
     header->lastModificationTime = 34568;
     header->lastModificationDate = 24963;
     header->compressedSize = 12;
-    header->unCompressedSize = 12;
+    header->uncompressedSize = 12;
     header->setData("", 0);
     header->setExtraField("", 0);
 
@@ -116,7 +116,7 @@ void FileHeaderTest::testCreateFileHeaderGivenAFile()
     expected->lastModificationDate = 16564;
     expected->crc = 0xA8436532;
     expected->compressedSize = 24691;
-    expected->unCompressedSize = 24691;
+    expected->uncompressedSize = 24691;
     expected->fileNameLength = path->relativePath.length();
     expected->extraFieldLength = 0;
     expected->fileName = "song.mp3";
@@ -144,7 +144,7 @@ void FileHeaderTest::testCreateFileHeaderGivenADirectory()
     expected->lastModificationDate = 0;
     expected->crc = 0;
     expected->compressedSize = 0;
-    expected->unCompressedSize = 0;
+    expected->uncompressedSize = 0;
     expected->fileNameLength = strlen("directorytest/");
     expected->extraFieldLength = 0;
     expected->fileName = "directorytest/";
@@ -180,7 +180,7 @@ void FileHeaderTest::testGetBufferGivenAFile()
     memcpy(expected + 12, &fileHeader->lastModificationDate, sizeof(short));
     memcpy(expected + 14, &fileHeader->crc, sizeof(int));
     memcpy(expected + 18, &fileHeader->compressedSize, sizeof(int));
-    memcpy(expected + 22, &fileHeader->unCompressedSize, sizeof(int));
+    memcpy(expected + 22, &fileHeader->uncompressedSize, sizeof(int));
     memcpy(expected + 26, &fileHeader->fileNameLength, sizeof(short));
     memcpy(expected + 28, &fileHeader->extraFieldLength, sizeof(short));
     memcpy(expected + 30, fileHeader->fileName.c_str(), fileHeader->fileNameLength);
@@ -211,7 +211,7 @@ void FileHeaderTest::testGetBufferGivenADirectory()
     memcpy(expected + 12, &fileHeader->lastModificationDate, sizeof(short));
     memcpy(expected + 14, &fileHeader->crc, sizeof(int));
     memcpy(expected + 18, &fileHeader->compressedSize, sizeof(int));
-    memcpy(expected + 22, &fileHeader->unCompressedSize, sizeof(int));
+    memcpy(expected + 22, &fileHeader->uncompressedSize, sizeof(int));
     memcpy(expected + 26, &fileHeader->fileNameLength, sizeof(short));
     memcpy(expected + 28, &fileHeader->extraFieldLength, sizeof(short));
     memcpy(expected + 30, fileHeader->fileName.c_str(), fileHeader->fileNameLength);

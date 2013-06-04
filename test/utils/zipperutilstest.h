@@ -23,6 +23,11 @@ class ZipperUtilsTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testParseTime2);
     CPPUNIT_TEST(testParseTimeGivenValuesInZero);
     CPPUNIT_TEST(testParseTimeGivenANull);
+    
+    CPPUNIT_TEST(testNavigateGivenAZipWithOneFile);
+    CPPUNIT_TEST(testNavigateGivenAZipWithSeveralFiles);
+    CPPUNIT_TEST(testNavigateGivenANonZipFile);
+    CPPUNIT_TEST(testNavigateGivenANonExistentFile);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -42,6 +47,11 @@ private:
     void testParseTime2();
     void testParseTimeGivenValuesInZero();
     void testParseTimeGivenANull();
+    
+    void testNavigateGivenAZipWithOneFile();
+    void testNavigateGivenAZipWithSeveralFiles();
+    void testNavigateGivenANonZipFile();
+    void testNavigateGivenANonExistentFile();
 };
 
 #endif	/* ZIPPERUTILS_H */
