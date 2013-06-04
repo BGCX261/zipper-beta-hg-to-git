@@ -3,6 +3,8 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ZipBuilderTest);
 
+using namespace std;
+
 ZipBuilder* builder;
 fstream* outputstream;
 char** input;

@@ -1,5 +1,6 @@
 #include "zipbuilder.h"
 
+using namespace std;
 
 ZipBuilder::ZipBuilder(char** input, int inputSize, int compressionMethod)
 {
@@ -41,11 +42,11 @@ ErrorCode ZipBuilder::buildZipFile(iostream* outputStream)
     } catch (FileNotFoundExpcetion)
     {
         return FILE_NOT_FOUND;
-        
+
     } catch (NullPathException)
     {
         return INVALID_PARAMETERS;
-        
+
     } catch (OpenFileException)
     {
         return CAN_NOT_OPEN_FILE;
@@ -92,8 +93,8 @@ void ZipBuilder::buildCentralDirectory(FileHeader* fileHeader, iostream* outputS
 {
     int buffersize = C_DIRECTORY_PARTIAL_SIZE + fileHeader->fileNameLength;
     currentOffset_ += buffersize;
-    int centralDirectorySignature = 0x02014b50;
-    short version = 31;
+    int centralDirectorySignature = CDIRECTORY_SIGNATURE;
+    short version = CURRENT_VERSION;
     short commentLength = 0;
     short diskStart = 0;
     short internalAttribute = 0;
@@ -124,7 +125,7 @@ void ZipBuilder::buildCentralDirectory(FileHeader* fileHeader, iostream* outputS
 void ZipBuilder::buildEndOfCentralDirectory(int fHeaderCount, iostream* outputStream)
 {
     int cDirectorySize = (currentOffset_ - cDirectoryOffset_);
-    int endOfCentralDirectorySignature = 0x06054b50;
+    int endOfCentralDirectorySignature = END_CDIRECTORY_SIGNATURE;
     short numberOfDisk = 0;
     short centralDirectoryStart = 0;
     short cDRecords = fHeaderCount;

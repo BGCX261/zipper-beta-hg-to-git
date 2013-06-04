@@ -1,14 +1,12 @@
 /* 
  * File:   zipbuilder.h
- * Author: Kenji
+ * Author: Kenji Lozano
  * Description: The builder of the zip file
  *
  */
 
 #ifndef ZIPBUILDER_H
 #define	ZIPBUILDER_H
-
-#define C_DIRECTORY_PARTIAL_SIZE 46
 
 #include "fileheader.h"
 #include "../utils/path.h"
@@ -20,7 +18,13 @@
 #include <string.h>
 
 
-using namespace std;
+#define C_DIRECTORY_PARTIAL_SIZE 46
+
+#define CDIRECTORY_SIGNATURE 0x02014b50
+
+#define END_CDIRECTORY_SIGNATURE 0x06054b50
+
+#define CURRENT_VERSION 31
 
 class ZipBuilder
 {
@@ -47,7 +51,7 @@ public:
      * 
      * @return ErrorCode The possible error in the creation of the zip file
      */
-    ErrorCode buildZipFile(iostream* outputStream);
+    ErrorCode buildZipFile(std::iostream* outputStream);
 
 private:
     /**
@@ -62,7 +66,7 @@ private:
      * 
      * @param outputStream The output stream that will store the file headers
      */
-    void buildFileHeaders(iostream* outputStream);
+    void buildFileHeaders(std::iostream* outputStream);
 
     /**
      * Build the file header
@@ -70,7 +74,7 @@ private:
      * @param path The path of file or directory to build file header 
      * @param outputStream The output stream that will store the file header
      */
-    void buildFileHeader(const Path& path, iostream* outputStream);
+    void buildFileHeader(const Path& path, std::iostream* outputStream);
 
     /**
      * Build the central directory in the output stream given a file header
@@ -78,7 +82,7 @@ private:
      * @param fileHeader The file header to create the central directory
      * @param outputStream The output stream that will store the central directory
      */
-    void buildCentralDirectory(FileHeader* fileHeader, iostream* outputStream);
+    void buildCentralDirectory(FileHeader* fileHeader, std::iostream* outputStream);
 
     /**
      * Build the end of cental directory
@@ -86,16 +90,16 @@ private:
      * @param fHeaderCount The number of file headers in the zip file structure
      * @param outputStream The output stream that will store the end of central directory
      */
-    void buildEndOfCentralDirectory(int fHeaderCount, iostream* outputStream);
+    void buildEndOfCentralDirectory(int fHeaderCount, std::iostream* outputStream);
 
     /**
      * Delete the List of FileHeaders
      */
     void deleteFileHeaders();
 
-    list<FileHeader*>* fileHeaders_;
+    std::list<FileHeader*>* fileHeaders_;
 
-    list<Path>* inputPaths_;
+    std::list<Path>* inputPaths_;
 
     int compressionMethod_;
 
