@@ -1,6 +1,6 @@
 /* 
  * File:   zipbuildertest.h
- * Author: kenji
+ * Author: Kenji Lozano
  * Description: Test for zip builder
  * Created on May 23, 2013, 3:06 PM
  */
@@ -17,13 +17,13 @@ class ZipBuilderTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE(ZipBuilderTest);
 
-    CPPUNIT_TEST(itShouldBuildTheZipFile);
-    CPPUNIT_TEST(itShouldBuildTheZipFileWithAppropriateSize);
-    CPPUNIT_TEST(itShouldBuildTheZipFileWithTheCorrectContent);
-    CPPUNIT_TEST(itShouldBuildTheCentralDirectoryWithAppropriateSize);
-    CPPUNIT_TEST(itShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent);
-    CPPUNIT_TEST(itShouldBuildTheEndOfCentralDirectoryWithAppropriateSize);
-    CPPUNIT_TEST(itShouldBuildTheCentralDirectoryWithTheCorrectContent);
+    CPPUNIT_TEST(testItShouldBuildTheZipFile);
+    CPPUNIT_TEST(testItShouldBuildTheZipFileWithAppropriateSize);
+    CPPUNIT_TEST(testItShouldBuildTheZipFileWithTheCorrectContent);
+    CPPUNIT_TEST(testItShouldBuildTheCentralDirectoryWithAppropriateSize);
+    CPPUNIT_TEST(testItShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent);
+    CPPUNIT_TEST(testItShouldBuildTheEndOfCentralDirectoryWithAppropriateSize);
+    CPPUNIT_TEST(testItShouldBuildTheCentralDirectoryWithTheCorrectContent);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -37,19 +37,19 @@ private:
     /**
      * Test for the content of the zip file
      */
-    void itShouldBuildTheZipFile();
+    void testItShouldBuildTheZipFile();
 
-    void itShouldBuildTheZipFileWithAppropriateSize();
+    void testItShouldBuildTheZipFileWithAppropriateSize();
 
-    void itShouldBuildTheZipFileWithTheCorrectContent();
+    void testItShouldBuildTheZipFileWithTheCorrectContent();
 
-    void itShouldBuildTheCentralDirectoryWithAppropriateSize();
+    void testItShouldBuildTheCentralDirectoryWithAppropriateSize();
 
-    void itShouldBuildTheCentralDirectoryWithTheCorrectContent();
+    void testItShouldBuildTheCentralDirectoryWithTheCorrectContent();
 
-    void itShouldBuildTheEndOfCentralDirectoryWithAppropriateSize();
+    void testItShouldBuildTheEndOfCentralDirectoryWithAppropriateSize();
 
-    void itShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent();
+    void testItShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent();
 
 
 };

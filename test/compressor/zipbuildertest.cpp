@@ -35,7 +35,7 @@ ZipBuilderTest::~ZipBuilderTest()
 void ZipBuilderTest::setUp()
 {
     currentZipFile = new ifstream("compress.zip", std::ifstream::in | std::ifstream::binary);
-    expectedZipFile = new ifstream("expectedCompress.zip", std::ifstream::in | std::ifstream::binary);
+    expectedZipFile = new ifstream("resources/expectedCompress.zip", std::ifstream::in | std::ifstream::binary);
 
     currentZipFile->seekg(0, currentZipFile->end);
     expectedZipFile->seekg(0, expectedZipFile->end);
@@ -47,12 +47,12 @@ void ZipBuilderTest::tearDown()
     delete expectedZipFile;
 }
 
-void ZipBuilderTest::itShouldBuildTheZipFile()
+void ZipBuilderTest::testItShouldBuildTheZipFile()
 {
     CPPUNIT_ASSERT(currentZipFile->good());
 }
 
-void ZipBuilderTest::itShouldBuildTheZipFileWithAppropriateSize()
+void ZipBuilderTest::testItShouldBuildTheZipFileWithAppropriateSize()
 {
     int expectedSize = 1152;
 
@@ -61,7 +61,7 @@ void ZipBuilderTest::itShouldBuildTheZipFileWithAppropriateSize()
     CPPUNIT_ASSERT(expectedSize == actualSize);
 }
 
-void ZipBuilderTest::itShouldBuildTheZipFileWithTheCorrectContent()
+void ZipBuilderTest::testItShouldBuildTheZipFileWithTheCorrectContent()
 {
     int size = currentZipFile->tellg();
 
@@ -77,7 +77,7 @@ void ZipBuilderTest::itShouldBuildTheZipFileWithTheCorrectContent()
     CPPUNIT_ASSERT(strcmp(currentData, expectedData) == 0);
 }
 
-void ZipBuilderTest::itShouldBuildTheCentralDirectoryWithAppropriateSize()
+void ZipBuilderTest::testItShouldBuildTheCentralDirectoryWithAppropriateSize()
 {
     int cDirectoryOffset = 1070;
     char* cDirectorySignature = (char*) "0x02014b50";
@@ -91,7 +91,7 @@ void ZipBuilderTest::itShouldBuildTheCentralDirectoryWithAppropriateSize()
     CPPUNIT_ASSERT(strcmp(cDirectorySignature, currentData));
 }
 
-void ZipBuilderTest::itShouldBuildTheCentralDirectoryWithTheCorrectContent()
+void ZipBuilderTest::testItShouldBuildTheCentralDirectoryWithTheCorrectContent()
 {
     int cDirectoryOffset = 1070;
     int cDirectorySize = 60;
@@ -112,7 +112,7 @@ void ZipBuilderTest::itShouldBuildTheCentralDirectoryWithTheCorrectContent()
 
 }
 
-void ZipBuilderTest::itShouldBuildTheEndOfCentralDirectoryWithAppropriateSize()
+void ZipBuilderTest::testItShouldBuildTheEndOfCentralDirectoryWithAppropriateSize()
 {
     int endOfCDirectoryOffset = 1130;
     char* endOfCDirectorySignature = (char*) "0x06054b50";
@@ -126,7 +126,7 @@ void ZipBuilderTest::itShouldBuildTheEndOfCentralDirectoryWithAppropriateSize()
     CPPUNIT_ASSERT(strcmp(endOfCDirectorySignature, currentData));
 }
 
-void ZipBuilderTest::itShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent()
+void ZipBuilderTest::testItShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent()
 {
     int endOfCDirectoryOffset = 1130;
     int endOfCDirectorySize = 22;
