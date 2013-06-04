@@ -24,7 +24,7 @@ ZipBuilderTest::ZipBuilderTest()
 
 ZipBuilderTest::~ZipBuilderTest()
 {
-    remove("compress.zip");
+    //remove("compress.zip");
     delete builder;
     delete outputstream;
     delete[] input;

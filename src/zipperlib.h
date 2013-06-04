@@ -10,6 +10,7 @@
 #ifndef ZIPPERLIB_H
 #define	ZIPPERLIB_H
 #include "errorcode.h"
+#include <fstream>
 
 /**
  * Compress the received list of files/directories in a zip file with the selected compression 
