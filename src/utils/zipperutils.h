@@ -3,7 +3,7 @@
  * Author: Luis Aguirre
  * Description: Has utils functions to build the zip structure.
  *
- * Created on 20 de mayo de 2013, 03:27 PM
+ * Created on may 20, 2013, 03:27 PM
  */
 
 #ifndef ZIPPERUTILS_H

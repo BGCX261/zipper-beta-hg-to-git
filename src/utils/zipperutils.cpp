@@ -55,25 +55,25 @@ short parseTimeToMSDosFormat(tm* time)
 std::list<FileHeader*>& navigate(const char* path) throw (FileException)
 {
     list<FileHeader*>* fileHeaders = new list<FileHeader*>();
+    int signature;
     const char* zipExtension = ".zip";
+    FILE* file = fopen(path, "rb");
     
     if (!exist(path))
     {
         throw FileNotFoundExpcetion(path);
     }
     
-    if(strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0)
+    fread(&signature, sizeof(int), 1, file);
+    
+    if(strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0 ||
+            signature != FILE_HEADER_SIGNATURE)
     {
         throw NotZipFileException(path);
     }
     
-    FILE* file = fopen(path, "rb");
-    
-    int signature;
-    
     while(feof(file) == 0)
-    {
-        fread(&signature, sizeof(int), 1, file);
+    {   
         
         if(signature == FILE_HEADER_SIGNATURE)
         {
@@ -106,6 +106,8 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
             
             fileHeaders->push_back(fh);
         }
+        
+        fread(&signature, sizeof(int), 1, file);
     }
     
     return *fileHeaders;

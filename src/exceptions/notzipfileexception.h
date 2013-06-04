@@ -3,7 +3,7 @@
  * Author: Luis Aguirre
  * Description: Define a file exception.
  *
- * Created on 1 de junio de 2013, 01:54 PM
+ * Created on june 1, 2013, 01:54 PM
  */
 
 #ifndef NOTZIPFILEEXCEPTION_H
