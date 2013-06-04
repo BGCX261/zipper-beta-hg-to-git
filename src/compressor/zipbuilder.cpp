@@ -1,8 +1,11 @@
 #include "zipbuilder.h"
 
+
 ZipBuilder::ZipBuilder(char** input, int inputSize, int compressionMethod)
 {
-    this->inputPaths_ = explorePaths((const char**) input, inputSize);
+    this->inputPaths_ = 0;
+    this->input_ = input;
+    this->inputSize_ = inputSize;
     this->fileHeaders_ = new list<FileHeader*>();
     this->compressionMethod_ = compressionMethod;
     this->currentOffset_ = 0;
@@ -29,8 +32,24 @@ ZipBuilder::~ZipBuilder()
         delete inputPaths_;
 }
 
-void ZipBuilder::buildZipFile(iostream* outputStream)
+ErrorCode ZipBuilder::buildZipFile(iostream* outputStream)
 {
+    try
+    {
+        this->inputPaths_ = explorePaths((const char**) input_, inputSize_);
+
+    } catch (FileNotFoundExpcetion)
+    {
+        return FILE_NOT_FOUND;
+        
+    } catch (NullPathException)
+    {
+        return INVALID_PARAMETERS;
+        
+    } catch (OpenFileException)
+    {
+        return CAN_NOT_OPEN_FILE;
+    }
     buildFileHeaders(outputStream);
     list<FileHeader*>::iterator fHeaderIterator;
     this->cDirectoryOffset_ = currentOffset_;
@@ -40,6 +59,7 @@ void ZipBuilder::buildZipFile(iostream* outputStream)
         buildCentralDirectory(fileHeader, outputStream);
     }
     buildEndOfCentralDirectory(fileHeaders_->size(), outputStream);
+    return OK;
 }
 
 void ZipBuilder::buildFileHeaders(iostream* outputStream)
@@ -129,5 +149,3 @@ void ZipBuilder::deleteFileHeaders()
         delete (*fHeaderIterator);
     }
 }
-
-
