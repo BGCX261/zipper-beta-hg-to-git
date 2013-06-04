@@ -7,10 +7,13 @@ Node::Node(const std::string& name, Node* parent) : name_(name), parent_(parent)
 
 Node::Node(const Node& orig)
 {
+    name_ = orig.name_;
+    parent_ = new Node(*(orig.parent_));
 }
 
 Node::~Node()
 {
+    delete parent_;
 }
 
 Node* Node::getNode(const std::string& path)
@@ -35,7 +38,7 @@ Node* Node::getNode(const std::string& path)
                 return node->getNode(newPath.rest);
             }
         }
-        
+
         it++;
     }
 

@@ -8,7 +8,7 @@ Tree::Tree(const std::string& zipName)
 
 Tree::Tree(const Tree& orig)
 {
-    root_ = orig.getRoot();
+    root_ = new Node(*(orig.getRoot()));
 }
 
 Tree::~Tree()
