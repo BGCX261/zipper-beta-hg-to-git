@@ -28,6 +28,15 @@ void explorePath(const char* path, std::list<Path>& files) throw (FileException)
  */
 void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileException);
 
+/**
+ * Split the file name with / or \ and gets the last occurrence of that
+ * 
+ * @param str The string to split
+ * @return The last occurrence
+ */
+std::string splitFileName(const std::string& str);
+
+
 struct stat st_info;
 
 bool isFile(const char* path)
@@ -135,4 +144,31 @@ tm* recoverLastModificationDateAndTime(const char* path)
     tmModifiedTime = gmtime(&(st_info.st_mtime));
     
     return tmModifiedTime;
+}
+
+const char* checkTargetPath(char* targetPath, char* firstFileName)
+{
+    std::string strTargetPath(targetPath);
+    if (strTargetPath.find(".zip") != std::string::npos)
+    {
+        return targetPath;
+    } else
+    {
+        std::string zipTarget;
+        std::string zipFileName;
+        std::string strFirstFile(firstFileName);
+        zipFileName = splitFileName(strFirstFile);
+        unsigned found = zipFileName.find_last_of(".");
+        zipTarget = zipFileName.substr(0, found);
+        strTargetPath.append(zipTarget);
+        strTargetPath.append(".zip");
+        return strTargetPath.c_str();
+    }
+}
+
+std::string splitFileName(const std::string& str)
+{
+    unsigned found = str.find_last_of("/\\");
+    std::string res = str.substr(found + 1);
+    return res;
 }

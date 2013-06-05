@@ -53,15 +53,27 @@ bool exist(const char* path);
  */
 std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException);
 
-    /**
-     * Recover the last modification date and time of a file. If is directory
-     * return null.
-     * 
-     * @param path Path of the file
-     * 
-     * @return A time struct with the last modification date and time
-     */
-    tm* recoverLastModificationDateAndTime(const char* path);
-    
+/**
+ * Recover the last modification date and time of a file. If is directory
+ * return null.
+ * 
+ * @param path Path of the file
+ * 
+ * @return A time struct with the last modification date and time
+ */
+tm* recoverLastModificationDateAndTime(const char* path);
+
+/**
+ * Check the if the target path contains a name of zip file.
+ * If target path does not contain a valid name, it uses the firstFileName
+ * to create a valid name of zip file
+ * 
+ * @param targetPath The target path to check if is a valid name
+ * @param firsFileName The file name to create zip file name if the target path is not correct
+ * 
+ * @return The name to create a zip file 
+ */
+const char* checkTargetPath(char* targetPath, char* firsFileName);
+
 #endif	/* FILEUTILS_H */
 
