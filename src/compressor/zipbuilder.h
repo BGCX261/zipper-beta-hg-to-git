@@ -14,6 +14,7 @@
 #include "../errorcode.h"
 #include <list>
 #include <stdlib.h>
+#include <stdio.h>
 #include <sstream>
 #include <string.h>
 

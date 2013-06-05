@@ -39,15 +39,15 @@ ErrorCode ZipBuilder::buildZipFile(iostream* outputStream)
     {
         this->inputPaths_ = explorePaths((const char**) input_, inputSize_);
 
-    } catch (FileNotFoundExpcetion)
+    } catch (FileNotFoundExpcetion& e)
     {
         return FILE_NOT_FOUND;
 
-    } catch (NullPathException)
+    } catch (NullPathException& e)
     {
         return INVALID_PARAMETERS;
 
-    } catch (OpenFileException)
+    } catch (OpenFileException& e)
     {
         return CAN_NOT_OPEN_FILE;
     }
@@ -109,7 +109,7 @@ void ZipBuilder::buildCentralDirectory(FileHeader* fileHeader, iostream* outputS
     outputStream->write((char*) &fileHeader->lastModificationDate, sizeof (short));
     outputStream->write((char*) &fileHeader->crc, sizeof (int));
     outputStream->write((char*) &fileHeader->compressedSize, sizeof (int));
-    outputStream->write((char*) &fileHeader->unCompressedSize, sizeof (int));
+    outputStream->write((char*) &fileHeader->uncompressedSize, sizeof (int));
     outputStream->write((char*) &fileHeader->fileNameLength, sizeof (short));
     outputStream->write((char*) &fileHeader->extraFieldLength, sizeof (short));
     outputStream->write((char*) &commentLength, sizeof (short));

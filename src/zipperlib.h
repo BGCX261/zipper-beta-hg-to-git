@@ -10,6 +10,8 @@
 #ifndef ZIPPERLIB_H
 #define	ZIPPERLIB_H
 #include "errorcode.h"
+#include "compressor/zipbuilder.h"
+#include "utils/fileutils.h"
 #include <fstream>
 
 /**
