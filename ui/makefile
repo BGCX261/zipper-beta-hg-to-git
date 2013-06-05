@@ -34,7 +34,9 @@ obj/%.o : %.cpp
 $(OUT):$(OBJ)
 	$(CCC) -o $(OUT) $(CCFLAGS) $(OBJ) $(LIBS)
 
+.PHONY: clean    
 clean:
 	rm -f $(OBJ)
 	rm -f $(OUT)
 	rm -rf obj
+	

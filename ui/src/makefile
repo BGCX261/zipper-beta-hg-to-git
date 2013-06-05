@@ -39,5 +39,5 @@ $(OUT):$(OBJ)
 
 clean:
 	rm -f $(OBJ)
-	rm -f $(OUT)
 	rm -rf obj
+	rm -rf lib
