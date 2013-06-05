@@ -43,6 +43,10 @@ class FileUtilsTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testRecoverLastModiticationTDGivenAFile);
     CPPUNIT_TEST(testRecoverLastModificationTDGivenADirectory);
     CPPUNIT_TEST(testRecoverLastModificationTDWhenDoNotExist);
+    
+    CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsValid);
+    CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile);
+    CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -80,6 +84,10 @@ private:
     void testRecoverLastModiticationTDGivenAFile();
     void testRecoverLastModificationTDGivenADirectory();
     void testRecoverLastModificationTDWhenDoNotExist();
+    
+    void testCheckTargetPathWhenTheTargetPathIsValid();
+    void testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile();
+    void testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory();
 };
 
 #endif	/* FILEUTILSTEST_H */

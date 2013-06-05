@@ -7,6 +7,7 @@
  */
 
 #include "fileutilstest.h"
+#include "../compressor/fileheadertest.h"
 #include <stdlib.h>
 #include <fstream>
 #include <string.h>
@@ -241,7 +242,7 @@ void setLastModificationTimeOfAFile(const char* path)
     modificationTime.tm_hour = 17;
     modificationTime.tm_min = 42;
     modificationTime.tm_sec = 22;
-    
+
     time(&utimeBuffer.actime);
     utimeBuffer.modtime = mktime(&modificationTime);
     utime(path, &utimeBuffer);
@@ -250,7 +251,7 @@ void setLastModificationTimeOfAFile(const char* path)
 void FileUtilsTest::testRecoverLastModiticationTDGivenAFile()
 {
     setLastModificationTimeOfAFile("resources/song.mp3");
-    
+
     int year = 2011 - 1900; /*Following the tm structure format*/
     int month = 4;
     int day = 20;
@@ -278,4 +279,45 @@ void FileUtilsTest::testRecoverLastModificationTDWhenDoNotExist()
 {
     tm* result = recoverLastModificationDateAndTime("resources/notexist");
     CPPUNIT_ASSERT(result == NULL);
+}
+
+void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsValid()
+{
+    const char* targetPath = "Desktop/other/compressTest.zip";
+    const char* otherPath = "Desktop/cpp/main.cpp";
+
+    const char* actual = checkTargetPath(targetPath, otherPath);
+    const char* expectedPath = "Desktop/other/compressTest.zip";
+    CPPUNIT_ASSERT(strcmp(actual, expectedPath) == 0);
+}
+
+void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile()
+{
+    const char* targetPath = "Desktop/other/compress/";
+    const char* otherPath = "Desktop/cpp/main.cpp";
+
+    const char* actual = checkTargetPath(targetPath, otherPath);
+    const char* expectedPath = "Desktop/other/compress/main.zip";
+    printf("\nFile1:%s\nFile2:%s\n Actual Size:%d ExpectedSize:%d", actual, expectedPath, strlen(actual), strlen(expectedPath));
+
+    std::string actualStr(actual);
+    std::string expectedStr(expectedPath);
+    
+    CPPUNIT_ASSERT(actualStr==expectedStr);
+}
+
+void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory()
+{
+    const char* targetPath = "Desktop/other/compress/";
+    const char* otherPath = "Desktop/cpp/src";
+
+    const char* actual = checkTargetPath(targetPath, otherPath);
+    const char* expectedPath = "Desktop/other/compress/src.zip";
+
+    printf("\nFile1:%s\nFile2:%s\n Actual Size:%d ExpectedSize:%d", actual, expectedPath, strlen(actual), strlen(expectedPath));
+
+    std::string actualStr(actual);
+    std::string expectedStr(expectedPath);
+    
+    CPPUNIT_ASSERT(actualStr==expectedStr);
 }
