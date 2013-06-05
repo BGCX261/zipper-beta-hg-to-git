@@ -56,7 +56,7 @@ public:
      */
     static const char* runCommand(int argc, char** argv);
 private:
-    
+
     /**
      * Execute an specific command
      * 
@@ -77,6 +77,16 @@ private:
      * @return The output errors for user
      */
     static const char* compressOption(int argc, char** argv);
+
+    /**
+     * The traverse option that receive a zip file to traverse it and show it as a tree.
+     * 
+     * @param argc Arguments count
+     * @param argv Arguments
+     * 
+     * @return Errors that occurred. 
+     */
+    static const char* traverseOption(int argc, char** argv);
 
     /**
      * Prints the help for user

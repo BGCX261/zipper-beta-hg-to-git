@@ -7,7 +7,7 @@ const char* ConsoleZipper::runCommand(int argc, char** argv)
     {
         char* option = argv[1];
         char value = option[1];
-        return (strlen(option)==2) ? executeOption(value, argc, argv):UNKNOW_OPTION;
+        return (strlen(option) == 2) ? executeOption(value, argc, argv) : UNKNOW_OPTION;
     }
     else
     {
@@ -19,15 +19,17 @@ const char* ConsoleZipper::executeOption(char option, int argc, char** argv)
 {
     switch (option)
     {
-        case 'c':
-            return compressOption(argc, argv);
-            break;
-        case 'h':
-            return helpOption(argc);
-            break;
-        default:
-            return UNKNOW_OPTION;
-            break;
+    case 'c':
+        return compressOption(argc, argv);
+        break;
+    case 't':
+        return traverseOption(argc, argv);
+    case 'h':
+        return helpOption(argc);
+        break;
+    default:
+        return UNKNOW_OPTION;
+        break;
     }
 
 }
@@ -54,6 +56,18 @@ const char* ConsoleZipper::compressOption(int argc, char** argv)
         return UNKNOW_COMPRESSION_ARGS;
     }
 
+}
+
+const char* ConsoleZipper::traverseOption(int argc, char** argv)
+{
+    if (argc != 3)
+    {
+        return UNKNOWN_TRAVERSE_ARGS;
+    }
+
+    char* zipPath = argv[2];
+    ErrorCode errorCode = traverse(zipPath);
+    return errorCodeToString(errorCode);
 }
 
 const char* ConsoleZipper::helpOption(int argc)
@@ -84,18 +98,20 @@ const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
 {
     switch (errorCode)
     {
-        case FILE_NOT_FOUND:
-            return FILE_NOT_FOUND_ERROR;
-            break;
-        case UNSUPPORTED_COMPRESSION:
-            return COMPRESSION_NOT_SUPPORTED_ERROR;
-            break;
-        case CORRUPTED_FILE:
-            return CORRUPT_FILE_ERROR;
-            break;
-        default:
-            return OK_PROCESS;
-            break;
+    case FILE_NOT_FOUND:
+        return FILE_NOT_FOUND_ERROR;
+        break;
+    case UNSUPPORTED_COMPRESSION:
+        return COMPRESSION_NOT_SUPPORTED_ERROR;
+        break;
+    case CORRUPTED_FILE:
+        return CORRUPT_FILE_ERROR;
+        break;
+    case INVALID_PARAMETERS:
+        return UNKNOW_ARGS;
+    default:
+        return OK_PROCESS;
+        break;
     }
 
 }

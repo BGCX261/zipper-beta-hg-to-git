@@ -5,3 +5,8 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
 {
     return FILE_NOT_FOUND;
 }
+
+ErrorCode traverse(const char* zipPath)
+{
+    return INVALID_PARAMETERS;
+}
