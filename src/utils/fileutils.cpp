@@ -146,7 +146,7 @@ tm* recoverLastModificationDateAndTime(const char* path)
     return tmModifiedTime;
 }
 
-const char* checkTargetPath(char* targetPath, char* firstFileName)
+const char* checkTargetPath(const char* targetPath, const char* firstFileName)
 {
     std::string strTargetPath(targetPath);
     if (strTargetPath.find(".zip") != std::string::npos)
