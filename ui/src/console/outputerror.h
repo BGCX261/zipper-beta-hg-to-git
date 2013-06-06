@@ -20,6 +20,8 @@
 
 #define OK_PROCESS "Zipper: Process Success\n"
 
+#define CAN_NOT_OPEN_ERROR "Zipper: Can not open the file\n"
+
 #define UNKNOW_OPTION OPTION_ERROR HELP_TEXT
 
 #define UNKNOW_ARGS ARGS_ERROR HELP_TEXT

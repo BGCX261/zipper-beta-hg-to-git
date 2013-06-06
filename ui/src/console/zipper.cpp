@@ -7,9 +7,8 @@ const char* ConsoleZipper::runCommand(int argc, char** argv)
     {
         char* option = argv[1];
         char value = option[1];
-        return (strlen(option)==2) ? executeOption(value, argc, argv):UNKNOW_OPTION;
-    }
-    else
+        return (strlen(option) == 2) ? executeOption(value, argc, argv) : UNKNOW_OPTION;
+    } else
     {
         return UNKNOW_ARGS;
     }
@@ -48,8 +47,7 @@ const char* ConsoleZipper::compressOption(int argc, char** argv)
         delete[] sourcePaths;
         return errorCodeToString(errorCode);
 
-    }
-    else
+    } else
     {
         return UNKNOW_COMPRESSION_ARGS;
     }
@@ -92,6 +90,9 @@ const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
             break;
         case CORRUPTED_FILE:
             return CORRUPT_FILE_ERROR;
+            break;
+        case CAN_NOT_OPEN_FILE:
+            return CAN_NOT_OPEN_ERROR;
             break;
         default:
             return OK_PROCESS;
