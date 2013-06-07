@@ -89,7 +89,7 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
             fread(&fh->fileNameLength, sizeof(short), 1, file);
             fread(&fh->extraFieldLength, sizeof(short), 1, file);
             
-            char* fileName = (char*) malloc(fh->fileNameLength);
+            char* fileName = (char*) calloc(fh->fileNameLength, sizeof(char));
             fread(fileName, sizeof(char), fh->fileNameLength, file);
             fh->fileName = fileName;
             free(fileName);

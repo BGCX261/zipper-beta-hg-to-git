@@ -1,5 +1,8 @@
 #include "zipperlib.h"
 #include <ostream>
+#include "utils/zipperutils.h"
+#include "utils/fileutils.h"
+#include "struct/tree.h"
 
 ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int compressionMethod)
 {
@@ -8,5 +11,27 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
 
 ErrorCode traverse(const char* zipPath)
 {
-    return INVALID_PARAMETERS;
+    try
+    {
+        std::list<FileHeader*> fileHeaders = navigate(zipPath);
+        std::string filename = getFileName(zipPath);
+        Tree tree(filename);
+        for(std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end(); it++){
+            FileHeader* fileHeader = *it;
+            std::string file = fileHeader->fileName;
+            tree.add(file);
+        }
+        
+        tree.list();
+    }
+    catch (FileNotFoundExpcetion eFile)
+    {
+        return FILE_NOT_FOUND;
+    }
+    catch (NotZipFileException eZip)
+    {
+        return INVALID_ZIP_FILE;
+    }
+
+    return OK;
 }

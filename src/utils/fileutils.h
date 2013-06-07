@@ -53,15 +53,25 @@ bool exist(const char* path);
  */
 std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException);
 
-    /**
-     * Recover the last modification date and time of a file. If is directory
-     * return null.
-     * 
-     * @param path Path of the file
-     * 
-     * @return A time struct with the last modification date and time
-     */
-    tm* recoverLastModificationDateAndTime(const char* path);
-    
+/**
+ * Recover the last modification date and time of a file. If is directory
+ * return null.
+ * 
+ * @param path Path of the file
+ * 
+ * @return A time struct with the last modification date and time
+ */
+tm* recoverLastModificationDateAndTime(const char* path);
+
+/**
+ * Get the file name inside a given path. 
+ * For example: If the path is /folder1/file1.txt it will return file1.txt.
+ * Always will search the last slash in the path.
+ * 
+ * @param path Path to get the filename.
+ * 
+ * @return The filename, if is not found will return the given path.
+ */
+std::string getFileName(const std::string path);
 #endif	/* FILEUTILS_H */
 

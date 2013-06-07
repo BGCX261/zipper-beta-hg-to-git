@@ -97,8 +97,16 @@ public:
      * @return Children count.
      */
     int countChildren();
+    
+    /**
+     * Show the name of the node and its children hierarchically.
+     * 
+     * @param spaces Spaces for the indentation.
+     */
+    void show(int spaces = 0);
 
 private:
+    
     /**
      * Node name.
      */

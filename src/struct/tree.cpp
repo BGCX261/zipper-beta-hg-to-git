@@ -40,3 +40,8 @@ int Tree::countNodes()
 {
     return root_->countChildren() + 1;
 }
+
+void Tree::list()
+{
+    root_->show();
+}

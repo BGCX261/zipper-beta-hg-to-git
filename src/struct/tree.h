@@ -62,6 +62,11 @@ public:
      * @return Tree node count.
      */
     int countNodes();
+    
+    /**
+     * List the tree by levels.
+     */
+    void list();
 
 private:
     /**

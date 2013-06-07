@@ -14,14 +14,15 @@
  * Error code enum that defines the library standard return value when some feature 
  * from the zipper library is used.
  */
-enum ErrorCode 
+enum ErrorCode
 {
     OK = 0,
     FILE_NOT_FOUND = 1,
     UNSUPPORTED_COMPRESSION = 2,
     CORRUPTED_FILE = 3,
     INVALID_PARAMETERS = 4,
-    CAN_NOT_OPEN_FILE=5
+    CAN_NOT_OPEN_FILE = 5,
+    INVALID_ZIP_FILE = 6
 };
 
 #endif	/* ZIPPERERRORCODE_H */
