@@ -31,11 +31,11 @@
 \tusr/docs/myFolder\n\
 \tIn this location: usr/compress\n\
 \tI should do the following:\n\
-\tzipper -c usr/docs/myFile.txt usr/docs/myFolder usr/compress\n\n\
+\tzipper -c usr/docs/myFile.txt usr/docs/myFolder/ usr/compress/\n\n\
 \tIf i want to compress a single file with a\n\
 \tspecific compression algorithm\n\
 \tI should do the following:\n\
-\tzipper -c usr/docs/myFile.txt usr/compress 8\n\n"
+\tzipper -c usr/docs/myFile.txt usr/compress/ 8\n\n"
 
 #define HELP_DESCRIPTION "Help(-h):\n\
 \tDisplay the help text of all options\n"

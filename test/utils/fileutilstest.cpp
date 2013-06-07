@@ -286,9 +286,10 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsValid()
     const char* targetPath = "Desktop/other/compressTest.zip";
     const char* otherPath = "Desktop/cpp/main.cpp";
 
-    const char* actual = checkTargetPath(targetPath, otherPath);
-    const char* expectedPath = "Desktop/other/compressTest.zip";
-    CPPUNIT_ASSERT(strcmp(actual, expectedPath) == 0);
+    std::string actualPath = prepareTargetPath(targetPath, otherPath);
+    std::string expectedPath = "Desktop/other/compressTest.zip";
+
+    CPPUNIT_ASSERT_EQUAL(actualPath,expectedPath);
 }
 
 void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile()
@@ -296,14 +297,10 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFi
     const char* targetPath = "Desktop/other/compress/";
     const char* otherPath = "Desktop/cpp/main.cpp";
 
-    const char* actual = checkTargetPath(targetPath, otherPath);
-    const char* expectedPath = "Desktop/other/compress/main.zip";
-    printf("\nFile1:%s\nFile2:%s\n Actual Size:%d ExpectedSize:%d", actual, expectedPath, strlen(actual), strlen(expectedPath));
-
-    std::string actualStr(actual);
-    std::string expectedStr(expectedPath);
+    std::string actualPath = prepareTargetPath(targetPath, otherPath);
+    std::string expectedPath = "Desktop/other/compress/main.zip";
     
-    CPPUNIT_ASSERT(actualStr==expectedStr);
+    CPPUNIT_ASSERT_EQUAL(actualPath,expectedPath);
 }
 
 void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory()
@@ -311,13 +308,8 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDi
     const char* targetPath = "Desktop/other/compress/";
     const char* otherPath = "Desktop/cpp/src";
 
-    const char* actual = checkTargetPath(targetPath, otherPath);
-    const char* expectedPath = "Desktop/other/compress/src.zip";
+    std::string actualPath = prepareTargetPath(targetPath, otherPath);
+    std::string expectedPath = "Desktop/other/compress/src.zip";
 
-    printf("\nFile1:%s\nFile2:%s\n Actual Size:%d ExpectedSize:%d", actual, expectedPath, strlen(actual), strlen(expectedPath));
-
-    std::string actualStr(actual);
-    std::string expectedStr(expectedPath);
-    
-    CPPUNIT_ASSERT(actualStr==expectedStr);
+    CPPUNIT_ASSERT_EQUAL(actualPath,expectedPath);
 }

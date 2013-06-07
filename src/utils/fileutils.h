@@ -73,7 +73,7 @@ tm* recoverLastModificationDateAndTime(const char* path);
  * 
  * @return The name to create a zip file 
  */
-const char* checkTargetPath(const char* targetPath, const char* firsFileName);
+std::string prepareTargetPath(const char* targetPath, const char* firsFileName);
 
 #endif	/* FILEUTILS_H */
 

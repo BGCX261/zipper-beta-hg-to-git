@@ -2,11 +2,8 @@
 
 using namespace std;
 
-ZipBuilder::ZipBuilder(char** input, int inputSize, int compressionMethod)
+ZipBuilder::ZipBuilder(int compressionMethod)
 {
-    this->inputPaths_ = 0;
-    this->input_ = input;
-    this->inputSize_ = inputSize;
     this->fileHeaders_ = new list<FileHeader*>();
     this->compressionMethod_ = compressionMethod;
     this->currentOffset_ = 0;
@@ -15,7 +12,6 @@ ZipBuilder::ZipBuilder(char** input, int inputSize, int compressionMethod)
 
 ZipBuilder::ZipBuilder(const ZipBuilder& other)
 {
-    this->inputPaths_ = other.inputPaths_;
     this->fileHeaders_ = other.fileHeaders_;
     this->compressionMethod_ = other.compressionMethod_;
     this->currentOffset_ = other.currentOffset_;
@@ -29,29 +25,12 @@ ZipBuilder::~ZipBuilder()
         deleteFileHeaders();
         delete fileHeaders_;
     }
-    if (this->inputPaths_)
-        delete inputPaths_;
 }
 
-ErrorCode ZipBuilder::buildZipFile(iostream* outputStream)
+void ZipBuilder::buildZipFile(iostream* outputStream,std::list<Path>* inputPaths)
 {
-    try
-    {
-        this->inputPaths_ = explorePaths((const char**) input_, inputSize_);
-
-    } catch (FileNotFoundExpcetion& e)
-    {
-        return FILE_NOT_FOUND;
-
-    } catch (NullPathException& e)
-    {
-        return INVALID_PARAMETERS;
-
-    } catch (OpenFileException& e)
-    {
-        return CAN_NOT_OPEN_FILE;
-    }
-    buildFileHeaders(outputStream);
+   
+    buildFileHeaders(outputStream,inputPaths);
     list<FileHeader*>::iterator fHeaderIterator;
     this->cDirectoryOffset_ = currentOffset_;
     for (fHeaderIterator = fileHeaders_->begin(); fHeaderIterator != fileHeaders_->end(); fHeaderIterator++)
@@ -60,14 +39,13 @@ ErrorCode ZipBuilder::buildZipFile(iostream* outputStream)
         buildCentralDirectory(fileHeader, outputStream);
     }
     buildEndOfCentralDirectory(fileHeaders_->size(), outputStream);
-    return OK;
 }
 
-void ZipBuilder::buildFileHeaders(iostream* outputStream)
+void ZipBuilder::buildFileHeaders(iostream* outputStream,std::list<Path>* inputPaths)
 {
     list<Path>::iterator pathIterator;
 
-    for (pathIterator = inputPaths_->begin(); pathIterator != inputPaths_->end(); pathIterator++)
+    for (pathIterator = inputPaths->begin(); pathIterator != inputPaths->end(); pathIterator++)
     {
         buildFileHeader(*pathIterator, outputStream);
     }

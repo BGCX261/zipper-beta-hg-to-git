@@ -146,13 +146,10 @@ tm* recoverLastModificationDateAndTime(const char* path)
     return tmModifiedTime;
 }
 
-const char* checkTargetPath(const char* targetPath, const char* firstFileName)
+std::string prepareTargetPath(const char* targetPath, const char* firstFileName)
 {
     std::string strTargetPath(targetPath);
-    if (strTargetPath.find(".zip") != std::string::npos)
-    {
-        return targetPath;
-    } else
+    if (strTargetPath.find(".zip") == std::string::npos)
     {
         std::string zipTarget;
         std::string zipFileName;
@@ -162,8 +159,8 @@ const char* checkTargetPath(const char* targetPath, const char* firstFileName)
         zipTarget = zipFileName.substr(0, found);
         strTargetPath.append(zipTarget);
         strTargetPath.append(".zip");
-        return strTargetPath.c_str();
     }
+    return strTargetPath;
 }
 
 std::string splitFileName(const std::string& str)

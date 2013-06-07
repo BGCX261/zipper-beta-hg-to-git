@@ -34,11 +34,9 @@ public:
      * Zip Builder Constructor. Create the builder of the zip file given
      * the input files or directories and the compression method. 
      * 
-     * @param input The input paths.
-     * @param inputSize The size of the input paths.
      * @param compresssionMethod The number of compressiom method.
      */
-    ZipBuilder(char** input, int inputSize, int compresssionMethod);
+    ZipBuilder(int compresssionMethod);
 
     /**
      *Zip Builder Destructor.
@@ -49,10 +47,9 @@ public:
      * Build the zip file structure given an iostream
      * 
      * @param outputStream The outpustream that will store the zip file structure
-     * 
-     * @return ErrorCode The possible error in the creation of the zip file
+     * @param inputPaths The path to build the zip file
      */
-    ErrorCode buildZipFile(std::iostream* outputStream);
+    void buildZipFile(std::iostream* outputStream, std::list<Path>* inputPaths_);
 
 private:
     /**
@@ -67,7 +64,7 @@ private:
      * 
      * @param outputStream The output stream that will store the file headers
      */
-    void buildFileHeaders(std::iostream* outputStream);
+    void buildFileHeaders(std::iostream* outputStream, std::list<Path>* inputPaths_);
 
     /**
      * Build the file header
@@ -100,17 +97,11 @@ private:
 
     std::list<FileHeader*>* fileHeaders_;
 
-    std::list<Path>* inputPaths_;
-
     int compressionMethod_;
 
     int currentOffset_;
 
     int cDirectoryOffset_;
-
-    char** input_;
-
-    int inputSize_;
 };
 
 

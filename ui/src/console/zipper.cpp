@@ -91,8 +91,11 @@ const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
         case CORRUPTED_FILE:
             return CORRUPT_FILE_ERROR;
             break;
-        case CAN_NOT_OPEN_FILE:
+        case CAN_NOT_OPEN_INPUT_FILE:
             return CAN_NOT_OPEN_ERROR;
+            break;
+        case CAN_NOT_FIND_TARGET_PATH:
+            return CAN_NOT_FIND_TARGET_ERROR;
             break;
         default:
             return OK_PROCESS;

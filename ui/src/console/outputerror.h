@@ -22,6 +22,8 @@
 
 #define CAN_NOT_OPEN_ERROR "Zipper: Can not open the file\n"
 
+#define CAN_NOT_FIND_TARGET_ERROR "Zipper: Can not find the target path\nNote:Check if that directory exists\n"
+
 #define UNKNOW_OPTION OPTION_ERROR HELP_TEXT
 
 #define UNKNOW_ARGS ARGS_ERROR HELP_TEXT

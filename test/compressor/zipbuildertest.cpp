@@ -16,22 +16,20 @@ ZipBuilderTest::ZipBuilderTest()
     input = new char*[1];
     char* inputPath = (char*) "testrunner.cpp";
     input[0] = inputPath;
-    builder = new ZipBuilder(input, 1, 0);
+    std::list<Path>* inputPaths = explorePaths((const char**) input, 1);
+    builder = new ZipBuilder(0);
     outputstream = new fstream("compress.zip", std::ios::out | std::ios::binary | std::ios::trunc);
-    builder->buildZipFile(outputstream);
+    builder->buildZipFile(outputstream, inputPaths);
     outputstream->close();
+    delete inputPaths;
+    delete builder;
+    delete outputstream;
+    delete[] input;
 }
 
 ZipBuilderTest::~ZipBuilderTest()
 {
     remove("compress.zip");
-    delete builder;
-    delete outputstream;
-    delete[] input;
-
-    builder = 0;
-    outputstream = 0;
-    input = 0;
 }
 
 void ZipBuilderTest::setUp()
