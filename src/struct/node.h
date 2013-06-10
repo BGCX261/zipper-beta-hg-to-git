@@ -103,10 +103,11 @@ public:
     /**
      * Show the name of the node and its children hierarchically.
      * 
+     * @param level Control what is the level of the children to know if will show the rest or not.
      * @param ouput Where the produced stream will be printed.
      * @param spaces Spaces for the indentation.
      */
-    void show(std::ostream& output = std::cout, int spaces = 0);
+    void show(int level, std::ostream& output = std::cout, int spaces = 0);
 
 private:
     

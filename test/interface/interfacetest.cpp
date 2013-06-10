@@ -36,24 +36,24 @@ void InterfaceTest::testCompressionTask()
 
 void InterfaceTest::testTraverseTaskWithANonZipFile()
 {
-    ErrorCode code = traverse("resources/song.mp3");
+    ErrorCode code = traverse("resources/song.mp3", -1);
     CPPUNIT_ASSERT_EQUAL(INVALID_ZIP_FILE, code);
 }
 
 void InterfaceTest::testTraverseTaskWithANonExistentFile()
 {
-    ErrorCode code = traverse("resources/somefile");
+    ErrorCode code = traverse("resources/somefile", -1);
     CPPUNIT_ASSERT_EQUAL(FILE_NOT_FOUND, code);
 }
 
 void InterfaceTest::testTraverseTaskWithAZipFile()
 {
-    ErrorCode code = traverse("resources/oneFile.zip");
+    ErrorCode code = traverse("resources/oneFile.zip", -1);
     CPPUNIT_ASSERT_EQUAL(OK, code);
 }
 
 void InterfaceTest::testTraverseTaskWithANullPath()
 {
-    ErrorCode code = traverse(NULL);
+    ErrorCode code = traverse(NULL, -1);
     CPPUNIT_ASSERT_EQUAL(INVALID_PARAMETERS, code);
 }

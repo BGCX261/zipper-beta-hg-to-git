@@ -83,8 +83,11 @@ int Node::countChildren()
     return res;
 }
 
-void Node::show(std::ostream& output, int spaces)
+void Node::show(int level, std::ostream& output, int spaces)
 {
+    if(level == 0) return;
+    if(level > 0) level--;
+    
     int tabs = spaces;
     while (tabs--)
     {
@@ -96,6 +99,6 @@ void Node::show(std::ostream& output, int spaces)
     for (std::list<Node*>::iterator it = children_.begin(); it != children_.end(); it++)
     {
         Node* node = *it;
-        node->show(output, spaces + 1);
+        node->show(level, output, spaces + 1);
     }
 }

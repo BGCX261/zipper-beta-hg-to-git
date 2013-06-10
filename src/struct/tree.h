@@ -67,9 +67,10 @@ public:
     /**
      * List the tree by levels.
      * 
+     * @param level Tells until what tree level stop. If is -1 will show all the available tree levels.
      * @param output Where the stream will be printed.
      */
-    void list(std::ostream& output = std::cout);
+    void list(int level, std::ostream& output = std::cout);
 
 private:
     /**

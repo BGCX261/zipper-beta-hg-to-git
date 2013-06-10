@@ -32,9 +32,11 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
  * Traverse a zip file showing all the containing files inside.
  * 
  * @param zipPath Zip file to navigate.
+ * @param level Tell when to stop the traverse task in a tree..
+ * 
  * @return An error code that will explain the navigation result. If the navigation task is 
  *         successful will return OK.
  */
-ErrorCode traverse(const char* zipPath);
+ErrorCode traverse(const char* zipPath, int level);
 
 #endif	/* ZIPPERLIB_H */

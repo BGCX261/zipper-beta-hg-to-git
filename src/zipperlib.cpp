@@ -38,7 +38,7 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
     return OK;
 }
 
-ErrorCode traverse(const char* zipPath)
+ErrorCode traverse(const char* zipPath, int level)
 {
     try
     {
@@ -52,7 +52,7 @@ ErrorCode traverse(const char* zipPath)
             tree.add(file);
         }
 
-        tree.list();
+        tree.list(level);
     }
     catch (NullPathException ePath)
     {
