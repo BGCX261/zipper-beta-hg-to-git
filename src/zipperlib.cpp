@@ -1,6 +1,6 @@
 #include "zipperlib.h"
 #include <ostream>
-#include "utils/zipperutils.h"
+#include "decompressor/decompressor.h"
 #include "utils/fileutils.h"
 #include "struct/tree.h"
 

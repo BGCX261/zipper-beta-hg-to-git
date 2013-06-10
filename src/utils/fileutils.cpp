@@ -3,6 +3,8 @@
 #include <sys/stat.h>
 #include <string>
 #include <string.h>
+#include <utime.h>
+#include <time.h>
 
 /**
  * Check if the given path is not null and exist.

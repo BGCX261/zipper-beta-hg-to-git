@@ -32,6 +32,11 @@ void FileUtilsTest::setUp()
 
 void FileUtilsTest::tearDown()
 {
+    const char* path = "resources/folder";
+    if(exist(path))
+    {
+        rmdir(path);
+    }
 }
 
 void FileUtilsTest::testIsDirectoryWhenExist()
@@ -366,10 +371,6 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenANull()
 void FileUtilsTest::testCreateADirectory()
 {
     const char* path = "resources/folder";
-    if(exist(path))
-    {
-        rmdir(path);
-    }
     
     CPPUNIT_ASSERT(createADirectory(path));
     CPPUNIT_ASSERT(exist(path));
