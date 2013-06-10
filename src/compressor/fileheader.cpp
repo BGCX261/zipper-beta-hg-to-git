@@ -4,7 +4,8 @@
 #include "fileheader.h"
 #include "../utils/crc32.h"
 #include "../utils/fileutils.h"
-#include "../utils/zipperutils.h"
+#include "../decompressor/decompressor.h"
+#include "../utils/dateconverter.h"
 
 using namespace std;
 
@@ -165,13 +166,13 @@ FileHeader* createFileHeader(const Path* path, const short compressionMethod)
     data = (char*) malloc(dataSize);
     fread(data, sizeof(char), dataSize, file);
     tm* time = recoverLastModificationDateAndTime(path->fullPath.c_str());
-    
+    DateConverter* converter = new DateConverter(time);
     FileHeader* header = new FileHeader();
     header->versionToExtract = 10;
     header->flag = 0;
     header->compressionMethod = compressionMethod;
-    header->lastModificationTime = parseTimeToMSDosFormat(time);
-    header->lastModificationDate = parseDateToMSDosFormat(time);
+    header->lastModificationTime = converter->parseTimeToMSDosFormat();
+    header->lastModificationDate = converter->parseDateToMSDosFormat();
     header->crc = crc32(data, dataSize);
     header->uncompressedSize = dataSize;
     header->fileNameLength = path->relativePath.length();

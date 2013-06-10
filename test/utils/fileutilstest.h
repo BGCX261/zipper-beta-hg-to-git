@@ -47,7 +47,16 @@ class FileUtilsTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsValid);
     CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile);
     CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory);
-
+    
+    CPPUNIT_TEST(testSetLastModificationDateAndTimeGivenAFile);
+    CPPUNIT_TEST(testSetLastModificationDateAndTimeGivenADirectory);
+    CPPUNIT_TEST(testSetLastModificationDateAndTimeGivenANonExistentFile);
+    CPPUNIT_TEST(testSetLastModificationDateAndTimeGivenANull);
+    
+    CPPUNIT_TEST(testCreateADirectory);
+    CPPUNIT_TEST(testCreateADirectoryGivenAExistentDirectory);
+    CPPUNIT_TEST(testCreateADirectoryGivenANull);
+    
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -88,6 +97,15 @@ private:
     void testCheckTargetPathWhenTheTargetPathIsValid();
     void testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile();
     void testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory();
+    
+    void testSetLastModificationDateAndTimeGivenAFile();
+    void testSetLastModificationDateAndTimeGivenADirectory();
+    void testSetLastModificationDateAndTimeGivenANonExistentFile();
+    void testSetLastModificationDateAndTimeGivenANull();
+    
+    void testCreateADirectory();
+    void testCreateADirectoryGivenAExistentDirectory();
+    void testCreateADirectoryGivenANull();
 };
 
 #endif	/* FILEUTILSTEST_H */

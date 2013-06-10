@@ -75,5 +75,25 @@ tm* recoverLastModificationDateAndTime(const char* path);
  */
 std::string prepareTargetPath(const char* targetPath, const char* firsFileName);
 
+/**
+ * Change the last modification time and date of the given file. If the file does not exists
+ * throw a FileNotFoundException.
+ * 
+ * @param path Path of the file
+ * @param date New last modification date and time of the file
+ * 
+ * @return true if the file sets the last modification time and date
+ */
+bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileException);
+
+/**
+ * Create a directory with all permmissions to write and read.
+ * 
+ * @param path Path of the directory that will be created
+ * 
+ * @return If the directory was created
+ */
+bool createADirectory(const char* path);
+
 #endif	/* FILEUTILS_H */
 

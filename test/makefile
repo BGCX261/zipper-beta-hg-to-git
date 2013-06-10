@@ -5,8 +5,9 @@ SRC = interface/interfacetest.cpp \
       compressor/zipbuildertest.cpp\
       utils/fileutilstest.cpp \
       utils/crctest.cpp \
-      utils/zipperutilstest.cpp \
-      struct/treetest.cpp\
+      utils/dateconvertertest.cpp \
+      struct/treetest.cpp \
+      decompressor/decompressortest.cpp \
       testrunner.cpp 
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
