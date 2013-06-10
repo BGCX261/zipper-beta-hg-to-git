@@ -109,6 +109,10 @@ const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
         break;
     case INVALID_PARAMETERS:
         return UNKNOW_ARGS;
+        break;
+    case INVALID_ZIP_FILE:
+        return INVALID_ZIP_FILE_ERROR;
+        break;
     default:
         return OK_PROCESS;
         break;

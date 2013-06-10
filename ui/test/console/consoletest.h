@@ -26,7 +26,10 @@ class ConsoleTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(itShouldShowAnUnknowCompressionArgsWhenTheWrittenCCommandIsWrong);
     CPPUNIT_TEST(itShouldShowAnUnknowOptionWhenTheCommandDoesNotExists);
     CPPUNIT_TEST(itShouldShowAnUnknowArgsErrorWhenTheInputCommandDoesNotMatch);
-
+    CPPUNIT_TEST(testTraverseOptionWithAnyParameter);
+    CPPUNIT_TEST(testTraverseOptionWithANonZipFile);
+    CPPUNIT_TEST(testTraverseOptionWithAFileThatDoNotExist);
+    CPPUNIT_TEST(testTraverseOptionWithAZipFile);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -41,6 +44,10 @@ private:
     void itShouldShowAnUnknowCompressionArgsWhenTheWrittenCCommandIsWrong();
     void itShouldShowAnUnknowOptionWhenTheCommandDoesNotExists();
     void itShouldShowAnUnknowArgsErrorWhenTheInputCommandDoesNotMatch();
+    void testTraverseOptionWithAnyParameter();
+    void testTraverseOptionWithANonZipFile();
+    void testTraverseOptionWithAFileThatDoNotExist();
+    void testTraverseOptionWithAZipFile();
 };
 
 #endif	/* CONSOLETEST_H */

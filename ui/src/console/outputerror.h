@@ -18,6 +18,8 @@
 
 #define CORRUPT_FILE_ERROR "Zipper:Current File is Corrupted\n"
 
+#define INVALID_ZIP_FILE_ERROR "Zipper: Invalid zip file\n"
+
 #define OK_PROCESS "Zipper: Process Success\n"
 
 #define UNKNOW_OPTION OPTION_ERROR HELP_TEXT
