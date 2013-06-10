@@ -28,6 +28,30 @@ void InterfaceTest::tearDown()
 
 void InterfaceTest::testCompressionTask()
 {
-    ErrorCode code = compress(NULL, NULL, 0, 0);   
+    ErrorCode code = compress(NULL, NULL, 0, 0);
     CPPUNIT_ASSERT_EQUAL(FILE_NOT_FOUND, code);
+}
+
+void InterfaceTest::testTraverseTaskWithANonZipFile()
+{
+    ErrorCode code = traverse("resources/song.mp3");
+    CPPUNIT_ASSERT_EQUAL(INVALID_ZIP_FILE, code);
+}
+
+void InterfaceTest::testTraverseTaskWithANonExistantFile()
+{
+    ErrorCode code = traverse("resources/somefile");
+    CPPUNIT_ASSERT_EQUAL(FILE_NOT_FOUND, code);
+}
+
+void InterfaceTest::testTraverseTaskWithAZipFile()
+{
+    ErrorCode code = traverse("resources/oneFile.zip");
+    CPPUNIT_ASSERT_EQUAL(OK, code);
+}
+
+void InterfaceTest::testTraverseTaskWithANullPath()
+{
+    ErrorCode code = traverse(NULL);
+    CPPUNIT_ASSERT_EQUAL(INVALID_PARAMETERS, code);
 }

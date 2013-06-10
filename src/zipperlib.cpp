@@ -16,13 +16,18 @@ ErrorCode traverse(const char* zipPath)
         std::list<FileHeader*> fileHeaders = navigate(zipPath);
         std::string filename = getFileName(zipPath);
         Tree tree(filename);
-        for(std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end(); it++){
+        for (std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end(); it++)
+        {
             FileHeader* fileHeader = *it;
             std::string file = fileHeader->fileName;
             tree.add(file);
         }
-        
+
         tree.list();
+    }
+    catch (NullPathException ePath)
+    {
+        return INVALID_PARAMETERS;
     }
     catch (FileNotFoundExpcetion eFile)
     {

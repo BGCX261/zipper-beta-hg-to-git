@@ -17,6 +17,10 @@ class InterfaceTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE(InterfaceTest);
 
     CPPUNIT_TEST(testCompressionTask);
+    CPPUNIT_TEST(testTraverseTaskWithANonZipFile);
+    CPPUNIT_TEST(testTraverseTaskWithANonExistantFile);
+    CPPUNIT_TEST(testTraverseTaskWithAZipFile);
+    CPPUNIT_TEST(testTraverseTaskWithANullPath);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -28,6 +32,10 @@ public:
 
 private:
     void testCompressionTask();
+    void testTraverseTaskWithANonZipFile();
+    void testTraverseTaskWithANonExistantFile();
+    void testTraverseTaskWithAZipFile();
+    void testTraverseTaskWithANullPath();
 };
 
 #endif	/* INTERFACETEST_H */

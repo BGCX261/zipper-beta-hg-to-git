@@ -3,6 +3,7 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TreeTest);
 #define TREE_COUNT 8
+#define TREE_OUTPUT "treeListOutput"
 
 TreeTest::TreeTest()
 {
@@ -16,6 +17,7 @@ TreeTest::TreeTest()
 
 TreeTest::~TreeTest()
 {
+    remove(TREE_OUTPUT);
 }
 
 void TreeTest::setUp()
@@ -24,6 +26,7 @@ void TreeTest::setUp()
 
 void TreeTest::tearDown()
 {
+
 }
 
 void TreeTest::testGetNodeWithEmptyPath()
@@ -151,4 +154,54 @@ void TreeTest::testAddNodesUnderARootChild()
     {
         CPPUNIT_FAIL("The returned node is null.");
     }
+}
+
+void TreeTest::testListWithAEmptyTree()
+{
+    std::string rootName = "test";
+    Tree tree(rootName);
+    std::ofstream treeList(TREE_OUTPUT, std::ios::trunc | std::ios::out);
+    tree.list(treeList);
+    treeList.close();
+    std::ifstream expected("resources/treeListTest_1");
+    std::ifstream result(TREE_OUTPUT);
+    unsigned char buf1[1024], buf2[1024];
+
+    do
+    {
+        expected.read((char *) buf1, sizeof buf1);
+        result.read((char *) buf2, sizeof buf2);
+        CPPUNIT_ASSERT_MESSAGE("Files have different lengths.", expected.gcount() != result.gcount());
+
+        for (int i = 0; i < expected.gcount(); ++i)
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", buf1[i], buf2[i]);
+    }
+    while (!result.eof() && !expected.eof());
+
+    result.close();
+    expected.close();
+}
+
+void TreeTest::testListWithATreeWithNode()
+{
+    std::ofstream treeList(TREE_OUTPUT, std::ios::trunc | std::ios::out);
+    tree->list(treeList);
+    treeList.close();
+    std::ifstream expected("resources/treeListTest_2");
+    std::ifstream result(TREE_OUTPUT);
+    unsigned char buf1[1024], buf2[1024];
+
+    do
+    {
+        expected.read((char *) buf1, sizeof buf1);
+        result.read((char *) buf2, sizeof buf2);
+        CPPUNIT_ASSERT_MESSAGE("Files have different lengths.", expected.gcount() != result.gcount());
+
+        for (int i = 0; i < expected.gcount(); ++i)
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", buf1[i], buf2[i]);
+    }
+    while (!result.eof() && !expected.eof());
+
+    result.close();
+    expected.close();
 }
