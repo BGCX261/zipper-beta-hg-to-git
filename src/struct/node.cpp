@@ -83,19 +83,19 @@ int Node::countChildren()
     return res;
 }
 
-void Node::show(int spaces)
+void Node::show(std::ostream& output, int spaces)
 {
     int tabs = spaces;
     while (tabs--)
     {
-        std::cout << "  ";
+        output << "  ";
     }
 
-    std::cout << name_ << std::endl;
+    output << name_ << std::endl;
 
     for (std::list<Node*>::iterator it = children_.begin(); it != children_.end(); it++)
     {
         Node* node = *it;
-        node->show(spaces + 1);
+        node->show(output, spaces + 1);
     }
 }

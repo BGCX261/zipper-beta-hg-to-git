@@ -10,7 +10,8 @@
 #define	TREE_H
 #include <string>
 #include "node.h"
-
+#include <ostream>
+#include <iostream>
 /**
  * Tree structure implementation that will be used to manage directory hierarchy.
  */
@@ -65,8 +66,10 @@ public:
     
     /**
      * List the tree by levels.
+     * 
+     * @param output Where the stream will be printed.
      */
-    void list();
+    void list(std::ostream& output = std::cout);
 
 private:
     /**
