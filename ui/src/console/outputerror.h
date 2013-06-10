@@ -18,6 +18,8 @@
 
 #define CORRUPT_FILE_ERROR "Zipper:Current File is Corrupted\n"
 
+#define INVALID_ZIP_FILE_ERROR "Zipper: Invalid zip file\n"
+
 #define OK_PROCESS "Zipper: Process Success\n"
 
 #define CAN_NOT_OPEN_ERROR "Zipper: Can not open the file\n"
@@ -29,6 +31,8 @@
 #define UNKNOW_ARGS ARGS_ERROR HELP_TEXT
 
 #define UNKNOW_COMPRESSION_ARGS ARGS_ERROR COMPRESSION_DESCRIPTION
+
+#define UNKNOWN_TRAVERSE_ARGS ARGS_ERROR TRAVERSE_DESCRIPTION
 
 #endif	/* OUTPUTERROR_H */
 

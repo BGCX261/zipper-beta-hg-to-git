@@ -73,7 +73,17 @@ tm* recoverLastModificationDateAndTime(const char* path);
  * 
  * @return The name to create a zip file 
  */
-std::string prepareTargetPath(const char* targetPath, const char* firsFileName);
+std::string prepareTargetPath(const char* targetPath, const char* firsFileName);    
 
+/**
+ * Get the file name inside a given path. 
+ * For example: If the path is /folder1/file1.txt it will return file1.txt.
+ * Always will search the last slash in the path.
+ * 
+ * @param path Path to get the filename.
+ * 
+ * @return The filename, if is not found will return the given path.
+ */
+std::string getFileName(const std::string path);
 #endif	/* FILEUTILS_H */
 

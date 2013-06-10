@@ -28,4 +28,13 @@
  */
 ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int compressionMethod);
 
+/**
+ * Traverse a zip file showing all the containing files inside.
+ * 
+ * @param zipPath Zip file to navigate.
+ * @return An error code that will explain the navigation result. If the navigation task is 
+ *         successful will return OK.
+ */
+ErrorCode traverse(const char* zipPath);
+
 #endif	/* ZIPPERLIB_H */

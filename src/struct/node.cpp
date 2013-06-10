@@ -1,5 +1,6 @@
 #include "node.h"
 #include <stdio.h>
+#include <iostream>
 
 Node::Node(const std::string& name, Node* parent) : name_(name), parent_(parent)
 {
@@ -82,3 +83,19 @@ int Node::countChildren()
     return res;
 }
 
+void Node::show(std::ostream& output, int spaces)
+{
+    int tabs = spaces;
+    while (tabs--)
+    {
+        output << "  ";
+    }
+
+    output << name_ << std::endl;
+
+    for (std::list<Node*>::iterator it = children_.begin(); it != children_.end(); it++)
+    {
+        Node* node = *it;
+        node->show(output, spaces + 1);
+    }
+}

@@ -107,7 +107,7 @@ void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileExcept
 
     if (!parent.isDir)
         return;
-    
+
     DIR* directory = 0;
     struct dirent* entry = 0;
 
@@ -138,11 +138,11 @@ tm* recoverLastModificationDateAndTime(const char* path)
     {
         return 0;
     }
-    
+
     struct tm* tmModifiedTime;
     stat(path, &st_info);
     tmModifiedTime = gmtime(&(st_info.st_mtime));
-    
+
     return tmModifiedTime;
 }
 
@@ -168,4 +168,10 @@ std::string splitFileName(const std::string& str)
     unsigned found = str.find_last_of("/\\");
     std::string res = str.substr(found + 1);
     return res;
+}
+
+std::string getFileName(const std::string path)
+{
+    size_t found = path.find_last_of("/");
+    return path.substr(found + 1);
 }

@@ -29,6 +29,8 @@ class TreeTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testAddEmptyPath);
     CPPUNIT_TEST(testAddNodesUnderRoot);
     CPPUNIT_TEST(testAddNodesUnderARootChild);
+    CPPUNIT_TEST(testListWithAEmptyTree);
+    CPPUNIT_TEST(testListWithATreeWithNode);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -52,7 +54,8 @@ private:
     void testAddEmptyPath();
     void testAddNodesUnderRoot();
     void testAddNodesUnderARootChild();
-    
+    void testListWithAEmptyTree();
+    void testListWithATreeWithNode();
     Tree* tree;
 };
 

@@ -37,9 +37,26 @@
 \tI should do the following:\n\
 \tzipper -c usr/docs/myFile.txt usr/compress/ 8\n\n"
 
+#define TRAVERSE_DESCRIPTION "Traverse (-t): \n\
+\tThis option shows a list of files and directories that a zip file contains.\n\
+\tHas the following format:\n\
+\t\t-t [Zip path]\n\
+\tWhere:\n\
+\t\t[Zip path] Zip file that will be analized.\n"
+
+#define TRAVERSE_EXAMPLE "\n\tExample:\n\
+\tIn order to use the traverse(-t) option, \n\
+\tLook the following example:\n\
+\tIf you want to navigate the following zip file:\n\
+\t\texample.zip\n\
+\tIn this location: \n\
+\t\t/usr/docs\n\
+\tDo the following:\n\
+\t\tzipper -t /usr/docs/example.zip\n\n"
+
 #define HELP_DESCRIPTION "Help(-h):\n\
 \tDisplay the help text of all options\n"
 
-#define HELP_TEXT APLICATION_DESCRIPTION COMPRESSION_DESCRIPTION COMPRESSION_EXAMPLE HELP_DESCRIPTION
+#define HELP_TEXT APLICATION_DESCRIPTION COMPRESSION_DESCRIPTION COMPRESSION_EXAMPLE TRAVERSE_DESCRIPTION TRAVERSE_EXAMPLE HELP_DESCRIPTION
 #endif	/* HELP_H */
 

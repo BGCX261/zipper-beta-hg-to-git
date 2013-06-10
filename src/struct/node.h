@@ -10,6 +10,8 @@
 #define	NODE_H
 #include <string>
 #include <list>
+#include <ostream>
+#include <iostream>
 
 /**
  * Class that represent a node in the tree structure.
@@ -97,8 +99,17 @@ public:
      * @return Children count.
      */
     int countChildren();
+    
+    /**
+     * Show the name of the node and its children hierarchically.
+     * 
+     * @param ouput Where the produced stream will be printed.
+     * @param spaces Spaces for the indentation.
+     */
+    void show(std::ostream& output = std::cout, int spaces = 0);
 
 private:
+    
     /**
      * Node name.
      */

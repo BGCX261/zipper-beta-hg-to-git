@@ -1,15 +1,24 @@
 
+
 #include "consoletest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ConsoleTest);
 
-ConsoleTest::ConsoleTest() { }
+ConsoleTest::ConsoleTest()
+{
+}
 
-ConsoleTest::~ConsoleTest() { }
+ConsoleTest::~ConsoleTest()
+{
+}
 
-void ConsoleTest::setUp() { }
+void ConsoleTest::setUp()
+{
+}
 
-void ConsoleTest::tearDown() { }
+void ConsoleTest::tearDown()
+{
+}
 
 void ConsoleTest::itShouldShowTheHelpWhenTheWrittenCommandIsHWithoutArgs()
 {
@@ -61,3 +70,42 @@ void ConsoleTest::itShouldShowAnUnknowArgsErrorWhenTheInputCommandDoesNotMatch()
 
 }
 
+void ConsoleTest::testTraverseOptionWithAnyParameter()
+{
+    char ** command = new char *[2];
+    command[0] = "./zipper";
+    command[1] = "-t";
+    const char* output = ConsoleZipper::runCommand(2, command);
+    CPPUNIT_ASSERT(strcmp(output, UNKNOWN_TRAVERSE_ARGS) == 0);
+}
+
+void ConsoleTest::testTraverseOptionWithANonZipFile()
+{
+    char ** command = new char *[3];
+    command[0] = "./zipper";
+    command[1] = "-t";
+    command[2] = "resources/song.mp3";
+    const char* output = ConsoleZipper::runCommand(3, command);
+    CPPUNIT_ASSERT(strcmp(output, INVALID_ZIP_FILE_ERROR) == 0);
+}
+
+void ConsoleTest::testTraverseOptionWithAFileThatDoNotExist()
+{
+    char ** command = new char *[3];
+    command[0] = "./zipper";
+    command[1] = "-t";
+    command[2] = "resources/somefile";
+    const char* output = ConsoleZipper::runCommand(3, command);
+    CPPUNIT_ASSERT(strcmp(output, FILE_NOT_FOUND_ERROR) == 0);
+}
+
+void ConsoleTest::testTraverseOptionWithAZipFile()
+{
+    char ** command = new char *[3];
+    command[0] = "./zipper";
+    command[1] = "-t";
+    command[2] = "resources/severalFiles.zip";
+    const char* output = ConsoleZipper::runCommand(3, command);
+    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+    
+}
