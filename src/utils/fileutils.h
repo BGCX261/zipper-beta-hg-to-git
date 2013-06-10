@@ -61,7 +61,18 @@ std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileExc
      * 
      * @return A time struct with the last modification date and time
      */
-    tm* recoverLastModificationDateAndTime(const char* path);
+tm* recoverLastModificationDateAndTime(const char* path);
+
+bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileException);
+
+
+/**
+ * Create a directory with all permmissions to write and read.
+ * 
+ * @param path Path of the directory that will be created
+ * 
+ * @return If the directory was created
+ */
+bool createADirectory(const char* path);
     
 #endif	/* FILEUTILS_H */
-
