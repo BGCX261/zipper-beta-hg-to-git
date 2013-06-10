@@ -167,6 +167,11 @@ void FileUtilsTest::testListFilesWhenAPathIsNull()
     CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount), NullPathException);
 }
 
+bool fileComparator(const Path& first, const Path& second)
+{
+    return strcasecmp(first.fullPath.c_str(), second.fullPath.c_str()) <= 0;
+}
+
 void FileUtilsTest::testListFilesCheckNames()
 {
     int inputCount = 1;
@@ -175,6 +180,7 @@ void FileUtilsTest::testListFilesCheckNames()
     paths[0] = directory;
     std::list<Path>* files = explorePaths(paths, inputCount);
     int filesCount = files->size();
+    files->sort(fileComparator);
 
     std::string newLine;
     std::ifstream file;
@@ -294,7 +300,7 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsValid()
     std::string actualPath = prepareTargetPath(targetPath, otherPath);
     std::string expectedPath = "Desktop/other/compressTest.zip";
 
-    CPPUNIT_ASSERT_EQUAL(actualPath,expectedPath);
+    CPPUNIT_ASSERT_EQUAL(actualPath, expectedPath);
 }
 
 void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile()
@@ -304,8 +310,8 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFi
 
     std::string actualPath = prepareTargetPath(targetPath, otherPath);
     std::string expectedPath = "Desktop/other/compress/main.zip";
-    
-    CPPUNIT_ASSERT_EQUAL(actualPath,expectedPath);
+
+    CPPUNIT_ASSERT_EQUAL(actualPath, expectedPath);
 }
 
 void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory()
@@ -316,7 +322,7 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDi
     std::string actualPath = prepareTargetPath(targetPath, otherPath);
     std::string expectedPath = "Desktop/other/compress/src.zip";
 
-    CPPUNIT_ASSERT_EQUAL(actualPath,expectedPath);
+    CPPUNIT_ASSERT_EQUAL(actualPath, expectedPath);
 }
 
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
