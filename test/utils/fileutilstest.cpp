@@ -313,3 +313,77 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDi
 
     CPPUNIT_ASSERT_EQUAL(actualPath,expectedPath);
 }
+
+void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
+{
+    const char* path = "resources/testFile";
+    if (exist(path))
+    {
+        remove(path);
+    }
+    FILE* file = fopen(path, "wb");
+    const char* content = "Sample";
+    fwrite(content, sizeof(char), strlen(content), file);
+    fclose(file);
+    
+    tm* expected = new tm();
+    expected->tm_year = 2010 - 1900;
+    expected->tm_mon = 4 - 1;
+    expected->tm_mday = 27;
+    expected->tm_hour = 18;
+    expected->tm_min = 10;
+    expected->tm_sec = 13;
+    
+    CPPUNIT_ASSERT(setLastModificationDateAndTime(path, expected));
+    tm* result = recoverLastModificationDateAndTime(path);
+    CPPUNIT_ASSERT(expected->tm_year == result->tm_year);
+    CPPUNIT_ASSERT(expected->tm_mon == result->tm_mon);
+    CPPUNIT_ASSERT(expected->tm_mday == result->tm_mday);
+    CPPUNIT_ASSERT(expected->tm_hour + 4 == result->tm_hour);
+    CPPUNIT_ASSERT(expected->tm_min == result->tm_min);
+    CPPUNIT_ASSERT(expected->tm_sec == result->tm_sec);
+}
+
+void FileUtilsTest::testSetLastModificationDateAndTimeGivenADirectory()
+{
+    tm* expected = new tm();
+    const char* path = "resources/directorytest";
+    CPPUNIT_ASSERT(!setLastModificationDateAndTime(path, expected));
+}
+
+void FileUtilsTest::testSetLastModificationDateAndTimeGivenANonExistentFile()
+{
+    tm* expected = new tm();
+    CPPUNIT_ASSERT_THROW(!setLastModificationDateAndTime("resources/someFile", expected), 
+            FileNotFoundExpcetion);
+}
+
+void FileUtilsTest::testSetLastModificationDateAndTimeGivenANull()
+{
+    CPPUNIT_ASSERT(!setLastModificationDateAndTime("resources/song.mp3", NULL));
+}
+
+void FileUtilsTest::testCreateADirectory()
+{
+    const char* path = "resources/folder";
+    if(exist(path))
+    {
+        rmdir(path);
+    }
+    
+    CPPUNIT_ASSERT(createADirectory(path));
+    CPPUNIT_ASSERT(exist(path));
+}
+
+void FileUtilsTest::testCreateADirectoryGivenAExistentDirectory()
+{
+    const char* path = "resources/folder";
+    createADirectory(path);
+    
+    CPPUNIT_ASSERT(!createADirectory(path));
+}
+
+void FileUtilsTest::testCreateADirectoryGivenANull()
+{
+    CPPUNIT_ASSERT(!createADirectory(NULL));
+}

@@ -4,7 +4,8 @@ SRC = compressor/fileheader.cpp \
       compressor/zipbuilder.cpp\
       utils/fileutils.cpp \
       utils/crc32.cpp \
-      utils/zipperutils.cpp \
+      utils/dateconverter.cpp \
+      decompressor/decompressor.cpp \
       struct/node.cpp \
       struct/tree.cpp \
       zipperlib.cpp

@@ -175,3 +175,36 @@ std::string getFileName(const std::string path)
     size_t found = path.find_last_of("/");
     return path.substr(found + 1);
 }
+
+bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileException)
+{
+    if (!exist(path))
+    {
+        throw FileNotFoundExpcetion(path);
+    }
+    if (!date)
+    {
+        return false;
+    }
+    if (isDirectory(path))
+    {
+        return false;
+    }
+    struct utimbuf utimeBuffer;
+    memset(&utimeBuffer, 0, sizeof (utimbuf));
+    time(&utimeBuffer.actime);
+    utimeBuffer.modtime = mktime(date);
+    utime(path, &utimeBuffer);
+    return true;
+}
+
+bool createADirectory(const char* path)
+{
+    if(!path || exist(path))
+    {
+        return false;
+    }
+    
+    mkdir(path, S_IRWXU | S_IRGRP | S_IXGRP);
+    return true;
+}
