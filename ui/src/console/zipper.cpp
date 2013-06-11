@@ -60,13 +60,16 @@ const char* ConsoleZipper::compressOption(int argc, char** argv)
 
 const char* ConsoleZipper::traverseOption(int argc, char** argv)
 {
-    if (argc != 3)
+    if (argc != 3 && argc != 4)
     {
         return UNKNOWN_TRAVERSE_ARGS;
     }
 
     char* zipPath = argv[2];
-    ErrorCode errorCode = traverse(zipPath);
+    int level = argc == 4 ? atoi(argv[3]) : -1;
+    if (level == 0) return UNKNOWN_TRAVERSE_ARGS;
+
+    ErrorCode errorCode = traverse(zipPath, level);
     return errorCodeToString(errorCode);
 }
 

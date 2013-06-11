@@ -40,9 +40,11 @@
 #define TRAVERSE_DESCRIPTION "Traverse (-t): \n\
 \tThis option shows a list of files and directories that a zip file contains.\n\
 \tHas the following format:\n\
-\t\t-t [Zip path]\n\
+\t\t-t [Zip path] [Level]\n\
 \tWhere:\n\
-\t\t[Zip path] Zip file that will be analized.\n"
+\t\t[Zip path] Zip file that will be analized.\n\
+\t\t[Level] This argument is optional.\n\
+\t\t        Indicate until what level will show the zip file hierachy.\n"
 
 #define TRAVERSE_EXAMPLE "\n\tExample:\n\
 \tIn order to use the traverse(-t) option, \n\

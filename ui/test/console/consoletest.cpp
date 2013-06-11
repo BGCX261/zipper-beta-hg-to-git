@@ -107,5 +107,26 @@ void ConsoleTest::testTraverseOptionWithAZipFile()
     command[2] = "resources/severalFiles.zip";
     const char* output = ConsoleZipper::runCommand(3, command);
     CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
-    
+}
+
+void ConsoleTest::testTraverseOptionWithLevel()
+{
+    char ** command = new char *[4];
+    command[0] = "./zipper";
+    command[1] = "-t";
+    command[2] = "resources/severalFiles.zip";
+    command[3] = "2";
+    const char* output = ConsoleZipper::runCommand(4, command);
+    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+}
+
+void ConsoleTest::testTraverseOptionWithWrongLevel()
+{
+    char ** command = new char *[4];
+    command[0] = "./zipper";
+    command[1] = "-t";
+    command[2] = "resources/severalFiles.zip";
+    command[3] = "lalala";
+    const char* output = ConsoleZipper::runCommand(4, command);
+    CPPUNIT_ASSERT(strcmp(output, UNKNOWN_TRAVERSE_ARGS) == 0);
 }

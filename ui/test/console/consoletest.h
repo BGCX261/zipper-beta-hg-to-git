@@ -30,6 +30,8 @@ class ConsoleTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testTraverseOptionWithANonZipFile);
     CPPUNIT_TEST(testTraverseOptionWithAFileThatDoNotExist);
     CPPUNIT_TEST(testTraverseOptionWithAZipFile);
+    CPPUNIT_TEST(testTraverseOptionWithLevel);
+    CPPUNIT_TEST(testTraverseOptionWithWrongLevel);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -48,6 +50,8 @@ private:
     void testTraverseOptionWithANonZipFile();
     void testTraverseOptionWithAFileThatDoNotExist();
     void testTraverseOptionWithAZipFile();
+    void testTraverseOptionWithLevel();
+    void testTraverseOptionWithWrongLevel();
 };
 
 #endif	/* CONSOLETEST_H */
