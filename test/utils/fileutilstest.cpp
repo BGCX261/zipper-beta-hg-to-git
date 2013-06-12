@@ -37,6 +37,10 @@ void FileUtilsTest::tearDown()
     {
         rmdir(path);
     }
+    if (exist("resources/testFile"))
+    {
+        remove("resources/testFile");
+    }
 }
 
 void FileUtilsTest::testIsDirectoryWhenExist()
@@ -322,10 +326,7 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDi
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
 {
     const char* path = "resources/testFile";
-    if (exist(path))
-    {
-        remove(path);
-    }
+    
     FILE* file = fopen(path, "wb");
     const char* content = "Sample";
     fwrite(content, sizeof(char), strlen(content), file);
@@ -381,7 +382,7 @@ void FileUtilsTest::testCreateADirectoryGivenAExistentDirectory()
     const char* path = "resources/folder";
     createADirectory(path);
     
-    CPPUNIT_ASSERT(!createADirectory(path));
+    CPPUNIT_ASSERT(createADirectory(path));
 }
 
 void FileUtilsTest::testCreateADirectoryGivenANull()

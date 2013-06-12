@@ -54,9 +54,29 @@
 \tDo the following:\n\
 \t\tzipper -t /usr/docs/example.zip\n\n"
 
+#define DECOMPRESSION_DESCRIPTION "Decompress (-d):\n\
+\tThis option decompress a zip file.\n\
+\tHas the following format:\n\
+\t\t-d [Zip path] [Destiny path]\n\
+\tWhere:\n\
+\t\t[Zip path] Zip file that will be decompressed\n\n\
+\t\t[Destiny path] The location of the folder where the content of the \n\
+\t\tzip file will be stored\n"
+
+#define DECOMPRESSION_EXAMPLE "\n\tExample:\n\
+\tIn order to use the decompression(-d) option, \n\
+\tyou can look the following example:\n\
+\tIf you want decompress the following file:\n \
+\t\t/usr/example.zip\n\
+\tIn this location:\n\
+\t\t/usr/Docs/folder\n\
+\tDo the following:\n\
+\t\tzipper -d /usr/usr/example.zip /usr/Docs/folder\n\n"
+
 #define HELP_DESCRIPTION "Help(-h):\n\
 \tDisplay the help text of all options\n"
 
-#define HELP_TEXT APLICATION_DESCRIPTION COMPRESSION_DESCRIPTION COMPRESSION_EXAMPLE TRAVERSE_DESCRIPTION TRAVERSE_EXAMPLE HELP_DESCRIPTION
+#define HELP_TEXT APLICATION_DESCRIPTION COMPRESSION_DESCRIPTION COMPRESSION_EXAMPLE \
+TRAVERSE_DESCRIPTION TRAVERSE_EXAMPLE DECOMPRESSION_DESCRIPTION DECOMPRESSION_EXAMPLE HELP_DESCRIPTION
 #endif	/* HELP_H */
 

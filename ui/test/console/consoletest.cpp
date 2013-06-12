@@ -18,6 +18,16 @@ void ConsoleTest::setUp()
 
 void ConsoleTest::tearDown()
 {
+        if(exist("resources/directorytest"))
+    {
+        remove("resources/directorytest/dir1/dir3/file2");
+        rmdir("resources/directorytest/dir1/dir3");
+        rmdir("resources/directorytest/dir1");
+        remove("resources/directorytest/dir2/file3");
+        rmdir("resources/directorytest/dir2");
+        remove("resources/directorytest/file1");
+        rmdir("resources/directorytest");
+    }
 }
 
 void ConsoleTest::itShouldShowTheHelpWhenTheWrittenCommandIsHWithoutArgs()
@@ -108,4 +118,54 @@ void ConsoleTest::testTraverseOptionWithAZipFile()
     const char* output = ConsoleZipper::runCommand(3, command);
     CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
     
+}
+
+void ConsoleTest::testDecompressionOptionGivenAZipFile()
+{
+    char** command = new char *[4];
+    command[0] = "./zipper";
+    command[1] = "-d";
+    command[2] = "resources/severalFiles.zip";
+    command[3] = "resources";
+    const char* output = ConsoleZipper::runCommand(4, command);
+    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+    
+    CPPUNIT_ASSERT(exist("resources/directorytest"));
+    CPPUNIT_ASSERT(exist("resources/directorytest/dir1"));
+    CPPUNIT_ASSERT(exist("resources/directorytest/dir1/dir3"));
+    CPPUNIT_ASSERT(exist("resources/directorytest/dir1/dir3/file2"));
+    CPPUNIT_ASSERT(exist("resources/directorytest/dir2"));
+    CPPUNIT_ASSERT(exist("resources/directorytest/dir2/file3"));
+    CPPUNIT_ASSERT(exist("resources/directorytest/file1"));
+}
+
+void ConsoleTest::testDecompressionOptionGivenANonZipFile()
+{
+    char** command = new char *[4];
+    command[0] = "./zipper";
+    command[1] = "-d";
+    command[2] = "resources/song.mp3";
+    command[3] = "resources";
+    const char* output = ConsoleZipper::runCommand(4, command);
+    CPPUNIT_ASSERT(strcmp(output, INVALID_ZIP_FILE_ERROR) == 0);
+}
+
+void ConsoleTest::testDecompressionOptionGivenANonExistentFile()
+{
+    char** command = new char *[4];
+    command[0] = "./zipper";
+    command[1] = "-d";
+    command[2] = "resources/some.zip";
+    command[3] = "resources";
+    const char* output = ConsoleZipper::runCommand(4, command);
+    CPPUNIT_ASSERT(strcmp(output, FILE_NOT_FOUND_ERROR) == 0);
+}
+
+void ConsoleTest::testDecompressionOptionWithAnyParameter()
+{
+    char** command = new char *[2];
+    command[0] = "./zipper";
+    command[1] = "-d";
+    const char* output = ConsoleZipper::runCommand(2, command);
+    CPPUNIT_ASSERT(strcmp(output, UNKNOWN_DECOMPRESSION_ARGS) == 0);
 }

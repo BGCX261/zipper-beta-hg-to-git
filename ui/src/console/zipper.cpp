@@ -24,6 +24,10 @@ const char* ConsoleZipper::executeOption(char option, int argc, char** argv)
         break;
     case 't':
         return traverseOption(argc, argv);
+        break;
+    case 'd':
+        return decompressOption(argc, argv);
+        break;
     case 'h':
         return helpOption(argc);
         break;
@@ -67,6 +71,19 @@ const char* ConsoleZipper::traverseOption(int argc, char** argv)
 
     char* zipPath = argv[2];
     ErrorCode errorCode = traverse(zipPath);
+    return errorCodeToString(errorCode);
+}
+
+const char* ConsoleZipper::decompressOption(int argc, char** argv)
+{
+    if (argc != 4)
+    {
+        return UNKNOWN_DECOMPRESSION_ARGS;
+    }
+
+    char* zipPath = argv[2];
+    char* outputPath = argv[3];
+    ErrorCode errorCode = decompress(zipPath, outputPath);
     return errorCodeToString(errorCode);
 }
 
@@ -118,6 +135,9 @@ const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
         break;
     case INVALID_ZIP_FILE:
         return INVALID_ZIP_FILE_ERROR;
+        break;
+    case DECOMPRESS_FAIL:
+        return DECOMPRESSION_ERROR;
         break;
     default:
         return OK_PROCESS;

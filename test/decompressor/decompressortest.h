@@ -20,11 +20,9 @@ class DecompressorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testNavigateGivenANonZipFile);
     CPPUNIT_TEST(testNavigateGivenANonExistentFile);
     
-    CPPUNIT_TEST(testDecompressGivenAZipFileWithOneFile);
-    CPPUNIT_TEST(testDecompressGivenAZipFileWithSeveralFiles);
-    CPPUNIT_TEST(testDecompressGivenANonZipFile);
-    CPPUNIT_TEST(testDecompressGivenANonExistentFile);
-    CPPUNIT_TEST(testDecompressGivenANull);
+    CPPUNIT_TEST(testDecompressAFileHeaderGivenAFile);
+    CPPUNIT_TEST(testDecompressAFileHeaderGivenADirectory);
+    CPPUNIT_TEST(testDecompressAFileHeaderGivenANull);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -41,11 +39,9 @@ private:
     void testNavigateGivenANonZipFile();
     void testNavigateGivenANonExistentFile();
     
-    void testDecompressGivenAZipFileWithOneFile();
-    void testDecompressGivenAZipFileWithSeveralFiles();
-    void testDecompressGivenANonZipFile();
-    void testDecompressGivenANonExistentFile();
-    void testDecompressGivenANull();
+    void testDecompressAFileHeaderGivenAFile();
+    void testDecompressAFileHeaderGivenADirectory();
+    void testDecompressAFileHeaderGivenANull();
 };
 
 #endif	/* DECOMPRESSORTEST_H */

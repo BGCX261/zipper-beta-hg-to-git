@@ -87,6 +87,17 @@ private:
      * @return Errors that occurred. 
      */
     static const char* traverseOption(int argc, char** argv);
+    
+    /**
+     * The decompress option that receive a zip file and the destiny path where 
+     * it will be decompressed.
+     * 
+     * @param argc Arguments count
+     * @param argv Arguments
+     * 
+     * @return The error that occurred
+     */
+    static const char* decompressOption(int argc, char** argv);
 
     /**
      * Prints the help for user

@@ -202,9 +202,14 @@ bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileExcep
 
 bool createADirectory(const char* path)
 {
-    if(!path || exist(path))
+    if(!path)
     {
         return false;
+    }
+    
+    if(exist(path))
+    {
+        return true;
     }
     
     mkdir(path, S_IRWXU | S_IRGRP | S_IXGRP);

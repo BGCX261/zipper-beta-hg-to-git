@@ -20,6 +20,8 @@
 
 #define INVALID_ZIP_FILE_ERROR "Zipper: Invalid zip file\n"
 
+#define DECOMPRESSION_ERROR "Zipper: Decompression fail\n"
+
 #define OK_PROCESS "Zipper: Process Success\n"
 
 #define CAN_NOT_OPEN_ERROR "Zipper: Can not open the file\n"
@@ -33,6 +35,8 @@
 #define UNKNOW_COMPRESSION_ARGS ARGS_ERROR COMPRESSION_DESCRIPTION
 
 #define UNKNOWN_TRAVERSE_ARGS ARGS_ERROR TRAVERSE_DESCRIPTION
+
+#define UNKNOWN_DECOMPRESSION_ARGS ARGS_ERROR DECOMPRESSION_DESCRIPTION
 
 #endif	/* OUTPUTERROR_H */
 
