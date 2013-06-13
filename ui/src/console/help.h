@@ -44,7 +44,8 @@
 \tWhere:\n\
 \t\t[Zip path] Zip file that will be analized.\n\
 \t\t[Level] This argument is optional.\n\
-\t\t        Indicate until what level will show the zip file hierachy.\n"
+\t\t        Indicate until what level will show the zip file hierachy.\n\
+\t\t        The level must be greater than 0.\n"
 
 #define TRAVERSE_EXAMPLE "\n\tExample:\n\
 \tIn order to use the traverse(-t) option, \n\

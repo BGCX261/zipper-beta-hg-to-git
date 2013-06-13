@@ -61,5 +61,7 @@ private:
     Tree* tree;
 };
 
+std::string readFileContent(int size, const char* filename);
+
 #endif	/* TREETEST_H */
 

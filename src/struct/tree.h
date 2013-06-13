@@ -70,7 +70,7 @@ public:
      * @param level Tells until what tree level stop. If is -1 will show all the available tree levels.
      * @param output Where the stream will be printed.
      */
-    void list(int level, std::ostream& output = std::cout);
+    void traverse(int level, std::ostream& output = std::cout);
 
 private:
     /**

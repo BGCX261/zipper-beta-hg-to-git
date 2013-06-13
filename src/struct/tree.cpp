@@ -41,7 +41,7 @@ int Tree::countNodes()
     return root_->countChildren() + 1;
 }
 
-void Tree::list(int level, std::ostream& output)
+void Tree::traverse(int level, std::ostream& output)
 {
     root_->show(level, output);
 }

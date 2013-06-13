@@ -99,7 +99,7 @@ public:
      * @return Children count.
      */
     int countChildren();
-    
+
     /**
      * Show the name of the node and its children hierarchically.
      * 
@@ -110,7 +110,7 @@ public:
     void show(int level, std::ostream& output = std::cout, int spaces = 0);
 
 private:
-    
+
     /**
      * Node name.
      */
@@ -134,8 +134,8 @@ private:
  */
 struct TreePath
 {
-    std::string folder;
-    std::string rest;
+    std::string currentNode;
+    std::string remainingChildren;
 
     TreePath(const std::string& path)
     {
@@ -143,13 +143,18 @@ struct TreePath
 
         if (index > 0)
         {
-            folder = path.substr(0, index);
-            rest = path.substr(index + 1);
+            currentNode = path.substr(0, index);
+            remainingChildren = path.substr(index + 1);
         }
         else
         {
-            folder = path;
+            currentNode = path;
         }
+    }
+
+    bool areChildrenRemaining()
+    {
+        return remainingChildren.empty();
     }
 };
 

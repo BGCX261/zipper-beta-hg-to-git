@@ -52,7 +52,7 @@ ErrorCode traverse(const char* zipPath, int level)
             tree.add(file);
         }
 
-        tree.list(level);
+        tree.traverse(level);
     }
     catch (NullPathException ePath)
     {

@@ -1,5 +1,7 @@
 #include "treetest.h"
 
+#include <sstream>
+#include <stdlib.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TreeTest);
 #define TREE_COUNT 8
@@ -78,8 +80,8 @@ void TreeTest::testCreatePathTreeWithoutSlash()
     std::string expected = "test";
     TreePath path(expected);
 
-    CPPUNIT_ASSERT(path.rest.empty());
-    CPPUNIT_ASSERT(path.folder.compare(expected) == 0);
+    CPPUNIT_ASSERT(path.areChildrenRemaining());
+    CPPUNIT_ASSERT(path.currentNode.compare(expected) == 0);
 }
 
 void TreeTest::testCreatePathTreeEmpty()
@@ -87,8 +89,8 @@ void TreeTest::testCreatePathTreeEmpty()
     std::string expected = "";
     TreePath path(expected);
 
-    CPPUNIT_ASSERT(path.rest.empty());
-    CPPUNIT_ASSERT(path.folder.empty());
+    CPPUNIT_ASSERT(path.areChildrenRemaining());
+    CPPUNIT_ASSERT(path.currentNode.empty());
 }
 
 void TreeTest::testCreatePathTree()
@@ -98,8 +100,8 @@ void TreeTest::testCreatePathTree()
     std::string expectedRest = "b/c";
     TreePath path(testPath);
 
-    CPPUNIT_ASSERT(path.folder.compare(expectedFolder) == 0);
-    CPPUNIT_ASSERT(path.rest.compare(expectedRest) == 0);
+    CPPUNIT_ASSERT(path.currentNode.compare(expectedFolder) == 0);
+    CPPUNIT_ASSERT(path.remainingChildren.compare(expectedRest) == 0);
 }
 
 void TreeTest::testCreateTree()
@@ -158,74 +160,45 @@ void TreeTest::testAddNodesUnderARootChild()
 
 void TreeTest::testListWithAEmptyTree()
 {
-    std::string rootName = "test";
-    Tree tree(rootName);
-    std::ofstream treeList(TREE_OUTPUT, std::ios::trunc | std::ios::out);
-    tree.list(-1, treeList);
-    treeList.close();
-    std::ifstream expected("resources/treeListTest_1");
-    std::ifstream result(TREE_OUTPUT);
-    unsigned char buf1[1024], buf2[1024];
+    Tree tree("test");
+    std::ostringstream output;
+    tree.traverse(-1, output);
+    std::string result = output.str();
+    std::string expected = readFileContent(5, "resources/treeListTest_1");
 
-    do
-    {
-        expected.read((char *) buf1, sizeof buf1);
-        result.read((char *) buf2, sizeof buf2);
-        CPPUNIT_ASSERT_MESSAGE("Files have different lengths.", expected.gcount() != result.gcount());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Files have different lengths.", expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", expected, result);
+}
 
-        for (int i = 0; i < expected.gcount(); ++i)
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", buf1[i], buf2[i]);
-    }
-    while (!result.eof() && !expected.eof());
-
-    result.close();
-    expected.close();
+std::string readFileContent(int size, const char* filename)
+{
+    std::ifstream input(filename);
+    char* buffer = new char[size];
+    input.read(buffer, size);
+    input.close();
+    std::string res(buffer, size);
+    delete buffer;
+    return res;
 }
 
 void TreeTest::testListWithATreeWithNode()
 {
-    std::ofstream treeList(TREE_OUTPUT, std::ios::trunc | std::ios::out);
-    tree->list(-1, treeList);
-    treeList.close();
-    std::ifstream expected("resources/treeListTest_2");
-    std::ifstream result(TREE_OUTPUT);
-    unsigned char buf1[1024], buf2[1024];
+    std::ostringstream output;
+    tree->traverse(-1, output);
+    std::string result = output.str();
+    std::string expected = readFileContent(45, "resources/treeListTest_2");
 
-    do
-    {
-        expected.read((char *) buf1, sizeof buf1);
-        result.read((char *) buf2, sizeof buf2);
-        CPPUNIT_ASSERT_MESSAGE("Files have different lengths.", expected.gcount() != result.gcount());
-
-        for (int i = 0; i < expected.gcount(); ++i)
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", buf1[i], buf2[i]);
-    }
-    while (!result.eof() && !expected.eof());
-
-    result.close();
-    expected.close();
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Files have different lengths.", expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", expected, result);
 }
 
 void TreeTest::testListWithALevel()
 {
-    std::ofstream treeList(TREE_OUTPUT, std::ios::trunc | std::ios::out);
-    tree->list(2, treeList);
-    treeList.close();
-    std::ifstream expected("resources/treeListTest_3");
-    std::ifstream result(TREE_OUTPUT);
-    unsigned char buf1[1024], buf2[1024];
+    std::ostringstream output;
+    tree->traverse(2, output);
+    std::string result = output.str();
+    std::string expected = readFileContent(13, "resources/treeListTest_3");
 
-    do
-    {
-        expected.read((char *) buf1, sizeof buf1);
-        result.read((char *) buf2, sizeof buf2);
-        CPPUNIT_ASSERT_MESSAGE("Files have different lengths.", expected.gcount() != result.gcount());
-
-        for (int i = 0; i < expected.gcount(); ++i)
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", buf1[i], buf2[i]);
-    }
-    while (!result.eof() && !expected.eof());
-
-    result.close();
-    expected.close();
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Files have different lengths.", expected.size(), result.size());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("The content of the file is different", expected, result);
 }
