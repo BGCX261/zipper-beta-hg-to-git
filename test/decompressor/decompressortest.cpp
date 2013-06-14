@@ -25,6 +25,14 @@ void DecompressorTest::setUp()
 
 void DecompressorTest::tearDown()
 {
+    if(exist("resources/File1.txt"))
+    {
+        remove("resources/File1.txt");
+    }
+    if(exist("resources/FolderTest"))
+    {
+        rmdir("resources/FolderTest");
+    }
 }
 
 void DecompressorTest::testNavigateGivenAZipWithOneFile()
@@ -33,30 +41,21 @@ void DecompressorTest::testNavigateGivenAZipWithOneFile()
     
     FileHeader* expected = new FileHeader();
     
-    FILE* file = fopen("resources/directorytestresume", "rb");
-    fseek(file, 0, SEEK_END);
-    int size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-    char* data = (char*) malloc(size);
-    fread(data, sizeof(char), size, file);
-    fclose(file);
-    
-    expected->versionToExtract = 10;
-    expected->lastModificationTime = 35450;
-    expected->lastModificationDate = 17091;
-    expected->crc = 0xE58D0B9E;
-    expected->compressedSize = 375;
-    expected->uncompressedSize = 375;
-    expected->fileNameLength = 19;
-    expected->fileName = "directorytestresume";
-    expected->setData(data, size);
+    expected->versionToExtract = 778;
+    expected->lastModificationTime = 37190;
+    expected->lastModificationDate = 15515;
+    expected->crc = 0xF6A773F5;
+    expected->compressedSize = 6;
+    expected->uncompressedSize = 6;
+    expected->fileNameLength = 8;
+    expected->fileName = "testFile";
+    expected->setData("Sample", 6);
     
     FileHeader* result = fileHeaders.back();
     
     CPPUNIT_ASSERT(fileHeaders.size() == 1);
-    CPPUNIT_ASSERT(result->compare(*result));
+    CPPUNIT_ASSERT(result->compare(*expected));
     
-    free(data);
     delete expected;
 }
 
@@ -76,52 +75,47 @@ void DecompressorTest::testNavigateGivenANonExistentFile()
     CPPUNIT_ASSERT_THROW(navigate("resources/someFile.zip"), FileNotFoundExpcetion);
 }
 
-void DecompressorTest::testDecompressGivenAZipFileWithOneFile()
+void DecompressorTest::testDecompressAFileHeaderGivenAFile()
 {
-    if(exist("resources/directorytestresume2"))
-    {
-        remove("resources/directorytestresume2");
-    }
+    FileHeader* fileHeader = new FileHeader();
+    fileHeader->fileName = "File1.txt";
+    fileHeader->fileNameLength = 9;
+    fileHeader->versionToExtract = 10;
+    fileHeader->compressionMethod = 0;
+    fileHeader->flag = 0;
+    fileHeader->crc = 0x70FCDC28;
+    fileHeader->lastModificationTime = 34568;
+    fileHeader->lastModificationDate = 24963;
+    fileHeader->compressedSize = 17;
+    fileHeader->uncompressedSize = 17;
+    fileHeader->setData("this is a sample", 0);
+    fileHeader->setExtraField("", 0);
     
-    CPPUNIT_ASSERT(decompress("resources/oneFile.zip", "resources") == OK);
-    CPPUNIT_ASSERT(exist("resources/directorytestresume2"));
+    decompressAFileHeader(fileHeader, "resources");
+    CPPUNIT_ASSERT(exist("resources/File1.txt"));
+    CPPUNIT_ASSERT(isFile("resources/File1.txt"));
 }
 
-void DecompressorTest::testDecompressGivenAZipFileWithSeveralFiles()
+void DecompressorTest::testDecompressAFileHeaderGivenADirectory()
 {
-    if(exist("resources/directorytest2"))
-    {
-        remove("resources/directorytest2/dir1/dir3/file2");
-        rmdir("resources/directorytest2/dir1/dir3");
-        rmdir("resources/directorytest2/dir1");
-        remove("resources/directorytest2/dir2/file3");
-        rmdir("resources/directorytest2/dir2");
-        remove("resources/directorytest2/file1");
-        rmdir("resources/directorytest2");
-    }
+    FileHeader* fileHeader = new FileHeader();
+    fileHeader->fileName = "FolderTest/";
+    fileHeader->fileNameLength = 11;
+    fileHeader->versionToExtract = 10;
+    fileHeader->compressionMethod = 0;
+    fileHeader->flag = 0;
+    fileHeader->crc = 0;
+    fileHeader->lastModificationTime = 0;
+    fileHeader->lastModificationDate = 0;
+    fileHeader->compressedSize = 0;
+    fileHeader->uncompressedSize = 0;
     
-    CPPUNIT_ASSERT(decompress("resources/severalFiles.zip", "resources") == OK);
-    
-    CPPUNIT_ASSERT(exist("resources/directorytest2"));
-    CPPUNIT_ASSERT(exist("resources/directorytest2/dir1"));
-    CPPUNIT_ASSERT(exist("resources/directorytest2/dir1/dir3"));
-    CPPUNIT_ASSERT(exist("resources/directorytest2/dir1/dir3/file2"));
-    CPPUNIT_ASSERT(exist("resources/directorytest2/dir2"));
-    CPPUNIT_ASSERT(exist("resources/directorytest2/dir2/file3"));
-    CPPUNIT_ASSERT(exist("resources/directorytest2/file1"));
+    decompressAFileHeader(fileHeader, "resources");
+    CPPUNIT_ASSERT(exist("resources/FolderTest"));
+    CPPUNIT_ASSERT(isDirectory("resources/FolderTest"));
 }
 
-void DecompressorTest::testDecompressGivenANonZipFile()
+void DecompressorTest::testDecompressAFileHeaderGivenANull()
 {
-    CPPUNIT_ASSERT(decompress("resources/binaryDoc.pdf", "resources") == INVALID_PARAMETERS);
-}
-
-void DecompressorTest::testDecompressGivenANonExistentFile()
-{
-    CPPUNIT_ASSERT(decompress("resources/some.zip", "resources") == FILE_NOT_FOUND);
-}
-
-void DecompressorTest::testDecompressGivenANull()
-{
-    CPPUNIT_ASSERT(decompress(NULL, "resources") == INVALID_PARAMETERS);
+    CPPUNIT_ASSERT_THROW(decompressAFileHeader(NULL, "resources"), DecompressException);
 }

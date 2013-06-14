@@ -8,8 +8,7 @@ const char* ConsoleZipper::runCommand(int argc, char** argv)
         char* option = argv[1];
         char value = option[1];
         return (strlen(option) == 2) ? executeOption(value, argc, argv) : UNKNOW_OPTION;
-    }
-    else
+    } else
     {
         return UNKNOW_ARGS;
     }
@@ -19,17 +18,21 @@ const char* ConsoleZipper::executeOption(char option, int argc, char** argv)
 {
     switch (option)
     {
-    case 'c':
-        return compressOption(argc, argv);
-        break;
-    case 't':
-        return traverseOption(argc, argv);
-    case 'h':
-        return helpOption(argc);
-        break;
-    default:
-        return UNKNOW_OPTION;
-        break;
+        case 'c':
+            return compressOption(argc, argv);
+            break;
+        case 't':
+            return traverseOption(argc, argv);
+            break;
+        case 'd':
+            return decompressOption(argc, argv);
+            break;
+        case 'h':
+            return helpOption(argc);
+            break;
+        default:
+            return UNKNOW_OPTION;
+            break;
     }
 
 }
@@ -50,8 +53,7 @@ const char* ConsoleZipper::compressOption(int argc, char** argv)
         delete[] sourcePaths;
         return errorCodeToString(errorCode);
 
-    }
-    else
+    } else
     {
         return UNKNOW_COMPRESSION_ARGS;
     }
@@ -70,6 +72,19 @@ const char* ConsoleZipper::traverseOption(int argc, char** argv)
     if (level == 0) return UNKNOWN_TRAVERSE_ARGS;
 
     ErrorCode errorCode = traverse(zipPath, level);
+    return errorCodeToString(errorCode);
+}
+
+const char* ConsoleZipper::decompressOption(int argc, char** argv)
+{
+    if (argc != 4)
+    {
+        return UNKNOWN_TRAVERSE_ARGS;
+    }
+
+    char* zipPath = argv[2];
+    char* outputPath = argv[3];
+    ErrorCode errorCode = decompress(zipPath, outputPath);
     return errorCodeToString(errorCode);
 }
 
@@ -101,29 +116,32 @@ const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
 {
     switch (errorCode)
     {
-    case FILE_NOT_FOUND:
-        return FILE_NOT_FOUND_ERROR;
-        break;
-    case UNSUPPORTED_COMPRESSION:
-        return COMPRESSION_NOT_SUPPORTED_ERROR;
-        break;
-    case CORRUPTED_FILE:
-        return CORRUPT_FILE_ERROR;
-        break;
-    case CAN_NOT_OPEN_INPUT_FILE:
-        return CAN_NOT_OPEN_ERROR;
-        break;
-    case CAN_NOT_FIND_TARGET_PATH:
-        return CAN_NOT_FIND_TARGET_ERROR;
-        break;
-    case INVALID_PARAMETERS:
-        return UNKNOW_ARGS;
-        break;
-    case INVALID_ZIP_FILE:
-        return INVALID_ZIP_FILE_ERROR;
-        break;
-    default:
-        return OK_PROCESS;
+        case FILE_NOT_FOUND:
+            return FILE_NOT_FOUND_ERROR;
+            break;
+        case UNSUPPORTED_COMPRESSION:
+            return COMPRESSION_NOT_SUPPORTED_ERROR;
+            break;
+        case CORRUPTED_FILE:
+            return CORRUPT_FILE_ERROR;
+            break;
+        case CAN_NOT_OPEN_INPUT_FILE:
+            return CAN_NOT_OPEN_ERROR;
+            break;
+        case CAN_NOT_FIND_TARGET_PATH:
+            return CAN_NOT_FIND_TARGET_ERROR;
+            break;
+        case INVALID_PARAMETERS:
+            return UNKNOW_ARGS;
+            break;
+        case INVALID_ZIP_FILE:
+            return INVALID_ZIP_FILE_ERROR;
+            break;
+        case DECOMPRESS_FAIL:
+            return DECOMPRESSION_ERROR;
+            break;
+        default:
+            return OK_PROCESS;
     }
 
 }

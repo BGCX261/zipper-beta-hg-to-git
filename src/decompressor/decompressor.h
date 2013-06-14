@@ -12,6 +12,7 @@
 #include <list>
 #include "../utils/filenotfoundexception.h"
 #include "../exceptions/notzipfileexception.h"
+#include "../exceptions/decompressexception.h"
 #include "../errorcode.h"
 #include "../compressor/fileheader.h"
     
@@ -26,14 +27,14 @@
 std::list<FileHeader*>& navigate(const char* path) throw (FileException);
 
 /**
- * Given a zip file decompress the zip in the output path
+ * Decompress a file header in the output path. Throw a DecompressionException 
+ * when something fails.
  * 
- * @param zipPath Path of the zip file
+ * @param fileHeader File header that will be decompressed
  * @param outputPath Path of the destiny
- * 
- * @return An Error code if some fail else return ok
  */
-ErrorCode decompress(const char* zipPath, const char* outputPath);
+void decompressAFileHeader(const FileHeader* fileHeader, const char* outputPath) 
+throw (DecompressException);
 
 #endif	/* DECOMPRESSOR_H */
 

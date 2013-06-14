@@ -98,7 +98,10 @@ std::string getFileName(const std::string path);
 bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileException);
 
 /**
- * Create a directory with all permmissions to write and read.
+ * Create a directory with the following permissions:
+ * read, write, execute/search by owner.
+ * read and write permission by group.
+ * If the directory exists return ok
  * 
  * @param path Path of the directory that will be created
  * 

@@ -387,7 +387,7 @@ void FileUtilsTest::testCreateADirectoryGivenAExistentDirectory()
     const char* path = "resources/folder";
     createADirectory(path);
     
-    CPPUNIT_ASSERT(!createADirectory(path));
+    CPPUNIT_ASSERT(createADirectory(path));
 }
 
 void FileUtilsTest::testCreateADirectoryGivenANull()

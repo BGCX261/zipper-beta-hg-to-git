@@ -39,4 +39,16 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
  */
 ErrorCode traverse(const char* zipPath, int level);
 
+/**
+ * Decompress a zip file in the output folder.
+ * 
+ * @param zipPath Zip file that will be decompressed
+ * @param outputPath Path of the destiny folder.
+ * 
+ * @return An error code that will explain the compression result. If the decompression is
+ *         sucessful return OK.
+ */
+ErrorCode decompress(const char* zipPath, const char* outputPath);
+
+
 #endif	/* ZIPPERLIB_H */

@@ -32,6 +32,12 @@ class ConsoleTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testTraverseOptionWithAZipFile);
     CPPUNIT_TEST(testTraverseOptionWithLevel);
     CPPUNIT_TEST(testTraverseOptionWithWrongLevel);
+    
+    CPPUNIT_TEST(testDecompressionOptionGivenANonExistentFile);
+    CPPUNIT_TEST(testDecompressionOptionWithAnyParameter);
+    CPPUNIT_TEST(testDecompressionOptionGivenANonZipFile);
+    CPPUNIT_TEST(testDecompressionOptionGivenAZipFile);
+    
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -52,6 +58,11 @@ private:
     void testTraverseOptionWithAZipFile();
     void testTraverseOptionWithLevel();
     void testTraverseOptionWithWrongLevel();
+    
+    void testDecompressionOptionGivenANonExistentFile();
+    void testDecompressionOptionWithAnyParameter();
+    void testDecompressionOptionGivenANonZipFile();
+    void testDecompressionOptionGivenAZipFile();
 };
 
 #endif	/* CONSOLETEST_H */

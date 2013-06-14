@@ -3,6 +3,7 @@
 #include <list>
 #include "../compressor/fileheader.h"
 #include "../utils/dateconverter.h"
+#include "../exceptions/unsupportedcompressionmethod.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -77,61 +78,55 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
 }
 
 
-ErrorCode decompress(const char* zipPath, const char* outputPath)
+void decompressAFileHeader(const FileHeader* fileHeader, const char* outputPath) 
+throw(DecompressException)
 {
-    if (!zipPath)
+    if(!fileHeader)
     {
-        return INVALID_PARAMETERS;
-    }
-    if (!outputPath)
-    {
-        return INVALID_PARAMETERS;
+        throw DecompressException("FileHeader NULL");
     }
     
-    list<FileHeader*> fileHeaders;
-    
-    try 
+    DateConverter converter;
+    int outputSize = strlen(outputPath);
+    char* name = (char*) malloc(outputSize + fileHeader->fileNameLength + 2);
+    memset(name, 0, outputSize + fileHeader->fileNameLength + 2);
+    memcpy(name, outputPath, outputSize); //TODO Sprintf
+    memcpy(name + outputSize, "/", 1);
+    memcpy(name + outputSize + 1, fileHeader->fileName.c_str(), 
+            fileHeader->fileNameLength);
+    bool isDirectory = name[strlen(name) - 1] == '/';
+    if(isDirectory)
     {
-        fileHeaders = navigate(zipPath);
+        if(!createADirectory(name))
+        {
+            string message = "Cannot create the directory: ";
+            message.append(name);
+            throw DecompressException(message.c_str());
+        }
     }
-    catch(FileNotFoundExpcetion)
+    else
     {
-        return FILE_NOT_FOUND;
-    }
-    catch(NotZipFileException)
-    {
-        return INVALID_PARAMETERS;
-    }
-    
-    DateConverter* converter = new DateConverter();
-    
-    for (std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end(); 
-            it++)
-    {
-        FileHeader* fileHeader = *it;
-        int outputSize = strlen(outputPath);
-        char* name = (char*) malloc(outputSize + fileHeader->fileNameLength + 2);
-        memset(name, 0, outputSize + fileHeader->fileNameLength + 2);
-        memcpy(name, outputPath, outputSize);
-        memcpy(name + outputSize, "/", 1);
-        memcpy(name + outputSize + 1, fileHeader->fileName.c_str(), 
-                fileHeader->fileNameLength);
+        FILE* file = fopen(name, "wb");
+        if (file == NULL)
+        {
+            string message = "Cannot create the file: ";
+            message.append(name);
+            throw DecompressException(message.c_str());
+        }
+        switch(fileHeader->compressionMethod)
+        {
+            case 0:
+                fwrite(fileHeader->data, sizeof(char), fileHeader->dataSize, file);
+                fclose(file);
+                break;
+            default:
+                fclose(file);
+                throw UnsupportedCompressionMethod(fileHeader->compressionMethod);
+        }
         
-        if(name[strlen(name) - 1] == '/')
-        {
-            createADirectory(name);
-        }
-        else
-        {
-            FILE* file = fopen(name, "wb");
-            fwrite(fileHeader->data, sizeof(char), fileHeader->dataSize, file);
-            fclose(file);
-            tm* date = converter->parseMSDosToTm(fileHeader->lastModificationDate, 
-                    fileHeader->lastModificationTime);
-            setLastModificationDateAndTime(name, date);
-        }
-        free(name);
+        tm* date = converter.parseMSDosToTm(fileHeader->lastModificationDate, 
+                fileHeader->lastModificationTime);
+        setLastModificationDateAndTime(name, date);
     }
-    delete converter;
-    return OK;
+    free(name);
 }

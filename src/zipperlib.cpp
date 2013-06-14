@@ -3,6 +3,10 @@
 #include "decompressor/decompressor.h"
 #include "utils/fileutils.h"
 #include "struct/tree.h"
+#include "decompressor/decompressor.h"
+#include "exceptions/decompressexception.h"
+#include "exceptions/unsupportedcompressionmethod.h"
+#include <list>
 
 ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int compressionMethod)
 {
@@ -67,5 +71,46 @@ ErrorCode traverse(const char* zipPath, int level)
         return INVALID_ZIP_FILE;
     }
 
+    return OK;
+}
+
+ErrorCode decompress(const char* zipPath, const char* outputPath)
+{
+    if (!zipPath || !outputPath || isFile(outputPath))
+    {
+        return INVALID_PARAMETERS;
+    }
+    
+    try 
+    {
+        std::list<FileHeader*> fileHeaders;
+        fileHeaders = navigate(zipPath);
+        
+        std::list<FileHeader*>::iterator it = fileHeaders.begin();        
+        for ( ;it != fileHeaders.end(); it++)
+        {
+            FileHeader* fileHeader = *it;
+            decompressAFileHeader(fileHeader, outputPath);
+            *it = 0;
+            delete fileHeader;
+        }
+        fileHeaders.clear();
+    }
+    catch(FileNotFoundExpcetion)
+    {
+        return FILE_NOT_FOUND;
+    }
+    catch(NotZipFileException)
+    {
+        return INVALID_ZIP_FILE;
+    }
+    catch(UnsupportedCompressionMethod)
+    {
+        return UNSUPPORTED_COMPRESSION;
+    }
+    catch(DecompressException)
+    {
+        return DECOMPRESS_FAIL;
+    }
     return OK;
 }
