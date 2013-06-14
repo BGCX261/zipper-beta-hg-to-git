@@ -27,7 +27,8 @@
 std::list<FileHeader*>& navigate(const char* path) throw (FileException);
 
 /**
- * Decompress a file header in the output path. Throw a DecompressionException when some fail.
+ * Decompress a file header in the output path. Throw a DecompressionException 
+ * when something fails.
  * 
  * @param fileHeader File header that will be decompressed
  * @param outputPath Path of the destiny

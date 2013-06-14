@@ -40,8 +40,8 @@ ErrorCode traverse(const char* zipPath);
 /**
  * Decompress a zip file in the output folder.
  * 
- * @param zipPath Zip file that will be decompressed
- * @param outputPath Path of the destiny folder.
+ * @param zipPath Zip file that will be decompressed.
+ * @param outputPath
  * 
  * @return An error code that will explain the compression result. If the decompression is
  *         sucessful return OK.

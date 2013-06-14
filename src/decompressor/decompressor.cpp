@@ -86,15 +86,16 @@ throw(DecompressException)
         throw DecompressException("FileHeader NULL");
     }
     
-    DateConverter* converter = new DateConverter();
+    DateConverter converter;
     int outputSize = strlen(outputPath);
     char* name = (char*) malloc(outputSize + fileHeader->fileNameLength + 2);
     memset(name, 0, outputSize + fileHeader->fileNameLength + 2);
-    memcpy(name, outputPath, outputSize);
+    memcpy(name, outputPath, outputSize); //TODO Sprintf
     memcpy(name + outputSize, "/", 1);
     memcpy(name + outputSize + 1, fileHeader->fileName.c_str(), 
             fileHeader->fileNameLength);
-    if(name[strlen(name) - 1] == '/')
+    bool isDirectory = name[strlen(name) - 1] == '/';
+    if(isDirectory)
     {
         if(!createADirectory(name))
         {
@@ -106,21 +107,26 @@ throw(DecompressException)
     else
     {
         FILE* file = fopen(name, "wb");
+        if (file == NULL)
+        {
+            string message = "Cannot create the file: ";
+            message.append(name);
+            throw DecompressException(message.c_str());
+        }
         switch(fileHeader->compressionMethod)
         {
             case 0:
                 fwrite(fileHeader->data, sizeof(char), fileHeader->dataSize, file);
                 fclose(file);
                 break;
-            case 8:
+            default:
+                fclose(file);
                 throw UnsupportedCompressionMethod(fileHeader->compressionMethod);
-                
         }
         
-        tm* date = converter->parseMSDosToTm(fileHeader->lastModificationDate, 
+        tm* date = converter.parseMSDosToTm(fileHeader->lastModificationDate, 
                 fileHeader->lastModificationTime);
         setLastModificationDateAndTime(name, date);
     }
     free(name);
-    delete converter;
 }

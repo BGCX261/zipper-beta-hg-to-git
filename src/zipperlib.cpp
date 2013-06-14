@@ -1,5 +1,6 @@
 #include "zipperlib.h"
 #include <ostream>
+#include <list>
 #include "decompressor/decompressor.h"
 #include "utils/fileutils.h"
 #include "struct/tree.h"
@@ -84,12 +85,16 @@ ErrorCode decompress(const char* zipPath, const char* outputPath)
     {
         std::list<FileHeader*> fileHeaders;
         fileHeaders = navigate(zipPath);
-        for (std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end();
-            it++)
+        
+        std::list<FileHeader*>::iterator fileHeaderIt = fileHeaders.begin();        
+        for ( ;fileHeaderIt != fileHeaders.end(); fileHeaderIt++)
         {
-            FileHeader* fileHeader = *it;
+            FileHeader* fileHeader = *fileHeaderIt;
             decompressAFileHeader(fileHeader, outputPath);
+            *fileHeaderIt = 0;
+            delete fileHeader;
         }
+        fileHeaders.clear();
     }
     catch(FileNotFoundExpcetion)
     {
