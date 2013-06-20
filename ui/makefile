@@ -1,13 +1,13 @@
 # source files
 
-SRC = src/console/main.cpp \
+SRC = src/main.cpp \
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 
 OUT = zipper
 
 INCLUDES=-I ../src \
-         -I src
+         -I src/console
 
 LIBS = -L/user/local/lib -L../src/lib -L src/lib -lconsole -lzipper -lm
 
