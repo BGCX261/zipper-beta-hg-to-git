@@ -33,7 +33,7 @@ void FileUtilsTest::setUp()
 void FileUtilsTest::tearDown()
 {
     const char* path = "resources/folder";
-    if(exist(path))
+    if (exist(path))
     {
         rmdir(path);
     }
@@ -325,6 +325,29 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDi
     CPPUNIT_ASSERT_EQUAL(actualPath, expectedPath);
 }
 
+void FileUtilsTest::testCheckTargetPathWhenTheTargetDoesNotHaveTheLastSlashAndTheOtherIsFile()
+{
+    const char* targetPath = "Desktop/other/compress";
+    const char* otherPath = "Desktop/cpp/file1.cpp";
+
+    std::string actualPath = prepareTargetPath(targetPath, otherPath);
+    std::string expectedPath = "Desktop/other/compress/file1.zip";
+
+    CPPUNIT_ASSERT_EQUAL(actualPath, expectedPath);
+}
+
+void FileUtilsTest::testCheckTargetPathWhenTheTargetDoesNotHaveTheLastSlashAndTheOtherIsDirectory()
+{
+    const char* targetPath = "Desktop/other/compress";
+    const char* otherPath = "Desktop/cpp/resources";
+
+    std::string actualPath = prepareTargetPath(targetPath, otherPath);
+    std::string expectedPath = "Desktop/other/compress/resources.zip";
+
+    CPPUNIT_ASSERT_EQUAL(actualPath, expectedPath);
+
+}
+
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
 {
     const char* path = "resources/testFile";
@@ -334,9 +357,9 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
     }
     FILE* file = fopen(path, "wb");
     const char* content = "Sample";
-    fwrite(content, sizeof(char), strlen(content), file);
+    fwrite(content, sizeof (char), strlen(content), file);
     fclose(file);
-    
+
     tm* expected = new tm();
     expected->tm_year = 2010 - 1900;
     expected->tm_mon = 4 - 1;
@@ -344,7 +367,7 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
     expected->tm_hour = 18;
     expected->tm_min = 10;
     expected->tm_sec = 13;
-    
+
     CPPUNIT_ASSERT(setLastModificationDateAndTime(path, expected));
     tm* result = recoverLastModificationDateAndTime(path);
     CPPUNIT_ASSERT(expected->tm_year == result->tm_year);
@@ -365,7 +388,7 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenADirectory()
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenANonExistentFile()
 {
     tm* expected = new tm();
-    CPPUNIT_ASSERT_THROW(!setLastModificationDateAndTime("resources/someFile", expected), 
+    CPPUNIT_ASSERT_THROW(!setLastModificationDateAndTime("resources/someFile", expected),
             FileNotFoundExpcetion);
 }
 
@@ -377,7 +400,7 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenANull()
 void FileUtilsTest::testCreateADirectory()
 {
     const char* path = "resources/folder";
-    
+
     CPPUNIT_ASSERT(createADirectory(path));
     CPPUNIT_ASSERT(exist(path));
 }
@@ -386,7 +409,7 @@ void FileUtilsTest::testCreateADirectoryGivenAExistentDirectory()
 {
     const char* path = "resources/folder";
     createADirectory(path);
-    
+
     CPPUNIT_ASSERT(createADirectory(path));
 }
 

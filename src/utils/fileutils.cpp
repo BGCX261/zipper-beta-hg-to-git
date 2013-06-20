@@ -159,6 +159,9 @@ std::string prepareTargetPath(const char* targetPath, const char* firstFileName)
         zipFileName = splitFileName(strFirstFile);
         unsigned found = zipFileName.find_last_of(".");
         zipTarget = zipFileName.substr(0, found);
+        if (*strTargetPath.rbegin() !='/')
+            strTargetPath.append("/");
+
         strTargetPath.append(zipTarget);
         strTargetPath.append(".zip");
     }
@@ -202,16 +205,16 @@ bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileExcep
 
 bool createADirectory(const char* path)
 {
-    if(!path)
+    if (!path)
     {
         return false;
     }
-    
-    if(exist(path))
+
+    if (exist(path))
     {
         return true;
     }
-    
+
     mkdir(path, S_IRWXU | S_IRGRP | S_IXGRP);
     return true;
 }

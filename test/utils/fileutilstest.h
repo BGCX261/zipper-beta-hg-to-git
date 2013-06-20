@@ -47,6 +47,8 @@ class FileUtilsTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsValid);
     CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile);
     CPPUNIT_TEST(testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory);
+    CPPUNIT_TEST(testCheckTargetPathWhenTheTargetDoesNotHaveTheLastSlashAndTheOtherIsFile);
+    CPPUNIT_TEST(testCheckTargetPathWhenTheTargetDoesNotHaveTheLastSlashAndTheOtherIsDirectory);
     
     CPPUNIT_TEST(testSetLastModificationDateAndTimeGivenAFile);
     CPPUNIT_TEST(testSetLastModificationDateAndTimeGivenADirectory);
@@ -97,6 +99,8 @@ private:
     void testCheckTargetPathWhenTheTargetPathIsValid();
     void testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsFile();
     void testCheckTargetPathWhenTheTargetPathIsInvalidAndTheOtherIsDirectory();
+    void testCheckTargetPathWhenTheTargetDoesNotHaveTheLastSlashAndTheOtherIsFile();
+    void testCheckTargetPathWhenTheTargetDoesNotHaveTheLastSlashAndTheOtherIsDirectory();
     
     void testSetLastModificationDateAndTimeGivenAFile();
     void testSetLastModificationDateAndTimeGivenADirectory();
