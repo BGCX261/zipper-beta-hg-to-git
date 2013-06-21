@@ -11,12 +11,12 @@
 
 
 /**
- * Execute the command introduced by console
+ * Receive a set of commands, parse them and execute the selected option.
  * 
  * @param argc The number of arguments introduced by console
  * @param argv The arguments introduced by console
  * 
- * @return The output errors for user
+ * @return The output error for the user if there is any.
  */
 const char* executeCommand(int argc, char** argv);
 

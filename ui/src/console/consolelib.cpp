@@ -2,6 +2,7 @@
 
 const char* executeCommand(int argc, char** argv)
 {
-    return ConsoleZipper::runCommand(argc, argv);
+    ConsoleZipper zipper(argc, argv);
+    return zipper.runCommand();
 }
 

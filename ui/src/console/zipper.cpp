@@ -1,147 +1,176 @@
 
 #include "zipper.h"
 
-const char* ConsoleZipper::runCommand(int argc, char** argv)
+ConsoleZipper::ConsoleZipper(int argumentsCount, char** arguments)
 {
-    if (argc >= DEFAULT_ARGS)
+    this->result = OK;
+    this->consoleError = 0;
+    this->argumentsCount = argumentsCount;
+    this->arguments = new char *[argumentsCount];
+    for (int i = 0; i < argumentsCount; i++)
     {
-        char* option = argv[1];
-        char value = option[1];
-        return (strlen(option) == 2) ? executeOption(value, argc, argv) : UNKNOW_OPTION;
-    } else
+        this->arguments[i] = new char[strlen(arguments[i]) + 1];
+        strcpy(this->arguments[i], arguments[i]);
+    }
+}
+
+ConsoleZipper::~ConsoleZipper()
+{
+    for (int i = 0; i < argumentsCount; i++)
+    {
+        delete this->arguments[i];
+    }
+
+    delete arguments;
+}
+
+const char* ConsoleZipper::runCommand()
+{
+
+    if (argumentsCount < DEFAULT_ARGS)
     {
         return UNKNOW_ARGS;
     }
+
+    char* option = arguments[1];
+    bool allowedCommandLength = strlen(option) == 2;
+
+    if (!allowedCommandLength)
+    {
+        return UNKNOW_OPTION;
+    }
+
+    char value = option[1];
+    executeOption(value);
+    return (consoleError) ? consoleError : errorCodeToString();
 }
 
-const char* ConsoleZipper::executeOption(char option, int argc, char** argv)
+void ConsoleZipper::executeOption(char option)
 {
     switch (option)
     {
-        case 'c':
-            return compressOption(argc, argv);
-            break;
-        case 't':
-            return traverseOption(argc, argv);
-            break;
-        case 'd':
-            return decompressOption(argc, argv);
-            break;
-        case 'h':
-            return helpOption(argc);
-            break;
-        default:
-            return UNKNOW_OPTION;
-            break;
+    case 'c':
+        compressOption();
+        break;
+    case 't':
+        traverseOption();
+        break;
+    case 'd':
+        decompressOption();
+        break;
+    case 'h':
+        helpOption();
+        break;
+    default:
+        consoleError = UNKNOW_OPTION;
+        break;
     }
-
 }
 
-const char* ConsoleZipper::compressOption(int argc, char** argv)
+void ConsoleZipper::compressOption()
 {
-    char* compressionNumberArgs = argv[argc - 1];
-    int endSourceArgs = (strlen(compressionNumberArgs) > 1) ? (argc - 1) : (argc - 2);
+    char* compressionNumberArgs = arguments[argumentsCount - 1];
+    int endSourceArgs = (strlen(compressionNumberArgs) > 1) ? (argumentsCount - 1) : (argumentsCount - 2);
     int compressionMethod = (strlen(compressionNumberArgs) == 1) ? atoi(compressionNumberArgs) : NOT_COMPRESSION_METHOD;
-    char** sourcePaths = getSourceCompressionArgs(argv, endSourceArgs);
+    char** sourcePaths = getSourceCompressionArgs(endSourceArgs);
     int sourcePathsSize = endSourceArgs - BEGIN_INDEX_SOURCE_ARGS;
-    char* destPath = argv[endSourceArgs];
+    char* destPath = arguments[endSourceArgs];
 
-
-    if (sourcePaths)
+    if (!sourcePaths)
     {
-        ErrorCode errorCode = (compressionMethod == NOT_COMPRESSION_METHOD) ? compress(destPath, sourcePaths, sourcePathsSize, 0) : compress(destPath, sourcePaths, sourcePathsSize, compressionMethod);
-        delete[] sourcePaths;
-        return errorCodeToString(errorCode);
-
-    } else
-    {
-        return UNKNOW_COMPRESSION_ARGS;
+        consoleError = UNKNOW_COMPRESSION_ARGS;
+        return;
     }
 
+    result = (compressionMethod == NOT_COMPRESSION_METHOD) ?
+            compress(destPath, sourcePaths, sourcePathsSize, 0) :
+            compress(destPath, sourcePaths, sourcePathsSize, compressionMethod);
+    delete[] sourcePaths;
 }
 
-const char* ConsoleZipper::traverseOption(int argc, char** argv)
+char** ConsoleZipper::getSourceCompressionArgs(int sourceArgsLimit)
 {
-    if (argc != 3 && argc != 4)
-    {
-        return UNKNOWN_TRAVERSE_ARGS;
-    }
-
-    char* zipPath = argv[2];
-    int level = argc == 4 ? atoi(argv[3]) : -1;
-    if (level == 0) return UNKNOWN_TRAVERSE_ARGS;
-
-    ErrorCode errorCode = traverse(zipPath, level);
-    return errorCodeToString(errorCode);
-}
-
-const char* ConsoleZipper::decompressOption(int argc, char** argv)
-{
-    if (argc != 4)
-    {
-        return UNKNOWN_TRAVERSE_ARGS;
-    }
-
-    char* zipPath = argv[2];
-    char* outputPath = argv[3];
-    ErrorCode errorCode = decompress(zipPath, outputPath);
-    return errorCodeToString(errorCode);
-}
-
-const char* ConsoleZipper::helpOption(int argc)
-{
-    if (argc == DEFAULT_ARGS)
-        return HELP_TEXT;
-    return UNKNOW_ARGS;
-}
-
-char** ConsoleZipper::getSourceCompressionArgs(char** argv, int end)
-{
-    int sizeArgs = end - BEGIN_INDEX_SOURCE_ARGS;
+    int sizeArgs = sourceArgsLimit - BEGIN_INDEX_SOURCE_ARGS;
     if (sizeArgs < 1)
     {
         return 0;
     }
-    char** arguments = new char*[sizeArgs];
+    char** sourceArguments = new char*[sizeArgs];
     int count = 0;
-    for (int i = BEGIN_INDEX_SOURCE_ARGS; i < end; i++)
+    for (int i = BEGIN_INDEX_SOURCE_ARGS; i < sourceArgsLimit; i++)
     {
-        arguments[count] = argv[i];
+        sourceArguments[count] = arguments[i];
         count++;
     }
-    return arguments;
+    return sourceArguments;
 }
 
-const char* ConsoleZipper::errorCodeToString(ErrorCode errorCode)
+void ConsoleZipper::traverseOption()
 {
-    switch (errorCode)
+    if (argumentsCount != 3 && argumentsCount != 4)
     {
-        case FILE_NOT_FOUND:
-            return FILE_NOT_FOUND_ERROR;
-            break;
-        case UNSUPPORTED_COMPRESSION:
-            return COMPRESSION_NOT_SUPPORTED_ERROR;
-            break;
-        case CORRUPTED_FILE:
-            return CORRUPT_FILE_ERROR;
-            break;
-        case CAN_NOT_OPEN_INPUT_FILE:
-            return CAN_NOT_OPEN_ERROR;
-            break;
-        case CAN_NOT_FIND_TARGET_PATH:
-            return CAN_NOT_FIND_TARGET_ERROR;
-            break;
-        case INVALID_PARAMETERS:
-            return UNKNOW_ARGS;
-            break;
-        case INVALID_ZIP_FILE:
-            return INVALID_ZIP_FILE_ERROR;
-            break;
-        case DECOMPRESS_FAIL:
-            return DECOMPRESSION_ERROR;
-            break;
-        default:
-            return OK_PROCESS;
+        consoleError = UNKNOWN_TRAVERSE_ARGS;
+        return;
     }
 
+    char* zipPath = arguments[2];
+    int level = argumentsCount == 4 ? atoi(arguments[3]) : -1;
+    if (level == 0)
+    {
+        consoleError = UNKNOWN_TRAVERSE_ARGS;
+        return;
+    }
+
+    result = traverse(zipPath, level);
+}
+
+void ConsoleZipper::decompressOption()
+{
+    if (argumentsCount != 4)
+    {
+        consoleError = UNKNOWN_DECOMPRESSION_ARGS;
+        return;
+    }
+
+    char* zipPath = arguments[2];
+    char* outputPath = arguments[3];
+    result = decompress(zipPath, outputPath);
+}
+
+void ConsoleZipper::helpOption()
+{
+    consoleError = argumentsCount == DEFAULT_ARGS ? HELP_TEXT : UNKNOW_ARGS;
+}
+
+const char* ConsoleZipper::errorCodeToString()
+{
+    switch (result)
+    {
+    case FILE_NOT_FOUND:
+        return FILE_NOT_FOUND_ERROR;
+        break;
+    case UNSUPPORTED_COMPRESSION:
+        return COMPRESSION_NOT_SUPPORTED_ERROR;
+        break;
+    case CORRUPTED_FILE:
+        return CORRUPT_FILE_ERROR;
+        break;
+    case CAN_NOT_OPEN_INPUT_FILE:
+        return CAN_NOT_OPEN_ERROR;
+        break;
+    case CAN_NOT_FIND_TARGET_PATH:
+        return CAN_NOT_FIND_TARGET_ERROR;
+        break;
+    case INVALID_PARAMETERS:
+        return UNKNOW_ARGS;
+        break;
+    case INVALID_ZIP_FILE:
+        return INVALID_ZIP_FILE_ERROR;
+        break;
+    case DECOMPRESS_FAIL:
+        return DECOMPRESSION_ERROR;
+        break;
+    default:
+        return OK_PROCESS;
+    }
 }
