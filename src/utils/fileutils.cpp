@@ -198,7 +198,7 @@ bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileExcep
     struct utimbuf utimeBuffer;
     memset(&utimeBuffer, 0, sizeof (utimbuf));
     time(&utimeBuffer.actime);
-    utimeBuffer.modtime = mktime(date);
+    utimeBuffer.modtime = timegm(date);
     utime(path, &utimeBuffer);
     return true;
 }
