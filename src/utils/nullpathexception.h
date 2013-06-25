@@ -15,7 +15,7 @@
  */
 class NullPathException : public FileException
 {
-
+public:
     /**
      * Describe the general cause of the current error. 
      * 
