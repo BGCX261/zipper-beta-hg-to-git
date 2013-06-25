@@ -74,11 +74,11 @@ tm* DateConverter::parseMSDosToTm(const short date, const short time)
 {
     tm* ans = new tm();
     
-    int year = date >> 9;
+    int year = date >> 9 & ((1 << 7) - 1);
     int month = date >> 5 & 0xF;
     int day = date & ((1 << 5) - 1);
     
-    int hour = time >> 11;
+    int hour = time >> 11 & ((1 << 5) - 1);
     int minute = time  >> 5 & ((1 << 6) - 1);
     int second = time & ((1 << 5) - 1);
     
@@ -89,6 +89,7 @@ tm* DateConverter::parseMSDosToTm(const short date, const short time)
     ans->tm_hour = hour;
     ans->tm_min = minute;
     ans->tm_sec = second * 2;
+    mktime(ans);
     
     return ans;
 }
