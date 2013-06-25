@@ -13,6 +13,9 @@
 #include "openfileexception.h"
 #include "filenotfoundexception.h"
 #include "nullpathexception.h"
+#include "../log/LoggerManager.h"
+
+extern LoggerManager* g_logger;
 
 /**
  * Check if the file in the given path is a file. If the path doesn't exist return false.

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <utime.h>
 #include <time.h>
+#include <stdlib.h>
 
 /**
  * Check if the given path is not null and exist.
@@ -43,6 +44,7 @@ struct stat st_info;
 
 bool isFile(const char* path)
 {
+    INFO("%s", "Checking if the file is a file.");
     if (exist(path))
     {
         return S_ISREG(st_info.st_mode);
@@ -53,6 +55,7 @@ bool isFile(const char* path)
 
 bool isDirectory(const char* path)
 {
+    INFO("%s", "Checking if the file is a directory.");
     if (exist(path))
     {
         return S_ISDIR(st_info.st_mode);
@@ -63,6 +66,7 @@ bool isDirectory(const char* path)
 
 bool exist(const char* path)
 {
+    INFO("%s", "Checking if the file exist.");
     if (path)
     {
         return (stat(path, &st_info) == 0);
@@ -73,6 +77,7 @@ bool exist(const char* path)
 
 std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException)
 {
+    INFO("%s", "Starting to explore paths...");
     std::list<Path>* response = new std::list<Path>();
 
     for (int i = 0; i < pathsCount; i++)
@@ -85,6 +90,7 @@ std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileExc
 
 void explorePath(const char* path, std::list<Path>& files)throw (FileException)
 {
+    INFO("Explore path: %s", path);
     checkPath(path);
     bool isDir = isDirectory(path);
     Path file(path, isDir);
@@ -93,28 +99,35 @@ void explorePath(const char* path, std::list<Path>& files)throw (FileException)
 
 void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException, OpenFileException)
 {
+    INFO("%s", "Checking if the path is valid.");
+    
     if (!path)
     {
+        WARN("%s", "Null path.");
         throw NullPathException();
     }
     if (!exist(path))
     {
+        WARN("%s", "The path doesn't exist.")
         throw FileNotFoundExpcetion(path);
     }
 }
 
 void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileException)
 {
+    INFO("Adding: %s", parent.fullPath.c_str());
     list.push_back(parent);
 
     if (!parent.isDir)
         return;
 
+    INFO("Listing files for: %s", parent.fullPath.c_str());
     DIR* directory = 0;
     struct dirent* entry = 0;
 
     if ((directory = opendir(parent.fullPath.c_str())) == NULL)
     {
+        WARN("%s","Cant open the directory.");
         throw OpenFileException(parent.fullPath.c_str());
     }
 
@@ -150,6 +163,7 @@ tm* recoverLastModificationDateAndTime(const char* path)
 
 std::string prepareTargetPath(const char* targetPath, const char* firstFileName)
 {
+    INFO("%s", "Preparing the zip file name.");
     std::string strTargetPath(targetPath);
     if (strTargetPath.find(".zip") == std::string::npos)
     {
@@ -159,12 +173,13 @@ std::string prepareTargetPath(const char* targetPath, const char* firstFileName)
         zipFileName = splitFileName(strFirstFile);
         unsigned found = zipFileName.find_last_of(".");
         zipTarget = zipFileName.substr(0, found);
-        if (*strTargetPath.rbegin() !='/')
+        if (*strTargetPath.rbegin() != '/')
             strTargetPath.append("/");
 
         strTargetPath.append(zipTarget);
         strTargetPath.append(".zip");
     }
+    INFO("The output zip file will be: %s", strTargetPath.c_str());
     return strTargetPath;
 }
 

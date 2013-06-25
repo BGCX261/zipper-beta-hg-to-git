@@ -17,7 +17,9 @@
 #include <stdio.h>
 #include <sstream>
 #include <string.h>
+#include "../log/LoggerManager.h"
 
+extern LoggerManager* g_logger;
 
 #define C_DIRECTORY_PARTIAL_SIZE 46
 
