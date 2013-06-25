@@ -1,22 +1,22 @@
 /* 
  * File:   consolelib.h
  * Author: Kenji Lozano
- * Description: The funtions for the library
+ * Description: Define functions for the console library.
  *
  */
 
 #ifndef CONSOLELIB_H
 #define	CONSOLELIB_H
-#include "console/zipper.h"
+#include "zipper.h"
 
 
 /**
- * Execute the command introduced by console
+ * Receive a set of commands, parse them and execute the selected option.
  * 
  * @param argc The number of arguments introduced by console
  * @param argv The arguments introduced by console
  * 
- * @return The output errors for user
+ * @return The output error for the user if there is any.
  */
 const char* executeCommand(int argc, char** argv);
 
