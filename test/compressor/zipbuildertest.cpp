@@ -14,7 +14,7 @@ ifstream* expectedZipFile;
 ZipBuilderTest::ZipBuilderTest()
 {
     input = new char*[1];
-    char* inputPath = (char*) "testrunner.cpp";
+    char* inputPath = (char*) "resources/testrunner.cpp";
     input[0] = inputPath;
     std::list<Path>* inputPaths = explorePaths((const char**) input, 1);
     builder = new ZipBuilder(0);
