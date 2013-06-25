@@ -8,6 +8,7 @@ SRC = interface/interfacetest.cpp \
       utils/dateconvertertest.cpp \
       struct/treetest.cpp \
       decompressor/decompressortest.cpp \
+      encryption/blowfishtest.cpp\
       testrunner.cpp 
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
@@ -48,3 +49,23 @@ clean:
 	rm -f $(OBJ)
 	rm -f $(OUT)
 	rm -rf obj
+
+
+# build tests
+build-tests: .build-tests-post
+
+.build-tests-pre:
+# Add your pre 'build-tests' code here...
+
+.build-tests-post: .build-tests-impl
+# Add your post 'build-tests' code here...
+
+
+# run tests
+test: .test-post
+
+.test-pre:
+# Add your pre 'test' code here...
+
+.test-post: .test-impl
+# Add your post 'test' code here...
