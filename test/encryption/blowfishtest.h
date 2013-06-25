@@ -8,6 +8,8 @@
 #ifndef BLOWFISHTEST_H
 #define	BLOWFISHTEST_H
 
+#include <stdlib.h>
+#include "../../src/encryption/blowfish.h"
 #include <cppunit/extensions/HelperMacros.h>
 
 class BlowfishTest : public CPPUNIT_NS::TestFixture
