@@ -8,7 +8,10 @@ SRC = compressor/fileheader.cpp \
       decompressor/decompressor.cpp \
       struct/node.cpp \
       struct/tree.cpp \
-      encryption/blowfish.cpp\
+      log/LoggerManager.cpp \
+      log/FileLogger.cpp \
+      log/ConsoleLogger.cpp \
+      log/Logger.cpp \
       zipperlib.cpp
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))

@@ -37,6 +37,10 @@ void FileUtilsTest::tearDown()
     {
         rmdir(path);
     }
+    if (exist("resources/testFile"))
+    {
+        remove("resources/testFile");
+    }
 }
 
 void FileUtilsTest::testIsDirectoryWhenExist()
@@ -351,10 +355,6 @@ void FileUtilsTest::testCheckTargetPathWhenTheTargetDoesNotHaveTheLastSlashAndTh
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
 {
     const char* path = "resources/testFile";
-    if (exist(path))
-    {
-        remove(path);
-    }
     FILE* file = fopen(path, "wb");
     const char* content = "Sample";
     fwrite(content, sizeof (char), strlen(content), file);
@@ -373,7 +373,7 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
     CPPUNIT_ASSERT(expected->tm_year == result->tm_year);
     CPPUNIT_ASSERT(expected->tm_mon == result->tm_mon);
     CPPUNIT_ASSERT(expected->tm_mday == result->tm_mday);
-    CPPUNIT_ASSERT(expected->tm_hour + 4 == result->tm_hour);
+    CPPUNIT_ASSERT(expected->tm_hour == result->tm_hour);
     CPPUNIT_ASSERT(expected->tm_min == result->tm_min);
     CPPUNIT_ASSERT(expected->tm_sec == result->tm_sec);
 }

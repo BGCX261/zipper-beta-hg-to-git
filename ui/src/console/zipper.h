@@ -1,7 +1,7 @@
 /* 
  * File:   zipper.h
  * Author: Kenji Lozano
- * Description: Run the command introduced by console validating the input arguments
+ * Description: Define a class to parser a console input parameters.
  *
  */
 #ifndef ZIPPER_H
@@ -41,72 +41,55 @@
 #define CONSOLE_OPTION_LENGTH 2
 
 /**
- * Runs the console commands introduced by console 
+ * Parse a console input and use the zipper library to execute a task defined in the console paramenters. 
  */
 class ConsoleZipper
 {
 public:
+
+    ConsoleZipper(int argumentsCount, char**  arguments);
+    ~ConsoleZipper();
+    
     /**
-     * Run the command introduced by console
+     * Parse the parameters and run the command introduced by console.
      * 
-     * @param argc The number of arguments introduced by console
-     * @param argv The arguments introduced by console
-     * 
-     * @return The output errors for user
+     * @return The output errors for user if there is any.
      */
-    static const char* runCommand(int argc, char** argv);
+    const char* runCommand();
 private:
+    int argumentsCount;
+    char** arguments;
+    ErrorCode result;
+    const char* consoleError;
 
     /**
-     * Execute an specific command
+     * Given an option decide which task will perform.
      * 
-     * @param option The name of command c(compression) h(help)
-     * @param argc The number of arguments introduced by console
-     * @param argv The arguments introduced by console
-     * 
-     * @return The output errors for user
+     * @param option The name of command c(compression) h(help) d(decompression) t(traverse)
      */
-    static const char* executeOption(char option, int argc, char** argv);
+    void executeOption(char option);
 
     /**
      * The compress Function that gets the source and destiny arguments
-     * 
-     * @param argc The number of arguments introduced by console 
-     * @param argv The arguments introduced by console
-     * 
-     * @return The output errors for user
      */
-    static const char* compressOption(int argc, char** argv);
+    void compressOption();
 
     /**
-     * The traverse option that receive a zip file to traverse it and show it as a tree.
-     * 
-     * @param argc Arguments count
-     * @param argv Arguments
-     * 
-     * @return Errors that occurred. 
+     * The traverse option that receive a zip file to traverse it and show it as a tree.     
      */
-    static const char* traverseOption(int argc, char** argv);
-    
+    void traverseOption();
+
     /**
      * The decompress option that receive a zip file and the destiny path where 
      * it will be decompressed.
-     * 
-     * @param argc Arguments count
-     * @param argv Arguments
-     * 
-     * @return The error that occurred
      */
-    static const char* decompressOption(int argc, char** argv);
+    void decompressOption();
 
     /**
-     * Prints the help for user
-     * 
-     * @param argc The parameters of the command
-     * 
-     * @return The help text for user
+     * Prints the help for user.
      */
-    static const char* helpOption(int argc);
+    void helpOption();
+    
     /**
      * Convert the error code from compressor to string
      * This codes are the following
@@ -119,7 +102,7 @@ private:
      * 
      * @return The error code to String
      */
-    static const char* errorCodeToString(ErrorCode errorCode);
+    const char* errorCodeToString();
 
     /**
      * Get the Source Paths for compression
@@ -129,9 +112,7 @@ private:
      * 
      * @return The source paths for compression
      */
-    static char** getSourceCompressionArgs(char** argv, int end);
-
-
+    char** getSourceCompressionArgs(int boundary);
 };
 
 

@@ -23,6 +23,8 @@ class DecompressorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testDecompressAFileHeaderGivenAFile);
     CPPUNIT_TEST(testDecompressAFileHeaderGivenADirectory);
     CPPUNIT_TEST(testDecompressAFileHeaderGivenANull);
+    
+    CPPUNIT_TEST(testLastModificationTimeOfADecompressedFile);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -42,6 +44,8 @@ private:
     void testDecompressAFileHeaderGivenAFile();
     void testDecompressAFileHeaderGivenADirectory();
     void testDecompressAFileHeaderGivenANull();
+    
+    void testLastModificationTimeOfADecompressedFile();
 };
 
 #endif	/* DECOMPRESSORTEST_H */

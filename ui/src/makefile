@@ -1,7 +1,7 @@
 # source files
 
-SRC =  consolelib.cpp\
-console/zipper.cpp
+SRC =  console/consolelib.cpp\
+       console/zipper.cpp
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 

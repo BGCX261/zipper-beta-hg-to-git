@@ -13,6 +13,10 @@
 #include "compressor/zipbuilder.h"
 #include "utils/fileutils.h"
 #include <fstream>
+#include "log/LoggerManager.h"
+#include "log/FileLogger.h"
+
+extern LoggerManager* g_logger;
 
 /**
  * Compress the received list of files/directories in a zip file with the selected compression 
