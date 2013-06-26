@@ -10,7 +10,7 @@
 #define	DECOMPRESSOR_H
 
 #include <list>
-#include "../utils/filenotfoundexception.h"
+#include "../exceptions/filenotfoundexception.h"
 #include "../exceptions/notzipfileexception.h"
 #include "../exceptions/decompressexception.h"
 #include "../errorcode.h"

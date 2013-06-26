@@ -10,9 +10,9 @@
 #define	FILEUTILS_H
 #include <list>
 #include "path.h"
-#include "openfileexception.h"
-#include "filenotfoundexception.h"
-#include "nullpathexception.h"
+#include "../exceptions/openfileexception.h"
+#include "../exceptions/filenotfoundexception.h"
+#include "../exceptions/nullpathexception.h"
 #include "../log/LoggerManager.h"
 
 extern LoggerManager* g_logger;
