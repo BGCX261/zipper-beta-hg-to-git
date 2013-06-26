@@ -12,6 +12,10 @@
 #include "node.h"
 #include <ostream>
 #include <iostream>
+#include "../log/LoggerManager.h"
+
+extern LoggerManager* g_logger;
+
 /**
  * Tree structure implementation that will be used to manage directory hierarchy.
  */

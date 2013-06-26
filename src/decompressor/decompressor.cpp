@@ -12,6 +12,7 @@ using namespace std;
 
 std::list<FileHeader*>& navigate(const char* path) throw (FileException)
 {
+    INFO("Navigating a zip file in the path: %s", path);
     list<FileHeader*>* fileHeaders = new list<FileHeader*>();
     int signature;
     const char* zipExtension = ".zip";
@@ -19,11 +20,13 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
 
     if (!path)
     {
+        WARN("%s", "The path is NULL.");
         throw NullPathException();
     }
 
     if (!exist(path))
     {
+        WARN("%s", "The path doesn't exist.")
         throw FileNotFoundExpcetion(path);
     }
 
@@ -32,6 +35,7 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
     if (strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0 ||
             signature != FILE_HEADER_SIGNATURE)
     {
+        WARN("%s", "The path isn't for a zip file.")
         throw NotZipFileException(path);
     }
 
@@ -83,9 +87,11 @@ throw(DecompressException)
 {
     if(!fileHeader)
     {
+        WARN("%s", "The file header is NULL");
         throw DecompressException("FileHeader NULL");
     }
     
+    INFO("Decompressing this file header: %s", fileHeader->fileName.c_str());
     DateConverter converter;
     int outputSize = strlen(outputPath);
     char* name = (char*) malloc(outputSize + fileHeader->fileNameLength + 2);
@@ -99,6 +105,7 @@ throw(DecompressException)
     {
         if(!createADirectory(name))
         {
+            WARN("%s", "The directory can't be created.");
             string message = "Cannot create the directory: ";
             message.append(name);
             throw DecompressException(message.c_str());
@@ -109,6 +116,7 @@ throw(DecompressException)
         FILE* file = fopen(name, "wb");
         if (file == NULL)
         {
+            WARN("%s", "The file can't be created.");
             string message = "Cannot create the file: ";
             message.append(name);
             throw DecompressException(message.c_str());
