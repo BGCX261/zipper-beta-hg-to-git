@@ -104,12 +104,12 @@ void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException
     if (!path)
     {
         WARN("%s", "Null path.");
-        throw NullPathException();
+        throw NullPathException(INVALID_PARAMETERS);
     }
     if (!exist(path))
     {
         WARN("%s", "The path doesn't exist.")
-        throw FileNotFoundExpcetion(path);
+        throw FileNotFoundExpcetion(path, FILE_NOT_FOUND);
     }
 }
 
@@ -128,7 +128,7 @@ void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileExcept
     if ((directory = opendir(parent.fullPath.c_str())) == NULL)
     {
         WARN("%s","Cant open the directory.");
-        throw OpenFileException(parent.fullPath.c_str());
+        throw OpenFileException(parent.fullPath.c_str(), CAN_NOT_OPEN_INPUT_FILE);
     }
 
     while ((entry = readdir(directory)))
@@ -200,7 +200,7 @@ bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileExcep
 {
     if (!exist(path))
     {
-        throw FileNotFoundExpcetion(path);
+        throw FileNotFoundExpcetion(path, FILE_NOT_FOUND);
     }
     if (!date)
     {

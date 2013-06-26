@@ -9,13 +9,18 @@
 #ifndef FILEEXCEPTION_H
 #define	FILEEXCEPTION_H
 #include <exception>
+#include "zipperexception.h"
 
 /**
  * Define a general file exception.
  */
-class FileException : public std::exception
+class FileException : public ZipperException 
 {
 public:
+    
+    FileException(ErrorCode error) : ZipperException(error)
+    {
+    }
 
     /**
      * Describe the general cause of the current error. 

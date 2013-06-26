@@ -19,7 +19,7 @@ class FileNotFoundExpcetion : public FileException
 {
 public:
 
-    FileNotFoundExpcetion(const char* file) throw () : FileException()
+    FileNotFoundExpcetion(const char* file, ErrorCode error) : FileException(error)
     {
         message_ = "File not found: ";
         message_.append(file);

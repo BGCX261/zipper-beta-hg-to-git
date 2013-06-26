@@ -16,6 +16,10 @@
 class NullPathException : public FileException
 {
 public:
+    
+    NullPathException(ErrorCode error) : FileException(error)
+    {
+    }
     /**
      * Describe the general cause of the current error. 
      * 

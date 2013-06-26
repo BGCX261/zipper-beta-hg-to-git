@@ -21,13 +21,13 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
     if (!path)
     {
         WARN("%s", "The path is NULL.");
-        throw NullPathException();
+        throw NullPathException(INVALID_PARAMETERS);
     }
 
     if (!exist(path))
     {
         WARN("%s", "The path doesn't exist.")
-        throw FileNotFoundExpcetion(path);
+        throw FileNotFoundExpcetion(path, FILE_NOT_FOUND);
     }
 
     fread(&signature, sizeof (int), 1, file);
@@ -36,7 +36,7 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
             signature != FILE_HEADER_SIGNATURE)
     {
         WARN("%s", "The path isn't for a zip file.")
-        throw NotZipFileException(path);
+        throw NotZipFileException(path, INVALID_ZIP_FILE);
     }
 
     while (feof(file) == 0)
@@ -88,7 +88,7 @@ throw(DecompressException)
     if(!fileHeader)
     {
         WARN("%s", "The file header is NULL");
-        throw DecompressException("FileHeader NULL");
+        throw DecompressException("FileHeader NULL", DECOMPRESS_FAIL);
     }
     
     INFO("Decompressing this file header: %s", fileHeader->fileName.c_str());
@@ -108,7 +108,7 @@ throw(DecompressException)
             WARN("%s", "The directory can't be created.");
             string message = "Cannot create the directory: ";
             message.append(name);
-            throw DecompressException(message.c_str());
+            throw DecompressException(message.c_str(), DECOMPRESS_FAIL);
         }
     }
     else
@@ -119,7 +119,7 @@ throw(DecompressException)
             WARN("%s", "The file can't be created.");
             string message = "Cannot create the file: ";
             message.append(name);
-            throw DecompressException(message.c_str());
+            throw DecompressException(message.c_str(), DECOMPRESS_FAIL);
         }
         switch(fileHeader->compressionMethod)
         {
@@ -129,7 +129,7 @@ throw(DecompressException)
                 break;
             default:
                 fclose(file);
-                throw UnsupportedCompressionMethod(fileHeader->compressionMethod);
+                throw UnsupportedCompressionMethod(fileHeader->compressionMethod, UNSUPPORTED_COMPRESSION);
         }
         
         tm* date = converter.parseMSDosToTm(fileHeader->lastModificationDate, 

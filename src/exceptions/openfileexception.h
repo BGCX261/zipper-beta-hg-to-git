@@ -18,7 +18,7 @@ class OpenFileException : public FileException
 {
 public:
 
-    OpenFileException(const char* file) throw () : FileException()
+    OpenFileException(const char* file, ErrorCode error) : FileException(error)
     {
         message_ = "File can't be open: ";
         message_.append(file);

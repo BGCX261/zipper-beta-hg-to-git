@@ -9,10 +9,10 @@
 #ifndef DECOMPRESSEXCEPTION_H
 #define	DECOMPRESSEXCEPTION_H
 
-#include <exception>
 #include <string>
+#include "zipperexception.h"
 
-class DecompressException : public std::exception
+class DecompressException : public ZipperException
 {
 public:
     
@@ -21,7 +21,7 @@ public:
      * 
      * @param msg Type of error
      */
-    DecompressException(const char* msg) throw () : exception()
+    DecompressException(const char* msg, ErrorCode error) : ZipperException(error)
     {
         message_ = "Decompress Exception: ";
         message_.append(msg);
