@@ -51,7 +51,7 @@ public:
  * This array is composed by the digits
  * of pi in hexadecimal
  */
-static const int32_t PBox[BLOWFISH_ROUNDS + 2] = {
+static const int32_t P_BOX[BLOWFISH_ROUNDS + 2] = {
     0x243F6A88L, 0x85A308D3L, 0x13198A2EL, 0x03707344L,
     0xA4093822L, 0x299F31D0L, 0x082EFA98L, 0xEC4E6C89L,
     0x452821E6L, 0x38D01377L, 0xBE5466CFL, 0x34E90C6CL,
@@ -65,7 +65,7 @@ static const int32_t PBox[BLOWFISH_ROUNDS + 2] = {
  * This array is composed by the digits
  * of pi in hexadecimal and starts in the [BLOWFISH_ROUNDS+2] position 
  */
-static const int32_t SBox[BLOWFISH_SBOXES][256] = {
+static const int32_t S_BOX[BLOWFISH_SBOXES][256] = {
     { 0xD1310BA6L, 0x98DFB5ACL, 0x2FFD72DBL, 0xD01ADFB7L,
         0xB8E1AFEDL, 0x6A267E96L, 0xBA7C9045L, 0xF12C7F99L,
         0x24A19947L, 0xB3916CF7L, 0x0801F2E2L, 0x858EFC16L,

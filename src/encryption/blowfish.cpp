@@ -20,7 +20,7 @@ int32_t Blowfish::blowfishFeistel(int32_t data)
     b = (data >> 16)& 0xff;
     c = (data >> 8) & 0xff;
     d = data & 0xff;
-    result = ((SBox[0][a] + SBox[1][b])^SBox[2][c]) + SBox[3][d];
+    result = ((S_BOX[0][a] + S_BOX[1][b])^S_BOX[2][c]) + S_BOX[3][d];
     return result;
 }
 

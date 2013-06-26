@@ -36,15 +36,15 @@ int32_t feistel(int32_t x)
     b = (x >> 16) & 0xff;
     c = (x >> 8) & 0xff;
     d = x & 0xff;
-    int32_t h = SBox[0][a] + SBox[1][b];
-    return ((h ^ SBox[2][c]) + SBox[3][d]);
+    int32_t h = S_BOX[0][a] + S_BOX[1][b];
+    return ((h ^ S_BOX[2][c]) + S_BOX[3][d]);
 }
 
 void BlowfishTest::testBlowfishFeistel()
 {
     for (int i = 0; i < BLOWFISH_ROUNDS + 2; i++)
     {
-        int32_t data32 = (int32_t) PBox[0];
+        int32_t data32 = (int32_t) P_BOX[0];
         int32_t expected = feistel(data32);
         Blowfish* blowfish = new Blowfish();
         int32_t actual = blowfish->blowfishFeistel(data32);
