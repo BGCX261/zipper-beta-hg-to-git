@@ -26,9 +26,10 @@ ConsoleZipper::~ConsoleZipper()
 
 const char* ConsoleZipper::runCommand()
 {
-
+    INFO("%s", "Running zipper command");
     if (argumentsCount < DEFAULT_ARGS)
     {
+        ERROR("%s", UNKNOW_ARGS);
         return UNKNOW_ARGS;
     }
 
@@ -37,6 +38,7 @@ const char* ConsoleZipper::runCommand()
 
     if (!allowedCommandLength)
     {
+        ERROR("%s", UNKNOW_OPTION);
         return UNKNOW_OPTION;
     }
 
@@ -69,6 +71,7 @@ void ConsoleZipper::executeOption(char option)
 
 void ConsoleZipper::compressOption()
 {
+    INFO("%s", "Executing compression...");
     char* compressionNumberArgs = arguments[argumentsCount - 1];
     int endSourceArgs = (strlen(compressionNumberArgs) > 1) ? (argumentsCount - 1) : (argumentsCount - 2);
     int compressionMethod = (strlen(compressionNumberArgs) == 1) ? atoi(compressionNumberArgs) : NOT_COMPRESSION_METHOD;
@@ -79,6 +82,7 @@ void ConsoleZipper::compressOption()
     if (!sourcePaths)
     {
         consoleError = UNKNOW_COMPRESSION_ARGS;
+        ERROR("%s", consoleError);
         return;
     }
 
@@ -107,9 +111,12 @@ char** ConsoleZipper::getSourceCompressionArgs(int sourceArgsLimit)
 
 void ConsoleZipper::traverseOption()
 {
+    INFO("%s", "Executing traverse...");
+
     if (argumentsCount != 3 && argumentsCount != 4)
     {
         consoleError = UNKNOWN_TRAVERSE_ARGS;
+        ERROR("%s", consoleError);
         return;
     }
 
@@ -118,6 +125,7 @@ void ConsoleZipper::traverseOption()
     if (level == 0)
     {
         consoleError = UNKNOWN_TRAVERSE_ARGS;
+        ERROR("%s", consoleError);
         return;
     }
 
@@ -126,9 +134,12 @@ void ConsoleZipper::traverseOption()
 
 void ConsoleZipper::decompressOption()
 {
+    INFO("%s", "Executing decompression...");
+    
     if (argumentsCount != 4)
     {
         consoleError = UNKNOWN_DECOMPRESSION_ARGS;
+        ERROR("%s", consoleError);
         return;
     }
 

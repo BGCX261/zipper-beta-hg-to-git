@@ -8,7 +8,10 @@
 #include <cstdlib>
 #include <stdio.h>
 #include "consolelib.h"
+#include "log/LoggerManager.h"
+#include "log/FileLogger.h"
 
+extern LoggerManager* g_logger;
 
 using namespace std;
 
@@ -21,6 +24,7 @@ using namespace std;
  */
 int main(int argc, char** argv)
 {
+    g_logger->addLogger(new FileLogger("ZipperLogs"));
     const char* resp = executeCommand(argc, argv);
     printf("%s", resp);
     return 0;

@@ -14,6 +14,9 @@
 #include "zipperlib.h"
 #include "outputerror.h"
 #include "help.h"
+#include "log/LoggerManager.h"
+
+extern LoggerManager* g_logger;
 
 /**
  *This defines the necessary arguments to execute a command 
