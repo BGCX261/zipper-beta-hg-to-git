@@ -220,6 +220,7 @@ bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileExcep
 
 bool createADirectory(const char* path)
 {
+    INFO("Creating a diretory: %s", path);
     if (!path)
     {
         return false;

@@ -15,6 +15,9 @@
 #include "../exceptions/decompressexception.h"
 #include "../errorcode.h"
 #include "../compressor/fileheader.h"
+#include "../log/LoggerManager.h"
+
+extern LoggerManager* g_logger;
     
 /**
  * Collect the file headers of a zip file. If the file does not exists throws a 
