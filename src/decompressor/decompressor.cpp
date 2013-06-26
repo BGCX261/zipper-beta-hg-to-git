@@ -19,12 +19,12 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
 
     if (!path)
     {
-        throw NullPathException();
+        throw NullPathException(INVALID_PARAMETERS);
     }
 
     if (!exist(path))
     {
-        throw FileNotFoundExpcetion(path);
+        throw FileNotFoundExpcetion(path, FILE_NOT_FOUND);
     }
 
     fread(&signature, sizeof (int), 1, file);
@@ -32,7 +32,7 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
     if (strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0 ||
             signature != FILE_HEADER_SIGNATURE)
     {
-        throw NotZipFileException(path);
+        throw NotZipFileException(path, INVALID_ZIP_FILE);
     }
 
     while (feof(file) == 0)
@@ -83,7 +83,7 @@ throw(DecompressException)
 {
     if(!fileHeader)
     {
-        throw DecompressException("FileHeader NULL");
+        throw DecompressException("FileHeader NULL", DECOMPRESS_FAIL);
     }
     
     DateConverter converter;
@@ -101,7 +101,7 @@ throw(DecompressException)
         {
             string message = "Cannot create the directory: ";
             message.append(name);
-            throw DecompressException(message.c_str());
+            throw DecompressException(message.c_str(), DECOMPRESS_FAIL);
         }
     }
     else
@@ -111,7 +111,7 @@ throw(DecompressException)
         {
             string message = "Cannot create the file: ";
             message.append(name);
-            throw DecompressException(message.c_str());
+            throw DecompressException(message.c_str(), DECOMPRESS_FAIL);
         }
         switch(fileHeader->compressionMethod)
         {
@@ -121,7 +121,7 @@ throw(DecompressException)
                 break;
             default:
                 fclose(file);
-                throw UnsupportedCompressionMethod(fileHeader->compressionMethod);
+                throw UnsupportedCompressionMethod(fileHeader->compressionMethod, UNSUPPORTED_COMPRESSION);
         }
         
         tm* date = converter.parseMSDosToTm(fileHeader->lastModificationDate, 

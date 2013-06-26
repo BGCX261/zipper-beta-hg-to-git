@@ -23,7 +23,7 @@ public:
      * 
      * @param file path of the file
      */
-    NotZipFileException(const char* file) throw () : FileException()
+    NotZipFileException(const char* file, ErrorCode error) : FileException(error)
     {
         message_ = "File isn't a zip: ";
         message_.append(file);

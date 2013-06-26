@@ -29,8 +29,8 @@ public:
      * 
      * @param file path of the file
      */
-    UnsupportedCompressionMethod(const int compressionMethod) 
-            throw () : DecompressException("Unsupported Compression Method")
+    UnsupportedCompressionMethod(const int compressionMethod, ErrorCode error) 
+             : DecompressException("Unsupported Compression Method", error)
     {
         std::stringstream stream;
         stream << compressionMethod;

@@ -17,20 +17,10 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
         inputPaths = explorePaths((const char**) inputfilePaths, pathCount);
 
     }
-    catch (FileNotFoundExpcetion& e)
+    catch (ZipperException e)
     {
         ERROR("%s", e.what());
-        return FILE_NOT_FOUND;
-    }
-    catch (NullPathException& e)
-    {
-        ERROR("%s", e.what());
-        return INVALID_PARAMETERS;
-    }
-    catch (OpenFileException& e)
-    {
-        ERROR("%s", e.what());
-        return CAN_NOT_OPEN_INPUT_FILE;
+        return e.getErrorCode();
     }
 
     std::string zipName = prepareTargetPath(targetPath, inputfilePaths[0]);
@@ -69,22 +59,12 @@ ErrorCode traverse(const char* zipPath, int level)
 
         tree.traverse(level);
     }
-    catch (NullPathException ePath)
+    catch (ZipperException e)
     {
-        ERROR("%s", ePath.what());
-        return INVALID_PARAMETERS;
+        ERROR("%s", e.what());
+        return e.getErrorCode();
     }
-    catch (FileNotFoundExpcetion eFile)
-    {
-        ERROR("%s", eFile.what());
-        return FILE_NOT_FOUND;
-    }
-    catch (NotZipFileException eZip)
-    {
-        ERROR("%s", eZip.what());
-        return INVALID_ZIP_FILE;
-    }
-
+    
     INFO("%s", "Traverse Successful");
     return OK;
 }
@@ -114,27 +94,12 @@ ErrorCode decompress(const char* zipPath, const char* outputPath)
         }
         fileHeaders.clear();
     }
-    catch (FileNotFoundExpcetion e)
+    catch (ZipperException e)
     {
         ERROR("%s", e.what());
-        return FILE_NOT_FOUND;
+        return e.getErrorCode();
     }
-    catch (NotZipFileException e)
-    {
-        ERROR("%s", e.what());
-        return INVALID_ZIP_FILE;
-    }
-    catch (UnsupportedCompressionMethod e)
-    {
-        ERROR("%s", e.what());
-        return UNSUPPORTED_COMPRESSION;
-    }
-    catch (DecompressException e)
-    {
-        ERROR("%s", e.what());
-        return DECOMPRESS_FAIL;
-    }
-
+    
     INFO("%s", "Decompress Successful");
     return OK;
 }
