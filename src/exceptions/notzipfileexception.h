@@ -9,7 +9,7 @@
 #ifndef NOTZIPFILEEXCEPTION_H
 #define	NOTZIPFILEEXCEPTION_H
 
-#include "../utils/fileexception.h"
+#include "fileexception.h"
 
 /**
  * Throw when the file is not a zip file.
