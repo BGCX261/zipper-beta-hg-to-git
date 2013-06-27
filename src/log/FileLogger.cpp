@@ -7,13 +7,6 @@
 
 #include "FileLogger.h"
 
-FileLogger::FileLogger()
-{
-    this->fileName_ = "Logs.txt";
-    this->loggingLevel_ = INFO;
-    this->file_ = fopen(fileName_, "a+");
-}
-
 FileLogger::FileLogger(const char* fileName)
 {
     this->fileName_ = new char[strlen(fileName) + 1];
@@ -38,8 +31,8 @@ void FileLogger::log(LoggingLevel level, unsigned int threadID, const char* sour
     if (file_ == NULL) return;
     if (level <= loggingLevel_ && this->file_)
     {
-        char* time = getCurrentTime();
-        char* levelStr = loggingLevelToString(level);
+        const char* time = getCurrentTime();
+        const char* levelStr = loggingLevelToString(level);
         fprintf(this->file_, "%s [%u] [%s] %s: %s\n", time, threadID, source, levelStr, msg);
     }
 }

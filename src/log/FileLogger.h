@@ -11,23 +11,22 @@
 #include "Logger.h"
 #include "string.h"
 
+#define DEFAULT_FILE_NAME "Logs.log"
+
 /**
  * Logger that logs information into a file.
  */
 class FileLogger : public Logger
 {
 public:
-    /**
-     * Instantiate the logger with a open file called 'Logs.txt'.
-     */
-    FileLogger();
 
     /**
-     * Instantiate the logger with a open file using the fileName param.
+     * Instantiate the logger with a open file using the fileName param. If the filename is not
+     * defined will create a file with the name Logs.log.
      * 
      * @param fileName File name
      */
-    FileLogger(const char* fileName);
+    FileLogger(const char* fileName = DEFAULT_FILE_NAME);
     FileLogger(const FileLogger& orig);
     /**
      * Close the file.
