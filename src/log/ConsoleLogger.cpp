@@ -24,8 +24,8 @@ void ConsoleLogger::log(LoggingLevel level, unsigned int threadID, const char* s
 {
     if (level <= loggingLevel_)
     {
-        char* time = getCurrentTime();
-        char* levelStr = loggingLevelToString(level);
+        const char* time = getCurrentTime();
+        const char* levelStr = loggingLevelToString(level);
         printf("%s [%u] [%s] %s: %s\n", time, threadID, source, levelStr, msg);
     }
 }

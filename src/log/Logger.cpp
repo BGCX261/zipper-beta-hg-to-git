@@ -8,7 +8,7 @@
 #include "Logger.h"
 #include "string.h"
 
-char* Logger::getCurrentTime()
+const char* Logger::getCurrentTime()
 {
     time_t rawtime;
     time(&rawtime);
@@ -17,14 +17,9 @@ char* Logger::getCurrentTime()
     return time;
 }
 
-char* Logger::loggingLevelToString(LoggingLevel level)
+const char* Logger::loggingLevelToString(LoggingLevel level)
 {
-    switch (level)
-    {
-    case ERROR: return "ERROR";
-    case WARN: return "WARN";
-    case INFO: return "INFO";
-    case DEBUG: return "DEBUG";
-    }
-    return "";
+    static char const *  loggingLevelsAsString[]={"ERROR", "WARN", "INFO", "DEBUG"};
+    
+    return loggingLevelsAsString[level];
 }

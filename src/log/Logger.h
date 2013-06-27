@@ -17,7 +17,7 @@
  */
 enum LoggingLevel
 {
-    ERROR = 1, WARN = 2, INFO = 3, DEBUG = 4
+    ERROR = 0, WARN, INFO, DEBUG
 };
 
 /**
@@ -55,8 +55,8 @@ public:
         this->loggingLevel_ = loggingLevel;
     }
 protected:
-    char* loggingLevelToString(LoggingLevel level);
-    char* getCurrentTime();
+    const char* loggingLevelToString(LoggingLevel level);
+    const char* getCurrentTime();
 
     /**
      * Define the minimum logging level for this logger.
