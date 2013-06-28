@@ -9,13 +9,14 @@
 #ifndef FILEUTILS_H
 #define	FILEUTILS_H
 #include <list>
-#include "path.h"
+#include <string>
 #include "../exceptions/openfileexception.h"
 #include "../exceptions/filenotfoundexception.h"
 #include "../exceptions/nullpathexception.h"
 #include "../log/LoggerManager.h"
 
 extern LoggerManager* g_logger;
+struct Path;
 
 /**
  * Check if the file in the given path is a file. If the path doesn't exist return false.
@@ -87,7 +88,7 @@ std::string prepareTargetPath(const char* targetPath, const char* firsFileName);
  * 
  * @return The filename, if is not found will return the given path.
  */
-std::string getFileName(const std::string path);
+std::string getFileName(const std::string& path);
 
 /**
  * Change the last modification time and date of the given file. If the file does not exists

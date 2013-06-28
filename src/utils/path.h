@@ -9,6 +9,7 @@
 #ifndef PATH_H
 #define	PATH_H
 #include <string>
+#include "fileutils.h"
 
 /**
  * Directory separator for files.
@@ -45,8 +46,7 @@ struct Path
      */
     Path(const std::string& fullPath, bool isDir) : fullPath(fullPath), isDir(isDir)
     {
-        size_t found = fullPath.find_last_of(DIRECTORY_SEPARATOR);
-        this->relativePath = fullPath.substr(found + 1);
+        this->relativePath = getFileName(fullPath);
         
         if (isDir)
         {

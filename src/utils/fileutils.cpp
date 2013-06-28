@@ -6,6 +6,7 @@
 #include <utime.h>
 #include <time.h>
 #include <stdlib.h>
+#include "path.h"
 
 /**
  * Check if the given path is not null and exist.
@@ -30,15 +31,6 @@ void explorePath(const char* path, std::list<Path>& files) throw (FileException)
  * @param list List where the found files will be added as Path structures.
  */
 void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileException);
-
-/**
- * Split the file name with / or \ and gets the last occurrence of that
- * 
- * @param str The string to split
- * @return The last occurrence
- */
-std::string splitFileName(const std::string& str);
-
 
 struct stat st_info;
 
@@ -100,7 +92,7 @@ void explorePath(const char* path, std::list<Path>& files)throw (FileException)
 void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException, OpenFileException)
 {
     INFO("%s", "Checking if the path is valid.");
-    
+
     if (!path)
     {
         WARN("%s", "Null path.");
@@ -109,7 +101,7 @@ void checkPath(const char* path) throw (FileNotFoundExpcetion, NullPathException
     if (!exist(path))
     {
         WARN("%s", "The path doesn't exist.")
-        throw FileNotFoundExpcetion(path, FILE_NOT_FOUND);
+                throw FileNotFoundExpcetion(path, FILE_NOT_FOUND);
     }
 }
 
@@ -127,7 +119,7 @@ void listFiles(const Path& parent, std::list<Path> & list) throw (OpenFileExcept
 
     if ((directory = opendir(parent.fullPath.c_str())) == NULL)
     {
-        WARN("%s","Cant open the directory.");
+        WARN("%s", "Cant open the directory.");
         throw OpenFileException(parent.fullPath.c_str(), CAN_NOT_OPEN_INPUT_FILE);
     }
 
@@ -170,7 +162,7 @@ std::string prepareTargetPath(const char* targetPath, const char* firstFileName)
         std::string zipTarget;
         std::string zipFileName;
         std::string strFirstFile(firstFileName);
-        zipFileName = splitFileName(strFirstFile);
+        zipFileName = getFileName(strFirstFile);
         unsigned found = zipFileName.find_last_of(".");
         zipTarget = zipFileName.substr(0, found);
         if (*strTargetPath.rbegin() != '/')
@@ -183,17 +175,10 @@ std::string prepareTargetPath(const char* targetPath, const char* firstFileName)
     return strTargetPath;
 }
 
-std::string splitFileName(const std::string& str)
+std::string getFileName(const std::string& path)
 {
-    unsigned found = str.find_last_of("/\\");
-    std::string res = str.substr(found + 1);
-    return res;
-}
-
-std::string getFileName(const std::string path)
-{
-    size_t found = path.find_last_of("/");
-    return path.substr(found + 1);
+    size_t found = path.find_last_of("/\\");
+    return found == std::string::npos? path : path.substr(found + 1);
 }
 
 bool setLastModificationDateAndTime(const char* path, tm* date) throw (FileException)

@@ -11,6 +11,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 #include "utils/fileutils.h"
+#include "utils/path.h"
 
 class FileUtilsTest : public CPPUNIT_NS::TestFixture
 {
