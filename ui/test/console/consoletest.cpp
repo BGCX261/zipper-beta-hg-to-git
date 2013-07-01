@@ -27,6 +27,8 @@ void ConsoleTest::tearDown()
         remove("resources/directorytest/file1");
         rmdir("resources/directorytest");
     }
+
+    remove("resources/test.zip");
 }
 
 void ConsoleTest::itShouldShowTheHelpWhenTheWrittenCommandIsHWithoutArgs()
@@ -142,6 +144,22 @@ void ConsoleTest::testDecompressionOptionWithAnyParameter()
     CPPUNIT_ASSERT(strcmp(output, UNKNOWN_DECOMPRESSION_ARGS) == 0);
 }
 
+void ConsoleTest::testCompressOptionWithCompressionAlgorithm()
+{
+    ConsoleZipper zipper(5, buildCommandArray(5, "./zipper", "-c", "resources/song.mp3",
+                                              "resources/test.zip", "12"));
+    const char* output = zipper.runCommand();
+    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+}
+
+void ConsoleTest::testCompressOptionWithWrongCompressionAlgorithm()
+{
+    ConsoleZipper zipper(5, buildCommandArray(5, "./zipper", "-c", "resources/song.mp3",
+                                              "resources/test.zip", "ae"));
+    const char* output = zipper.runCommand();
+    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+}
+
 char** buildCommandArray(int commandsCount, ...)
 {
     char** res = new char *[commandsCount];
@@ -156,7 +174,7 @@ char** buildCommandArray(int commandsCount, ...)
         res[i] = new char[strlen(val)];
         strcpy(res[i], val);
     }
-    
+
     va_end(vl);
     return res;
 }

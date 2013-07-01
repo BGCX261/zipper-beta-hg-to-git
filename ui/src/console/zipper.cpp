@@ -78,6 +78,8 @@ void ConsoleZipper::compressOption()
     char** sourcePaths = getSourceCompressionArgs(endSourceArgs);
     int sourcePathsSize = endSourceArgs - BEGIN_INDEX_SOURCE_ARGS;
     char* destPath = arguments[endSourceArgs];
+    INFO("Compression Method: %d", compressionMethod);
+    INFO("Destination: %s", destPath);
 
     if (!sourcePaths)
     {
