@@ -73,8 +73,8 @@ void ConsoleZipper::compressOption()
 {
     INFO("%s", "Executing compression...");
     char* compressionNumberArgs = arguments[argumentsCount - 1];
-    int endSourceArgs = (strlen(compressionNumberArgs) > 1) ? (argumentsCount - 1) : (argumentsCount - 2);
-    int compressionMethod = (strlen(compressionNumberArgs) == 1) ? atoi(compressionNumberArgs) : NOT_COMPRESSION_METHOD;
+    int endSourceArgs = (strlen(compressionNumberArgs) > 2) ? (argumentsCount - 1) : (argumentsCount - 2);
+    int compressionMethod = (strlen(compressionNumberArgs) <= 2) ? atoi(compressionNumberArgs) : NOT_COMPRESSION_METHOD;
     char** sourcePaths = getSourceCompressionArgs(endSourceArgs);
     int sourcePathsSize = endSourceArgs - BEGIN_INDEX_SOURCE_ARGS;
     char* destPath = arguments[endSourceArgs];
