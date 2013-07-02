@@ -11,7 +11,7 @@ extern LoggerManager* g_logger;
 
 int main(int argc, char* argv[])
 {
-    g_logger->addLogger(new FileLogger("TestLogs"));
+    g_logger->addFileLogger("TestLogs");
     
     // Create the event manager and test controller
     CPPUNIT_NS::TestResult controller;

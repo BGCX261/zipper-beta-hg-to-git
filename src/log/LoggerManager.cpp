@@ -63,11 +63,11 @@ void LoggerManager::log(LoggingLevel level, const char* source, const char* form
     }
 }
 
-bool LoggerManager::addLogger(Logger* logger)
+bool LoggerManager::addFileLogger(const char* filename)
 {
-    if (!logger) return false;
+    if (!filename) return false;
     if (size_ == capacity_) return false; //Maybe gonna be resized.
-    loggers_[size_] = logger;
+    loggers_[size_] = new FileLogger(filename);
     size_++;
     return true;
 }

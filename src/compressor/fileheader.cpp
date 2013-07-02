@@ -189,6 +189,7 @@ FileHeader* createFileHeader(const Path* path, const short compressionMethod)
             break; 
     }
     
+    delete converter;
     free(data);
     fclose(file);
     return header;

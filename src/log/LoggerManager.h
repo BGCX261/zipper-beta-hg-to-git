@@ -8,6 +8,7 @@
 #ifndef LOGGERMANAGER_H
 #define	LOGGERMANAGER_H
 #include "Logger.h"
+#include "FileLogger.h"
 
 #define DEBUG(format, ...){g_logger->log(DEBUG, __PRETTY_FUNCTION__, format, __VA_ARGS__);}
 #define INFO(format, ...){g_logger->log(INFO, __PRETTY_FUNCTION__, format, __VA_ARGS__);}
@@ -43,12 +44,13 @@ public:
     void log(LoggingLevel level, const char* source, const char* format, ...);
 
     /**
-     * Add a logger to the manager.
+     * Create a logger and add it to the logger list for the manager.
      * 
-     * @param logger New logger
-     * @return True if the logger was added successfully, false in other case.
+     * @param filename Name of the file.
+     * 
+     * @return True if the logger was added successfully. False in other case.
      */
-    bool addLogger(Logger* logger);
+    bool addFileLogger(const char* filename);
 
     /**
      * Return the list of enables loggers.

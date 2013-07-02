@@ -26,6 +26,7 @@ enum LoggingLevel
 class Logger
 {
 public:
+    virtual ~Logger(){}
     /**
      * Logs the received message. If the logging level is higher than the defined 
      * in the logger won't be logged.

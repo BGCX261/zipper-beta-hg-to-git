@@ -24,9 +24,10 @@ using namespace std;
  */
 int main(int argc, char** argv)
 {
-    g_logger->addLogger(new FileLogger("ZipperLogs"));
+    g_logger->addFileLogger("ZipperLogs");
     const char* resp = executeCommand(argc, argv);
     printf("%s", resp);
+    delete g_logger;
     return 0;
 }
 
