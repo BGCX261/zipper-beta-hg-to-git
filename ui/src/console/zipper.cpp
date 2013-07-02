@@ -18,10 +18,10 @@ ConsoleZipper::~ConsoleZipper()
 {
     for (int i = 0; i < argumentsCount; i++)
     {
-        delete this->arguments[i];
+        delete[] this->arguments[i];
     }
 
-    delete arguments;
+    delete[] arguments;
 }
 
 const char* ConsoleZipper::runCommand()

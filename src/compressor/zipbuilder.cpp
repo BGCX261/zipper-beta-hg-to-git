@@ -61,7 +61,6 @@ void ZipBuilder::buildFileHeader(const Path& path, iostream* outputStream)
     char* buffer = 0;
     INFO("%s", "Creating the file header...");
     FileHeader* fileHeader = createFileHeader(&path, compressionMethod_);
-    buffer = new char[fileHeader->size()];
     INFO("%s", "Setting the offset of the file header");
     fileHeader->offset = currentOffset_;
     currentOffset_ += fileHeader->size();
@@ -71,7 +70,7 @@ void ZipBuilder::buildFileHeader(const Path& path, iostream* outputStream)
     INFO("%s", "Adding the file header in to the list of created file headers.");
     fileHeaders_->push_back(fileHeader);
 
-    delete[] buffer;
+    free(buffer);
 }
 
 void ZipBuilder::buildCentralDirectory(FileHeader* fileHeader, iostream* outputStream)
