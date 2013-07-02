@@ -195,7 +195,7 @@ private:
 FileHeader* createFileHeader(const Path* path, const short compressionMethod);
 
 /**
- * Store all content of the file header in a buffer. The buffer must be free later.
+ * Store all content of the file header in a buffer. The buffer must be free later with free() function.
  * 
  * @param fileHeader File header that will be stored in the buffer
  * @param buffer buffer where the file header will be stored
