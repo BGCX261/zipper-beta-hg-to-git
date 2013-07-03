@@ -47,7 +47,8 @@ ErrorCode traverse(const char* zipPath, int level)
     INFO("%s", "Traverse");
     try
     {
-        std::list<FileHeader*> fileHeaders = navigate(zipPath);
+        std::list<FileHeader*> fileHeaders;
+        navigate(zipPath, fileHeaders);
         std::string filename = getFileName(zipPath);
         Tree tree(filename);
         for (std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end(); it++)
@@ -82,7 +83,7 @@ ErrorCode decompress(const char* zipPath, const char* outputPath)
     try
     {
         std::list<FileHeader*> fileHeaders;
-        fileHeaders = navigate(zipPath);
+        navigate(zipPath, fileHeaders);
 
         std::list<FileHeader*>::iterator it = fileHeaders.begin();
         for (; it != fileHeaders.end(); it++)

@@ -24,10 +24,9 @@ extern LoggerManager* g_logger;
  * FileNotFounException, if the given file is not a zip file throws a NotZipFileException
  * 
  * @param path Path of the zip file 
- * 
- * @return Return a file headers list
+ * @param fileHeaders Place where every found file header in the given path will be added.
  */
-std::list<FileHeader*>& navigate(const char* path) throw (FileException);
+void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (FileException);
 
 /**
  * Decompress a file header in the output path. Throw a DecompressionException 

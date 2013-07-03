@@ -10,10 +10,9 @@
 
 using namespace std;
 
-std::list<FileHeader*>& navigate(const char* path) throw (FileException)
+void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (FileException)
 {
     INFO("Navigating a zip file in the path: %s", path);
-    list<FileHeader*>* fileHeaders = new list<FileHeader*>();
     int signature;
     const char* zipExtension = ".zip";
     FILE* file = fopen(path, "rb");
@@ -72,13 +71,11 @@ std::list<FileHeader*>& navigate(const char* path) throw (FileException)
             fh->setData(data, fh->compressedSize);
             free(data);
 
-            fileHeaders->push_back(fh);
+            fileHeaders.push_back(fh);
         }
 
         fread(&signature, sizeof (int), 1, file);
     }
-
-    return *fileHeaders;
 }
 
 

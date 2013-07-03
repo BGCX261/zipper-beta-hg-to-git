@@ -25,11 +25,11 @@ void DecompressorTest::setUp()
 
 void DecompressorTest::tearDown()
 {
-    if(exist("resources/File1.txt"))
+    if (exist("resources/File1.txt"))
     {
         remove("resources/File1.txt");
     }
-    if(exist("resources/FolderTest"))
+    if (exist("resources/FolderTest"))
     {
         rmdir("resources/FolderTest");
     }
@@ -37,7 +37,8 @@ void DecompressorTest::tearDown()
 
 void DecompressorTest::testNavigateGivenAZipWithOneFile()
 {
-    std::list<FileHeader*> fileHeaders = navigate("resources/oneFile.zip");
+    std::list<FileHeader*> fileHeaders;
+    navigate("resources/oneFile.zip", fileHeaders);
 
     FileHeader* expected = new FileHeader();
 
@@ -61,18 +62,21 @@ void DecompressorTest::testNavigateGivenAZipWithOneFile()
 
 void DecompressorTest::testNavigateGivenAZipWithSeveralFiles()
 {
-    std::list<FileHeader*> fileHeaders = navigate("resources/severalFiles.zip");
+    std::list<FileHeader*> fileHeaders;
+    navigate("resources/severalFiles.zip", fileHeaders);
     CPPUNIT_ASSERT(fileHeaders.size() == 7);
 }
 
 void DecompressorTest::testNavigateGivenANonZipFile()
 {
-    CPPUNIT_ASSERT_THROW(navigate("resources/song.mp3"), NotZipFileException);
+    std::list<FileHeader*> fileHeaders;
+    CPPUNIT_ASSERT_THROW(navigate("resources/song.mp3", fileHeaders), NotZipFileException);
 }
 
 void DecompressorTest::testNavigateGivenANonExistentFile()
 {
-    CPPUNIT_ASSERT_THROW(navigate("resources/someFile.zip"), FileNotFoundExpcetion);
+    std::list<FileHeader*> fileHeaders;
+    CPPUNIT_ASSERT_THROW(navigate("resources/someFile.zip", fileHeaders), FileNotFoundExpcetion);
 }
 
 void DecompressorTest::testDecompressAFileHeaderGivenAFile()
@@ -96,7 +100,7 @@ void DecompressorTest::testDecompressAFileHeaderGivenAFile()
     CPPUNIT_ASSERT(isFile("resources/File1.txt"));
     tm* date = recoverLastModificationDateAndTime("resources/File1.txt");
     CPPUNIT_ASSERT(date->tm_year == 2011 - 1900);
-    CPPUNIT_ASSERT(date->tm_mon == 6 - 1);      
+    CPPUNIT_ASSERT(date->tm_mon == 6 - 1);
     CPPUNIT_ASSERT(date->tm_mday == 12);
     CPPUNIT_ASSERT(date->tm_hour == 11);
     CPPUNIT_ASSERT(date->tm_min == 1);
@@ -145,7 +149,7 @@ void DecompressorTest::testLastModificationTimeOfADecompressedFile()
     decompressAFileHeader(fileHeader, "resources");
 
     tm* result = recoverLastModificationDateAndTime("resources/File1.txt");
-    
+
     CPPUNIT_ASSERT(result->tm_year == 2011 - 1900);
     CPPUNIT_ASSERT(result->tm_mon == 6 - 1);
     CPPUNIT_ASSERT(result->tm_mday == 29);
