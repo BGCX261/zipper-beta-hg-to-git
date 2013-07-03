@@ -132,6 +132,7 @@ throw(DecompressException)
         tm* date = converter.parseMSDosToTm(fileHeader->lastModificationDate, 
                 fileHeader->lastModificationTime);
         setLastModificationDateAndTime(name, date);
+        delete date;
     }
     free(name);
 }
