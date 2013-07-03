@@ -76,6 +76,8 @@ void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (File
 
         fread(&signature, sizeof (int), 1, file);
     }
+    
+    fclose(file);
 }
 
 

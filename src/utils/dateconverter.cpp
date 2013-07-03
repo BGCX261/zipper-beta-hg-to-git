@@ -18,7 +18,7 @@ DateConverter::DateConverter(DateConverter& dateConverter)
 
 DateConverter::~DateConverter()
 {
-    if (time_)
+    if (!time_)
     {
         delete time_;
     }
