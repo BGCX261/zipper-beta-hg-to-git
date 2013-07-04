@@ -3,7 +3,7 @@
 
 DateConverter::DateConverter()
 {
-    time_ = new tm();
+    time_ = 0;
 }
 
 DateConverter::DateConverter(tm* time)
@@ -13,15 +13,8 @@ DateConverter::DateConverter(tm* time)
 
 DateConverter::DateConverter(DateConverter& dateConverter)
 {
+    printf("constructor copy");
     dateConverter.time_ = time_;
-}
-
-DateConverter::~DateConverter()
-{
-    if (!time_)
-    {
-        delete time_;
-    }
 }
 
 short DateConverter::parseTimeToMSDosFormat()

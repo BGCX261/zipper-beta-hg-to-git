@@ -91,7 +91,6 @@ throw(DecompressException)
     }
     
     INFO("Decompressing this file header: %s", fileHeader->fileName.c_str());
-    DateConverter converter;
     int outputSize = strlen(outputPath);
     char* name = (char*) malloc(outputSize + fileHeader->fileNameLength + 2);
     memset(name, 0, outputSize + fileHeader->fileNameLength + 2);
@@ -107,6 +106,7 @@ throw(DecompressException)
             WARN("%s", "The directory can't be created.");
             string message = "Cannot create the directory: ";
             message.append(name);
+            free(name);
             throw DecompressException(message.c_str(), DECOMPRESS_FAIL);
         }
     }
@@ -118,6 +118,7 @@ throw(DecompressException)
             WARN("%s", "The file can't be created.");
             string message = "Cannot create the file: ";
             message.append(name);
+            free(name);
             throw DecompressException(message.c_str(), DECOMPRESS_FAIL);
         }
         switch(fileHeader->compressionMethod)
@@ -127,10 +128,12 @@ throw(DecompressException)
                 fclose(file);
                 break;
             default:
+                free(name);
                 fclose(file);
                 throw UnsupportedCompressionMethod(fileHeader->compressionMethod, UNSUPPORTED_COMPRESSION);
         }
         
+        DateConverter converter;
         tm* date = converter.parseMSDosToTm(fileHeader->lastModificationDate, 
                 fileHeader->lastModificationTime);
         setLastModificationDateAndTime(name, date);

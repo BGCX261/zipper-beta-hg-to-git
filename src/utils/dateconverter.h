@@ -38,11 +38,6 @@ public:
     DateConverter(DateConverter& dateConverter);
     
     /**
-     * Destroy the time
-     */
-    ~DateConverter();
-    
-    /**
     * Store the time information in two bytes following the MS-Dos standard time format.
     * MS-dos standard date format consist in save the hours minutes and seconds in two bytes
     * 

@@ -65,7 +65,7 @@ ErrorCode traverse(const char* zipPath, int level)
         ERROR("%s", e.what());
         return e.getErrorCode();
     }
-    
+
     INFO("%s", "Traverse Successful");
     return OK;
 }
@@ -80,9 +80,10 @@ ErrorCode decompress(const char* zipPath, const char* outputPath)
         return INVALID_PARAMETERS;
     }
 
+    //TODO: DMV - 4/7/13 Refactor file header remove.
+    std::list<FileHeader*> fileHeaders;
     try
     {
-        std::list<FileHeader*> fileHeaders;
         navigate(zipPath, fileHeaders);
 
         std::list<FileHeader*>::iterator it = fileHeaders.begin();
@@ -97,10 +98,18 @@ ErrorCode decompress(const char* zipPath, const char* outputPath)
     }
     catch (ZipperException e)
     {
+        std::list<FileHeader*>::iterator it = fileHeaders.begin();
+        for (; it != fileHeaders.end(); it++)
+        {
+            FileHeader* fileHeader = *it;
+            *it = 0;
+            delete fileHeader;
+        }
+        fileHeaders.clear();
         ERROR("%s", e.what());
         return e.getErrorCode();
     }
-    
+
     INFO("%s", "Decompress Successful");
     return OK;
 }
