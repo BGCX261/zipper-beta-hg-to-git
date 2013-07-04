@@ -44,9 +44,10 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
 ErrorCode traverse(const char* zipPath, int level)
 {
     INFO("%s", "Traverse");
+    ErrorCode result = OK;
+    std::list<FileHeader*> fileHeaders;
     try
     {
-        std::list<FileHeader*> fileHeaders;
         navigate(zipPath, fileHeaders);
         std::string filename = getFileName(zipPath);
         Tree tree(filename);
@@ -58,15 +59,20 @@ ErrorCode traverse(const char* zipPath, int level)
         }
 
         tree.traverse(level);
+        INFO("%s", "Traverse Successful");
     }
     catch (ZipperException e)
     {
         ERROR("%s", e.what());
-        return e.getErrorCode();
+        result = e.getErrorCode();
     }
+    
+    for (std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end(); it++){
+        delete *it;
+    }
+    fileHeaders.clear();
 
-    INFO("%s", "Traverse Successful");
-    return OK;
+    return result;
 }
 
 ErrorCode decompress(const char* zipPath, const char* outputPath)

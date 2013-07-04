@@ -13,8 +13,13 @@ Node::Node(const Node& orig)
 }
 
 Node::~Node()
-{
-    delete parent_;
+{   
+    std::list<Node*>::iterator it = children_.begin();
+    for (; it != children_.end(); it++){
+        delete *it;
+    }
+    
+    children_.clear();
 }
 
 Node* Node::getNode(const std::string& path)
