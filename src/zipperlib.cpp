@@ -11,11 +11,11 @@
 ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int compressionMethod)
 {
     INFO("%s", "Compressing");
-    std::list<Path>* inputPaths = 0;
+    std::list<Path> inputPaths;
+    
     try
     {
-        inputPaths = explorePaths((const char**) inputfilePaths, pathCount);
-
+        explorePaths((const char**) inputfilePaths, pathCount, inputPaths);
     }
     catch (ZipperException e)
     {
@@ -37,7 +37,6 @@ ErrorCode compress(char* targetPath, char** inputfilePaths, int pathCount, int c
     stream->close();
     delete builder;
     delete stream;
-    delete inputPaths;
     INFO("%s", "Compression Successful");
     return OK;
 }

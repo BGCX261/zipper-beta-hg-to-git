@@ -51,7 +51,7 @@ public:
      * @param outputStream The outpustream that will store the zip file structure
      * @param inputPaths The path to build the zip file
      */
-    void buildZipFile(std::iostream* outputStream, std::list<Path>* inputPaths_);
+    void buildZipFile(std::iostream* outputStream, std::list<Path>& inputPaths_);
 
 private:
     /**
@@ -66,7 +66,7 @@ private:
      * 
      * @param outputStream The output stream that will store the file headers
      */
-    void buildFileHeaders(std::iostream* outputStream, std::list<Path>* inputPaths_);
+    void buildFileHeaders(std::iostream* outputStream, std::list<Path> inputPaths_);
 
     /**
      * Build the file header

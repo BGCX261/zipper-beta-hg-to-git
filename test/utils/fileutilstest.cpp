@@ -124,8 +124,9 @@ void FileUtilsTest::testListFilesFromADirectory()
     const char* directory = "resources/directorytest";
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = directory;
-    std::list<Path>* files = explorePaths(paths, inputCount);
-    int filesCount = files->size();
+    std::list<Path> files;
+    explorePaths(paths, inputCount, files);
+    int filesCount = files.size();
     CPPUNIT_ASSERT_EQUAL(expectedFilesCount, filesCount);
 
     free(paths);
@@ -142,8 +143,9 @@ void FileUtilsTest::testListFilesFromManyDirectories()
     paths[0] = directory1;
     paths[1] = directory2;
     paths[2] = file1;
-    std::list<Path>* files = explorePaths(paths, inputCount);
-    int filesCount = files->size();
+    std::list<Path> files;
+    explorePaths(paths, inputCount, files);
+    int filesCount = files.size();
     CPPUNIT_ASSERT_EQUAL(expectedFilesCount, filesCount);
 
     free(paths);
@@ -155,8 +157,8 @@ void FileUtilsTest::testListFilesWhenAFileDoesNotExist()
     const char* falseDirectory = "resources/somedirectory";
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = falseDirectory;
-
-    CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount), FileNotFoundExpcetion);
+    std::list<Path> files;
+    CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount, files), FileNotFoundExpcetion);
 
     free(paths);
 }
@@ -167,8 +169,8 @@ void FileUtilsTest::testListFilesWhenAPathIsNull()
     const char* falseDirectory = NULL;
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = falseDirectory;
-
-    CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount), NullPathException);
+    std::list<Path> files;
+    CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount, files), NullPathException);
 }
 
 bool fileComparator(const Path& first, const Path& second)
@@ -182,9 +184,10 @@ void FileUtilsTest::testListFilesCheckNames()
     const char* directory = "resources/directorytest";
     const char** paths = (const char**) calloc(inputCount, sizeof (char*));
     paths[0] = directory;
-    std::list<Path>* files = explorePaths(paths, inputCount);
-    int filesCount = files->size();
-    files->sort(fileComparator);
+    std::list<Path> files;
+    explorePaths(paths, inputCount, files);
+    int filesCount = files.size();
+    files.sort(fileComparator);
 
     std::string newLine;
     std::ifstream file;
@@ -194,14 +197,14 @@ void FileUtilsTest::testListFilesCheckNames()
     while (testCount < filesCount)
     {
         getline(file, newLine);
-        Path path = files->front();
-        files->pop_front();
+        Path path = files.front();
+        files.pop_front();
         std::string message = "Full paths: ";
         message.append(newLine);
         message.append(" != ");
         message.append(path.fullPath);
         CPPUNIT_ASSERT_MESSAGE(message, newLine.compare(path.fullPath) == 0);
-        files->push_back(path);
+        files.push_back(path);
         testCount++;
     }
 
@@ -210,14 +213,14 @@ void FileUtilsTest::testListFilesCheckNames()
     while (testCount < filesCount)
     {
         getline(file, newLine);
-        Path path = files->front();
-        files->pop_front();
+        Path path = files.front();
+        files.pop_front();
         std::string message = "Relative paths: ";
         message.append(newLine);
         message.append(" != ");
         message.append(path.relativePath);
         CPPUNIT_ASSERT_MESSAGE(message, newLine.compare(path.relativePath) == 0);
-        files->push_back(path);
+        files.push_back(path);
         testCount++;
     }
 

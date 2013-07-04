@@ -67,17 +67,14 @@ bool exist(const char* path)
     return false;
 }
 
-std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException)
+void explorePaths(const char** paths, int pathsCount, std::list<Path>& collectedFiles) throw (FileException)
 {
     INFO("%s", "Starting to explore paths...");
-    std::list<Path>* response = new std::list<Path>();
 
     for (int i = 0; i < pathsCount; i++)
     {
-        explorePath(paths[i], *response);
+        explorePath(paths[i], collectedFiles);
     }
-
-    return response;
 }
 
 void explorePath(const char* path, std::list<Path>& files)throw (FileException)

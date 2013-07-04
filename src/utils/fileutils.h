@@ -51,11 +51,10 @@ bool exist(const char* path);
  * 
  * @param paths Contain paths of files or directories.
  * @param pathsCount Size of the given list of paths.
- * 
- * @return List that will contain all the files and directories inside the given path in order
+ * @param List that will contain all the files and directories collected from the given path in order
  * of appearance.
  */
-std::list<Path>* explorePaths(const char** paths, int pathsCount) throw (FileException);
+void explorePaths(const char** paths, int pathsCount, std::list<Path>& collectedFiles) throw (FileException);
 
 /**
  * Recover the last modification date and time of a file. If is directory

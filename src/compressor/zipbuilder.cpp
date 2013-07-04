@@ -30,10 +30,10 @@ ZipBuilder::~ZipBuilder()
     }
 }
 
-void ZipBuilder::buildZipFile(iostream* outputStream,std::list<Path>* inputPaths)
+void ZipBuilder::buildZipFile(iostream* outputStream, std::list<Path>& inputPaths)
 {
     INFO("%s", "Star to build a zip file...");
-    buildFileHeaders(outputStream,inputPaths);
+    buildFileHeaders(outputStream, inputPaths);
     list<FileHeader*>::iterator fHeaderIterator;
     this->cDirectoryOffset_ = currentOffset_;
     for (fHeaderIterator = fileHeaders_->begin(); fHeaderIterator != fileHeaders_->end(); fHeaderIterator++)
@@ -44,12 +44,12 @@ void ZipBuilder::buildZipFile(iostream* outputStream,std::list<Path>* inputPaths
     buildEndOfCentralDirectory(fileHeaders_->size(), outputStream);
 }
 
-void ZipBuilder::buildFileHeaders(iostream* outputStream,std::list<Path>* inputPaths)
+void ZipBuilder::buildFileHeaders(iostream* outputStream, std::list<Path> inputPaths)
 {
     INFO("%s", "Building file headers with the compiled files of the input path.");
     list<Path>::iterator pathIterator;
 
-    for (pathIterator = inputPaths->begin(); pathIterator != inputPaths->end(); pathIterator++)
+    for (pathIterator = inputPaths.begin(); pathIterator != inputPaths.end(); pathIterator++)
     {
         buildFileHeader(*pathIterator, outputStream);
     }
