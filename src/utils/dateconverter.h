@@ -71,10 +71,9 @@ public:
      * 
      * @param date MS-Dos Date
      * @param timeMS-Dos time
-     * 
-     * @return The tm structure with the date and time
+     * @param datetime The tm structure that will save the parsed date and time.
      */
-    tm* parseMSDosToTm(const short date, const short time);
+    void parseMSDosToTm(const short date, const short time, tm* datetime);
     
 private:
     

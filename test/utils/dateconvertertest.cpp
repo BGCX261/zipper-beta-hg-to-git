@@ -131,13 +131,14 @@ void DateConverterTest::testParseMSDosToTm()
     const short date = 16093;
     const short time = 23492;
     DateConverter* converter = new DateConverter();
-    tm* result = converter->parseMSDosToTm(date, time);
+    tm result; 
+    converter->parseMSDosToTm(date, time, &result);
     
-    CPPUNIT_ASSERT(result->tm_year == 2011 - 1900);
-    CPPUNIT_ASSERT(result->tm_mon == 5);
-    CPPUNIT_ASSERT(result->tm_mday == 29);
-    CPPUNIT_ASSERT(result->tm_hour == 11);
-    CPPUNIT_ASSERT(result->tm_min == 30);
-    CPPUNIT_ASSERT(result->tm_sec == 8);
+    CPPUNIT_ASSERT(result.tm_year == 2011 - 1900);
+    CPPUNIT_ASSERT(result.tm_mon == 5);
+    CPPUNIT_ASSERT(result.tm_mday == 29);
+    CPPUNIT_ASSERT(result.tm_hour == 11);
+    CPPUNIT_ASSERT(result.tm_min == 30);
+    CPPUNIT_ASSERT(result.tm_sec == 8);
 }
 

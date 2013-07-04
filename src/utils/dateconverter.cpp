@@ -63,10 +63,8 @@ short DateConverter::parseDateToMSDosFormat()
     return (short) (year << 9) | (month << 5) | day; // Store the year month and day
 }
 
-tm* DateConverter::parseMSDosToTm(const short date, const short time)
-{
-    tm* ans = new tm();
-    
+void DateConverter::parseMSDosToTm(const short date, const short time, tm* datetime)
+{    
     int year = date >> 9 & ((1 << 7) - 1);
     int month = date >> 5 & 0xF;
     int day = date & ((1 << 5) - 1);
@@ -75,14 +73,12 @@ tm* DateConverter::parseMSDosToTm(const short date, const short time)
     int minute = time  >> 5 & ((1 << 6) - 1);
     int second = time & ((1 << 5) - 1);
     
-    ans->tm_year = year + 1980 - 1900;
-    ans->tm_mon = month - 1;
-    ans->tm_mday = day;
+    datetime->tm_year = year + 1980 - 1900;
+    datetime->tm_mon = month - 1;
+    datetime->tm_mday = day;
     
-    ans->tm_hour = hour;
-    ans->tm_min = minute;
-    ans->tm_sec = second * 2;
-    mktime(ans);
-    
-    return ans;
+    datetime->tm_hour = hour;
+    datetime->tm_min = minute;
+    datetime->tm_sec = second * 2;
+    mktime(datetime);   
 }

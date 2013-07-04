@@ -134,10 +134,11 @@ throw(DecompressException)
         }
         
         DateConverter converter;
-        tm* date = converter.parseMSDosToTm(fileHeader->lastModificationDate, 
-                fileHeader->lastModificationTime);
-        setLastModificationDateAndTime(name, date);
-        delete date;
+        tm date;
+        memset(&date, 0, sizeof(tm));
+        converter.parseMSDosToTm(fileHeader->lastModificationDate, 
+                                 fileHeader->lastModificationTime, &date);
+        setLastModificationDateAndTime(name, &date);
     }
     free(name);
 }
