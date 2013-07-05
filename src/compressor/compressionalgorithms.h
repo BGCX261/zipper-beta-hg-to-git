@@ -15,6 +15,7 @@
 #define BLOCK_SIZE_100K 6
 #define VERBOSITY 0
 #define WORK_FACTOR 100
+#define SMALL 0
 
 extern LoggerManager* g_logger;
 
@@ -38,4 +39,18 @@ struct DataCompressedInfo
  * @return DataCompressedInfo structure with the compressed data and its length.
  */
 DataCompressedInfo bz2Compression(char* data, int dataSize) throw(CompressionAlgorithmException);
+
+/**
+ * Uses the bz2lib library to decompress data in bzstream format and store the decompressed data 
+ * in a buffer inside DataCompressedInfo. The buffer must to be released calling free() function
+ * 
+ * @param data Compressed data that will be decompresed
+ * @param dataSize Compressed data size
+ * 
+ * @return DataCompressedInfo structure with the decompressed data and its length.
+ */
+DataCompressedInfo bz2Decompression(char* compressedData, unsigned int compressedDataSize, 
+        int uncompressedDataSize) throw(CompressionAlgorithmException);
+
+#endif	/* COMPRESSIONALGORITHMS_H */
 
