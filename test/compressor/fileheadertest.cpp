@@ -130,6 +130,7 @@ void FileHeaderTest::testCreateFileHeaderGivenAFile()
     
     CPPUNIT_ASSERT(result->compare(*expected));
     
+    delete result;
     delete path;
     delete expected;
     
@@ -158,6 +159,7 @@ void FileHeaderTest::testCreateFileHeaderGivenADirectory()
     CPPUNIT_ASSERT(result->compare(*expected));
     
     delete path;
+    delete result;
     delete expected;
 }
 
@@ -194,6 +196,7 @@ void FileHeaderTest::testGetBufferGivenAFile()
     CPPUNIT_ASSERT(memcmp(buffer, expected, size) == 0);
     
     delete path;
+    delete fileHeader;
     free(buffer);
     free(expected);
 }
@@ -225,6 +228,7 @@ void FileHeaderTest::testGetBufferGivenADirectory()
     CPPUNIT_ASSERT(memcmp(buffer, expected, fileHeader->size()) == 0);
     
     delete path;
+    delete fileHeader;
     free(expected);
     free(buffer);
 }

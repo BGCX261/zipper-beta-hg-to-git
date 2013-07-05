@@ -52,6 +52,7 @@ void InterfaceTest::testCompressionTask()
     input[0] = (char*) "nonExistentFile"; 
     ErrorCode code = compress((char*) "nonExistentDir", input, 1, 0);
     CPPUNIT_ASSERT_EQUAL(FILE_NOT_FOUND, code);
+    delete[] input;
 }
 
 void InterfaceTest::testTraverseTaskWithANonZipFile()
@@ -92,6 +93,8 @@ void InterfaceTest::testDecompressTaskGivenAZipWithOneFile()
     char* data = (char*) malloc(size);
     fread(data, sizeof(char), size, file);
     CPPUNIT_ASSERT(memcmp(data, "Sample", size) == 0);
+    fclose(file);
+    free(data);
 }
 
 void InterfaceTest::testDecompressTaskGivenAZipWithSeveralFiles()
