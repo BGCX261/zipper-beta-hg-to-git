@@ -11,6 +11,7 @@
 #define	FILEHEADER_H
 #include <string>
 #include "../utils/path.h"
+#include "../exceptions/unsupportedcompressionmethod.h"
 
 #define FILE_HEADER_SIGNATURE  0x04034b50
 
@@ -137,7 +138,7 @@ struct FileHeader
      * @param data New value for the data
      * @param dataLength Length of the new data.
      */
-    void setData(const char* data, const size_t dataLength);
+    void setData(char* data, const size_t dataLength, bool allocateMemory = true);
     
     /**
      * Set the extra field.
@@ -192,7 +193,7 @@ private:
  * 
  * @return The file header builded
  */
-FileHeader* createFileHeader(const Path* path, const short compressionMethod);
+FileHeader* createFileHeader(const Path* path, const short compressionMethod) throw(UnsupportedCompressionMethod);
 
 /**
  * Store all content of the file header in a buffer. The buffer must be free later.

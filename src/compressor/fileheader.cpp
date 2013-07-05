@@ -6,22 +6,23 @@
 #include "../utils/fileutils.h"
 #include "../decompressor/decompressor.h"
 #include "../utils/dateconverter.h"
+#include "compressionalgorithms.h"
 
 using namespace std;
 
-FileHeader::FileHeader():extraField(0), data(0) 
+FileHeader::FileHeader() : extraField(0), data(0)
 {
     initialize();
 }
 
-FileHeader::FileHeader(const FileHeader& other) : extraField(0), data(0) 
+FileHeader::FileHeader(const FileHeader& other) : extraField(0), data(0)
 {
     initialize(other);
 }
 
-FileHeader& FileHeader::operator =(const FileHeader& other) 
+FileHeader& FileHeader::operator =(const FileHeader& other)
 {
-    if (&other != this) 
+    if (&other != this)
     {
         release();
         initialize(other);
@@ -30,25 +31,25 @@ FileHeader& FileHeader::operator =(const FileHeader& other)
     return *this;
 }
 
-FileHeader::~FileHeader() 
+FileHeader::~FileHeader()
 {
     release();
 }
 
-bool FileHeader::operator ==(const FileHeader& other) 
+bool FileHeader::operator ==(const FileHeader& other)
 {
     return fileName == other.fileName;
 }
 
-void FileHeader::setExtraField(const char* extraField, const size_t extraFieldLength) 
+void FileHeader::setExtraField(const char* extraField, const size_t extraFieldLength)
 {
-    if (this->extraField) 
+    if (this->extraField)
     {
         free(this->extraField);
         this->extraField = 0;
     }
 
-    if (extraField) 
+    if (extraField)
     {
         this->extraFieldLength = extraFieldLength;
         this->extraField = (char*) malloc(extraFieldLength);
@@ -56,19 +57,25 @@ void FileHeader::setExtraField(const char* extraField, const size_t extraFieldLe
     }
 }
 
-void FileHeader::setData(const char* data, const size_t dataLength)
+void FileHeader::setData(char* data, const size_t dataLength, bool allocateMemory)
 {
-    if (this->data) 
+    if (this->data)
     {
         free(this->data);
         this->data = 0;
     }
-    
-    if(data)
+
+    if (data)
     {
-        dataSize = dataLength;
-        this->data = (char*) malloc(dataSize);
-        memcpy(this->data, data, dataSize);
+        this->dataSize = dataLength;
+        if (allocateMemory)
+        {
+            this->data = (char*) malloc(this->dataSize);
+            memcpy(this->data, data, this->dataSize);
+        } else
+        {
+            this->data = data;
+        }
     }
 }
 
@@ -130,15 +137,15 @@ void FileHeader::initialize()
     dataSize = 0;
 }
 
-void FileHeader::release() 
+void FileHeader::release()
 {
-    if (data) 
+    if (data)
     {
         free(data);
         data = 0;
     }
 
-    if (extraField) 
+    if (extraField)
     {
         free(extraField);
         extraField = 0;
@@ -146,25 +153,26 @@ void FileHeader::release()
 }
 
 FileHeader* createFileHeader(const Path* path, const short compressionMethod)
-{    
-    if(!path)
+throw (UnsupportedCompressionMethod)
+{
+    if (!path)
     {
         return NULL;
     }
-    
+
     FILE* file = fopen(path->fullPath.c_str(), "rb");
     int dataSize = 0;
     char* data = 0;
-    
-    if(isFile(path->fullPath.c_str()))
+
+    if (isFile(path->fullPath.c_str()))
     {
         fseek(file, 0, SEEK_END);
         dataSize = ftell(file);
         fseek(file, 0, SEEK_SET);
     }
-    
+
     data = (char*) malloc(dataSize);
-    fread(data, sizeof(char), dataSize, file);
+    fread(data, sizeof (char), dataSize, file);
     tm* time = recoverLastModificationDateAndTime(path->fullPath.c_str());
     DateConverter* converter = new DateConverter(time);
     FileHeader* header = new FileHeader();
@@ -178,18 +186,27 @@ FileHeader* createFileHeader(const Path* path, const short compressionMethod)
     header->fileNameLength = path->relativePath.length();
     header->extraFieldLength = 0;
     header->fileName = path->relativePath;
-    
+
     switch (compressionMethod)
     {
-        case 0: header->compressedSize = dataSize;
-                header->setData(data, dataSize);
+        case 0:
+            header->setData(data, dataSize, false);
+            header->compressedSize = dataSize;
+            // header becomes responsible of releasing data buffer
+            data = 0; 
             break;
-        case 8: header->compressedSize = dataSize;
-                header->setData(data, dataSize);
-            break; 
+        case 12:
+        {
+            DataCompressedInfo dataCompressed = bz2Compression(data, dataSize);
+            header->compressedSize = dataCompressed.length;
+            header->setData(dataCompressed.data, dataCompressed.length, false);
+            break;
+        }
+        default:
+            throw UnsupportedCompressionMethod(compressionMethod, UNSUPPORTED_COMPRESSION);
     }
-    
-    free(data);
+    if (data)
+        free(data);
     fclose(file);
     return header;
 }
@@ -215,9 +232,9 @@ void getBuffer(FileHeader* fh, char*& buffer)
         memcpy(buffer + 26, &fh->fileNameLength, 2);
         memcpy(buffer + 28, &fh->extraFieldLength, 2);
         memcpy(buffer + 30, fh->fileName.c_str(), fh->fileNameLength);
-        memcpy(buffer + 30 + fh->fileNameLength, fh->extraField, 
+        memcpy(buffer + 30 + fh->fileNameLength, fh->extraField,
                 fh->extraFieldLength);
-        memcpy(buffer + 30 + fh->fileNameLength + fh->extraFieldLength, 
+        memcpy(buffer + 30 + fh->fileNameLength + fh->extraFieldLength,
                 fh->data, fh->dataSize);
     }
 }
