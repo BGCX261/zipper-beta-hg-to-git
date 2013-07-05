@@ -26,6 +26,8 @@ class InterfaceTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testDecompressTaskGivenAZipWithSeveralFiles);
     CPPUNIT_TEST(testDecompressTaskGivenANonZipFile);
     CPPUNIT_TEST(testDecompressTaskGivenANULL);
+    
+    CPPUNIT_TEST(testCompressAndDecompressAFileWithBz2Lib);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -46,6 +48,8 @@ private:
     void testDecompressTaskGivenAZipWithSeveralFiles();
     void testDecompressTaskGivenANonZipFile();
     void testDecompressTaskGivenANULL();
+    
+    void testCompressAndDecompressAFileWithBz2Lib();
 };
 
 #endif	/* INTERFACETEST_H */

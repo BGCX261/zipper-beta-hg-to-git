@@ -9,6 +9,7 @@ SRC = interface/interfacetest.cpp \
       struct/treetest.cpp \
       decompressor/decompressortest.cpp \
       encryption/blowfishtest.cpp\
+      algorithms/algorithmstest.cpp \
       testrunner.cpp 
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))

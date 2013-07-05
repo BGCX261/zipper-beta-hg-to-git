@@ -138,7 +138,7 @@ struct FileHeader
      * @param data New value for the data
      * @param dataLength Length of the new data.
      */
-    void setData(char* data, const size_t dataLength, bool allocateMemory = true);
+    void setData(const char* data, const size_t dataLength, bool allocateMemory = true);
     
     /**
      * Set the extra field.

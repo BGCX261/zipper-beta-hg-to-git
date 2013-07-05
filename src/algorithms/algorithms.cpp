@@ -1,16 +1,18 @@
-#include "compressionalgorithms.h"
+#include "algorithms.h"
 #include <bzlib.h>
 #include <stdlib.h>
 
+#define GROWTH_FACTOR(ans, dataSize) {ans = dataSize * 1.01 + 600;}
+
 void evaluateBZResult(int result);
 
-DataCompressedInfo bz2Compression(char* data, int dataSize) throw(CompressionAlgorithmException)
+DataInfo bz2Compression(char* data, int dataSize) throw(CompressionAlgorithmException)
 {
-    DataCompressedInfo dataInfo;
+    DataInfo dataInfo;
     if (data)
     {
         // To guarantee that the compressed data will fit in its buffer.
-        dataInfo.length = dataSize * 1.01 + 600; 
+        GROWTH_FACTOR(dataInfo.length, dataSize);
         dataInfo.data = (char*) malloc(dataInfo.length);
         int result = BZ2_bzBuffToBuffCompress(dataInfo.data, &dataInfo.length, data,
                 dataSize, BLOCK_SIZE_100K, VERBOSITY, WORK_FACTOR);
@@ -26,10 +28,10 @@ DataCompressedInfo bz2Compression(char* data, int dataSize) throw(CompressionAlg
     return dataInfo;
 }
 
-DataCompressedInfo bz2Decompression(char* compressedData, unsigned int compressedDataSize, 
+DataInfo bz2Decompression(char* compressedData, unsigned int compressedDataSize, 
         int uncompressedDataSize) throw(CompressionAlgorithmException)
 {
-    DataCompressedInfo dataInfo;
+    DataInfo dataInfo;
     
     if(compressedData)
     {

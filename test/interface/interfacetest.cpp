@@ -26,9 +26,13 @@ void InterfaceTest::setUp()
 void InterfaceTest::tearDown()
 {
     if (exist("resources/testFile"))
-    {
         remove("resources/testFile");
-    }
+    
+    if (exist("resources/song.zip"))
+        remove("resources/song.zip");
+    
+    if (exist("resources/directorytest/song.mp3"))
+        remove("resources/directorytest/song.mp3");
     
     if(exist("resources/directorytest2"))
     {
@@ -142,4 +146,33 @@ void InterfaceTest::testDecompressTaskGivenANonZipFile()
 void InterfaceTest::testDecompressTaskGivenANULL()
 {
     CPPUNIT_ASSERT(decompress(NULL, "resources") == INVALID_PARAMETERS);
+}
+
+void InterfaceTest::testCompressAndDecompressAFileWithBz2Lib()
+{
+    char** input = new char*[1];
+    input[0] = (char*) "resources/song.mp3"; 
+    CPPUNIT_ASSERT(compress((char*) "resources/", input, 1, 12) == OK);
+    CPPUNIT_ASSERT(exist("resources/song.zip"));
+    CPPUNIT_ASSERT(decompress("resources/song.zip", "resources/directorytest") == OK);
+    CPPUNIT_ASSERT(exist("resources/directorytest/song.mp3"));
+    
+    FILE* expected = fopen("resources/song.mp3", "rb");
+    fseek(expected, 0, SEEK_END);
+    int expectedSize = ftell(expected);
+    fseek(expected, 0, SEEK_SET);
+    char* expectedData = (char*) malloc(expectedSize);
+    fread(expectedData, sizeof(char), expectedSize, expected);
+    fclose(expected);
+    
+    FILE* result = fopen("resources/directorytest/song.mp3", "rb");
+    fseek(result, 0, SEEK_END);
+    int resultSize = ftell(result);
+    fseek(result, 0, SEEK_SET);
+    char* resultData = (char*) malloc(resultSize);
+    fread(resultData, sizeof(char), resultSize, result);
+    fclose(result);
+    
+    CPPUNIT_ASSERT(expectedSize == resultSize);
+    CPPUNIT_ASSERT(memcmp(expectedData, resultData, expectedSize) == 0);
 }

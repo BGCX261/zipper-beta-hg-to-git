@@ -15,7 +15,7 @@ SRC = compressor/fileheader.cpp \
       log/FileLogger.cpp \
       log/ConsoleLogger.cpp \
       log/Logger.cpp \
-      compressor/compressionalgorithms.cpp \
+      algorithms/algorithms.cpp \
       zipperlib.cpp
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))

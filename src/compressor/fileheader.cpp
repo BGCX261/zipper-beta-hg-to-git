@@ -6,7 +6,7 @@
 #include "../utils/fileutils.h"
 #include "../decompressor/decompressor.h"
 #include "../utils/dateconverter.h"
-#include "compressionalgorithms.h"
+#include "../algorithms/algorithms.h"
 
 using namespace std;
 
@@ -57,7 +57,7 @@ void FileHeader::setExtraField(const char* extraField, const size_t extraFieldLe
     }
 }
 
-void FileHeader::setData(char* data, const size_t dataLength, bool allocateMemory)
+void FileHeader::setData(const char* data, const size_t dataLength, bool allocateMemory)
 {
     if (this->data)
     {
@@ -74,7 +74,7 @@ void FileHeader::setData(char* data, const size_t dataLength, bool allocateMemor
             memcpy(this->data, data, this->dataSize);
         } else
         {
-            this->data = data;
+            this->data = (char*) data;
         }
     }
 }
@@ -197,7 +197,7 @@ throw (UnsupportedCompressionMethod)
             break;
         case 12:
         {
-            DataCompressedInfo dataCompressed = bz2Compression(data, dataSize);
+            DataInfo dataCompressed = bz2Compression(data, dataSize);
             header->compressedSize = dataCompressed.length;
             header->setData(dataCompressed.data, dataCompressed.length, false);
             break;

@@ -1,13 +1,13 @@
 /* 
  * File:   compressionalgorithms.h
  * Author: Luis Aguirre
- * Description: Provide functions that uses algorithms to compress data
+ * Description: Provide functions that uses algorithms to compress and decompress data
  *
  * Created on 28 de junio de 2013, 05:06 PM
  */
 
-#ifndef COMPRESSIONALGORITHMS_H
-#define	COMPRESSIONALGORITHMS_H
+#ifndef ALGORITHMS_H
+#define	ALGORITHMS_H
 
 #include "../log/LoggerManager.h"
 #include "../exceptions/compressionalgorithmexception.h"
@@ -19,9 +19,9 @@
 
 extern LoggerManager* g_logger;
 
-struct DataCompressedInfo
+struct DataInfo
 {
-    DataCompressedInfo(): data(0), length(0)
+    DataInfo(): data(0), length(0)
     {
     }
     
@@ -38,7 +38,7 @@ struct DataCompressedInfo
  * 
  * @return DataCompressedInfo structure with the compressed data and its length.
  */
-DataCompressedInfo bz2Compression(char* data, int dataSize) throw(CompressionAlgorithmException);
+DataInfo bz2Compression(char* data, int dataSize) throw(CompressionAlgorithmException);
 
 /**
  * Uses the bz2lib library to decompress data in bzstream format and store the decompressed data 
@@ -49,8 +49,8 @@ DataCompressedInfo bz2Compression(char* data, int dataSize) throw(CompressionAlg
  * 
  * @return DataCompressedInfo structure with the decompressed data and its length.
  */
-DataCompressedInfo bz2Decompression(char* compressedData, unsigned int compressedDataSize, 
+DataInfo bz2Decompression(char* compressedData, unsigned int compressedDataSize, 
         int uncompressedDataSize) throw(CompressionAlgorithmException);
 
-#endif	/* COMPRESSIONALGORITHMS_H */
+#endif	/* ALGORITHMS_H */
 
