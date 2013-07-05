@@ -13,7 +13,8 @@ INCLUDES = -I../src/console \
            -I../../src
 
 #library paths
-LIBS = -L/user/local/lib -L../../test/third-party/cppunit-1.12.1/src/cppunit/.libs -L../../src/lib -L../src/lib -lconsole -lzipper -lcppunit -lm
+LIBS = -L/user/local/lib -L../../test/third-party/cppunit-1.12.1/src/cppunit/.libs -L../../src/lib -L../src/lib -lconsole -lzipper -lcppunit -lm\
+-L../../third-party/bzip2-1.0.6 -lbz2
 
 #Compiler flags
 CCFLAGS = -fPIC -g -Wall

@@ -7,9 +7,11 @@ OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
 OUT = zipper
 
 INCLUDES=-I ../src \
-         -I src/console
+         -I src/console \
+	 -I ../third-party/bzip2-1.0.6
 
-LIBS = -L/user/local/lib -L../src/lib -L src/lib -lconsole -lzipper -lm
+LIBS = -L/user/local/lib -L../src/lib -L src/lib -lconsole -lzipper -lm \
+       -L../third-party/bzip2-1.0.6 -lbz2
 
 #Compiler flags
 CCFLAGS = -fPIC -g -Wall

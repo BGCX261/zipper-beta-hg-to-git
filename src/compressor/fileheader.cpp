@@ -6,6 +6,7 @@
 #include "../utils/fileutils.h"
 #include "../decompressor/decompressor.h"
 #include "../utils/dateconverter.h"
+#include "../algorithms/algorithms.h"
 
 using namespace std;
 
@@ -56,19 +57,25 @@ void FileHeader::setExtraField(const char* extraField, const size_t extraFieldLe
     }
 }
 
-void FileHeader::setData(const char* data, const size_t dataLength)
+void FileHeader::setData(const char* data, const size_t dataLength, bool allocateMemory)
 {
-    if (this->data) 
+    if (this->data)
     {
         free(this->data);
         this->data = 0;
     }
-    
-    if(data)
+
+    if (data)
     {
-        dataSize = dataLength;
-        this->data = (char*) malloc(dataSize);
-        memcpy(this->data, data, dataSize);
+        this->dataSize = dataLength;
+        if (allocateMemory)
+        {
+            this->data = (char*) malloc(this->dataSize);
+            memcpy(this->data, data, this->dataSize);
+        } else
+        {
+            this->data = (char*) data;
+        }
     }
 }
 
@@ -146,6 +153,7 @@ void FileHeader::release()
 }
 
 FileHeader* createFileHeader(const Path* path, const short compressionMethod)
+throw (UnsupportedCompressionMethod)
 {    
     if(!path)
     {
@@ -179,17 +187,26 @@ FileHeader* createFileHeader(const Path* path, const short compressionMethod)
     header->extraFieldLength = 0;
     header->fileName = path->relativePath;
     
-    switch (compressionMethod)
+        switch (compressionMethod)
     {
-        case 0: header->compressedSize = dataSize;
-                header->setData(data, dataSize);
+        case 0:
+            header->setData(data, dataSize, false);
+            header->compressedSize = dataSize;
+            // header becomes responsible of releasing data buffer
+            data = 0; 
             break;
-        case 8: header->compressedSize = dataSize;
-                header->setData(data, dataSize);
-            break; 
+        case 12:
+        {
+            DataInfo dataInfo = bz2Compression(data, dataSize);
+            header->compressedSize = dataInfo.length;
+            header->setData(dataInfo.data, dataInfo.length, false);
+            break;
+        }
+        default:
+            throw UnsupportedCompressionMethod(compressionMethod, UNSUPPORTED_COMPRESSION);
     }
-       
-    free(data);
+    if (data)
+        free(data);
     fclose(file);
     return header;
 }

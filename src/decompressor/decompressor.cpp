@@ -4,6 +4,7 @@
 #include "../compressor/fileheader.h"
 #include "../utils/dateconverter.h"
 #include "../exceptions/unsupportedcompressionmethod.h"
+#include "../algorithms/algorithms.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -127,6 +128,14 @@ throw(DecompressException)
                 fwrite(fileHeader->data, sizeof(char), fileHeader->dataSize, file);
                 fclose(file);
                 break;
+            case 12:
+            {
+                DataInfo dataInfo = bz2Decompression(fileHeader->data, 
+                        fileHeader->dataSize, fileHeader->uncompressedSize);
+                fwrite(dataInfo.data, sizeof(char), dataInfo.length, file);
+                fclose(file);
+                break;
+            }
             default:
                 free(name);
                 fclose(file);

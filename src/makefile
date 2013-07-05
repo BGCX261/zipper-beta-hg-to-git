@@ -1,5 +1,7 @@
 # source files
 
+INCLUDES = -I../third-party/bzip2-1.0.6
+
 SRC = compressor/fileheader.cpp \
       compressor/zipbuilder.cpp\
       utils/fileutils.cpp \
@@ -13,6 +15,7 @@ SRC = compressor/fileheader.cpp \
       log/FileLogger.cpp \
       log/ConsoleLogger.cpp \
       log/Logger.cpp \
+      algorithms/algorithms.cpp \
       zipperlib.cpp
 
 OBJ = $(patsubst %.cpp,obj/%.o,$(SRC))
