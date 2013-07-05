@@ -177,7 +177,7 @@ std::string readFileContent(int size, const char* filename)
     input.read(buffer, size);
     input.close();
     std::string res(buffer, size);
-    delete buffer;
+    delete[] buffer;
     return res;
 }
 

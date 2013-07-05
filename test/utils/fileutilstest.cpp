@@ -253,6 +253,7 @@ void setLastModificationTimeOfAFile(const char* path)
     struct utimbuf utimeBuffer;
     struct tm modificationTime;
     memset(&utimeBuffer, 0, sizeof (utimbuf));
+    memset(&modificationTime, 0, sizeof (tm));
 
     modificationTime.tm_year = 2011 - 1900;
     modificationTime.tm_mon = 4;

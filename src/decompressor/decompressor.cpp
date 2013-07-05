@@ -15,7 +15,6 @@ void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (File
     INFO("Navigating a zip file in the path: %s", path);
     int signature;
     const char* zipExtension = ".zip";
-    FILE* file = fopen(path, "rb");
 
     if (!path)
     {
@@ -29,6 +28,7 @@ void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (File
         throw FileNotFoundExpcetion(path, FILE_NOT_FOUND);
     }
 
+    FILE* file = fopen(path, "rb");
     fread(&signature, sizeof (int), 1, file);
 
     if (strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0 ||

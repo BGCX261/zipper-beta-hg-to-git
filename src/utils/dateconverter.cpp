@@ -1,25 +1,13 @@
 #include "dateconverter.h"
 #include <stdio.h>
 
-DateConverter::DateConverter()
-{
-    time_ = 0;
-}
+DateConverter::DateConverter(){}
 
-DateConverter::DateConverter(tm* time)
-{
-    time_ = time;
-}
+DateConverter::DateConverter(DateConverter& dateConverter){}
 
-DateConverter::DateConverter(DateConverter& dateConverter)
+short DateConverter::parseTimeToMSDosFormat(tm* time)
 {
-    printf("constructor copy");
-    dateConverter.time_ = time_;
-}
-
-short DateConverter::parseTimeToMSDosFormat()
-{
-    if(!time_)
+    if(!time)
     {
         return 0;
     }
@@ -29,7 +17,7 @@ short DateConverter::parseTimeToMSDosFormat()
     int minute;
     int second;
     
-    strftime(buffer, 11, "%H:%M:%S", time_);
+    strftime(buffer, 11, "%H:%M:%S", time);
     sscanf(buffer, "%d:%d:%d", &hour, &minute, &second);
     
     if (second != 0)
@@ -40,9 +28,9 @@ short DateConverter::parseTimeToMSDosFormat()
     return (short) (hour << 11) | (minute << 5) | second; // Store the hour minute and second
 }
 
-short DateConverter::parseDateToMSDosFormat()
+short DateConverter::parseDateToMSDosFormat(tm* time)
 {
-    if(!time_)
+    if(!time)
     {
         return 0;
     }
@@ -52,7 +40,7 @@ short DateConverter::parseDateToMSDosFormat()
     int month;
     int day;
     
-    strftime(buffer, 11, "%Y:%m:%d", time_);
+    strftime(buffer, 11, "%Y:%m:%d", time);
     sscanf(buffer, "%d:%d:%d", &year, &month, &day);
     
     if(year != 0)

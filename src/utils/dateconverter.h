@@ -24,13 +24,6 @@ public:
     DateConverter();
     
     /**
-     * Initialize the time.
-     * 
-     * @param time Value for the time
-     */
-    DateConverter(tm* time);
-    
-    /**
      * Constructor copy.
      * 
      * @param dateConverter
@@ -50,7 +43,7 @@ public:
     * 
     * @return The time parsed
     */
-    short parseTimeToMSDosFormat();
+    short parseTimeToMSDosFormat(tm* time);
     
     /**
     * Store the date information in two bytes following the MS-Dos standard date format.
@@ -64,7 +57,7 @@ public:
     * 
     * @return The date parsed
     */
-    short parseDateToMSDosFormat();
+    short parseDateToMSDosFormat(tm* time);
     
     /**
      * Parse the time and date in MS-Dos format to a tm structure.
@@ -74,13 +67,6 @@ public:
      * @param datetime The tm structure that will save the parsed date and time.
      */
     void parseMSDosToTm(const short date, const short time, tm* datetime);
-    
-private:
-    
-    /**
-     * Time data.
-     */
-    tm* time_;
 };
 
 #endif	/* DATECONVERTER_H */

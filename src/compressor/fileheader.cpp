@@ -166,13 +166,13 @@ FileHeader* createFileHeader(const Path* path, const short compressionMethod)
     data = (char*) malloc(dataSize);
     fread(data, sizeof(char), dataSize, file);
     tm* time = recoverLastModificationDateAndTime(path->fullPath.c_str());
-    DateConverter* converter = new DateConverter(time);
+    DateConverter converter;
     FileHeader* header = new FileHeader();
     header->versionToExtract = 10;
     header->flag = 0;
     header->compressionMethod = compressionMethod;
-    header->lastModificationTime = converter->parseTimeToMSDosFormat();
-    header->lastModificationDate = converter->parseDateToMSDosFormat();
+    header->lastModificationTime = converter.parseTimeToMSDosFormat(time);
+    header->lastModificationDate = converter.parseDateToMSDosFormat(time);
     header->crc = crc32(data, dataSize);
     header->uncompressedSize = dataSize;
     header->fileNameLength = path->relativePath.length();
@@ -188,8 +188,7 @@ FileHeader* createFileHeader(const Path* path, const short compressionMethod)
                 header->setData(data, dataSize);
             break; 
     }
-    
-    delete converter;
+       
     free(data);
     fclose(file);
     return header;
