@@ -133,6 +133,7 @@ throw(DecompressException)
                 DataInfo dataInfo = bz2Decompression(fileHeader->data, 
                         fileHeader->dataSize, fileHeader->uncompressedSize);
                 fwrite(dataInfo.data, sizeof(char), dataInfo.length, file);
+                free(dataInfo.data);
                 fclose(file);
                 break;
             }

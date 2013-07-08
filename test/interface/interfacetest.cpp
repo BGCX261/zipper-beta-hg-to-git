@@ -178,4 +178,7 @@ void InterfaceTest::testCompressAndDecompressAFileWithBz2Lib()
     
     CPPUNIT_ASSERT(expectedSize == resultSize);
     CPPUNIT_ASSERT(memcmp(expectedData, resultData, expectedSize) == 0);
+    delete[] input;
+    free(expectedData);
+    free(resultData);
 }
