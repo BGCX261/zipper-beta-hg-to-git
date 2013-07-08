@@ -46,6 +46,7 @@ void CRCTest::openAndReadFile(const char* path)
     fseek(file, 0, SEEK_SET);
     buffer = (char*) malloc(size);
     fread(buffer, sizeof(char), size, file);
+    fclose(file);
 }
 
 void CRCTest::testCrc32()

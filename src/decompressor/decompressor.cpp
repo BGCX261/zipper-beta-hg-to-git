@@ -35,6 +35,7 @@ void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (File
     if (strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0 ||
             signature != FILE_HEADER_SIGNATURE)
     {
+        fclose(file);
         WARN("%s", "The path isn't for a zip file.")
         throw NotZipFileException(path, INVALID_ZIP_FILE);
     }
