@@ -71,7 +71,8 @@ private:
     void testDecompressionOptionGivenAZipFile();
 };
 
-char** buildCommandArray(int commandsCount, ...);
+char** buildCommandArray(int commandsCount, va_list vl);
+void testTask(const char* expectedError, int commandsCount, ...);
 
 #endif	/* CONSOLETEST_H */
 
