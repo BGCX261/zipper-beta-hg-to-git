@@ -33,87 +33,62 @@ void ConsoleTest::tearDown()
 
 void ConsoleTest::itShouldShowTheHelpWhenTheWrittenCommandIsHWithoutArgs()
 {
-    ConsoleZipper zipper(2, buildCommandArray(2, "./zipper", "-h"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, HELP_TEXT) == 0);
+    testTask(HELP_TEXT, 2, "./zipper", "-h");
 }
 
 void ConsoleTest::itShouldShowAnUnknowArgsErrorWhenTheWrittenCommandIsHWithArgs()
 {
-    ConsoleZipper zipper(3, buildCommandArray(3, "./zipper", "-h", "dir1"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, UNKNOW_ARGS) == 0);
+    testTask(UNKNOW_ARGS, 3, "./zipper", "-h", "dir1");
 }
 
 void ConsoleTest::itShouldShowAnUnknowCompressionArgsWhenTheWrittenCCommandIsWrong()
 {
-    ConsoleZipper zipper(3, buildCommandArray(3, "./zipper", "-c", "src1"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, UNKNOW_COMPRESSION_ARGS) == 0);
+    testTask(UNKNOW_COMPRESSION_ARGS, 3, "./zipper", "-c", "src1");
 }
 
 void ConsoleTest::itShouldShowAnUnknowOptionWhenTheCommandDoesNotExists()
 {
-    ConsoleZipper zipper(3, buildCommandArray(3, "./zipper", "-P", "src1"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, UNKNOW_OPTION) == 0);
+    testTask(UNKNOW_OPTION, 3, "./zipper", "-P", "src1");
 }
 
 void ConsoleTest::itShouldShowAnUnknowArgsErrorWhenTheInputCommandDoesNotMatch()
 {
-    ConsoleZipper zipper(1, buildCommandArray(1, "./zipper"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, UNKNOW_ARGS) == 0);
+    testTask(UNKNOW_ARGS, 1, "./zipper");
 }
 
 void ConsoleTest::testTraverseOptionWithAnyParameter()
 {
-    ConsoleZipper zipper(2, buildCommandArray(2, "./zipper", "-t"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, UNKNOWN_TRAVERSE_ARGS) == 0);
+    testTask(UNKNOWN_TRAVERSE_ARGS, 2, "./zipper", "-t");
 }
 
 void ConsoleTest::testTraverseOptionWithANonZipFile()
 {
-    ConsoleZipper zipper(3, buildCommandArray(3, "./zipper", "-t", "resources/song.mp3"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, INVALID_ZIP_FILE_ERROR) == 0);
+    testTask(INVALID_ZIP_FILE_ERROR, 3, "./zipper", "-t", "resources/song.mp3");
 }
 
 void ConsoleTest::testTraverseOptionWithAFileThatDoNotExist()
 {
-    ConsoleZipper zipper(3, buildCommandArray(3, "./zipper", "-t", "resources/somefile"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, FILE_NOT_FOUND_ERROR) == 0);
+    testTask(FILE_NOT_FOUND_ERROR, 3, "./zipper", "-t", "resources/somefile");
 }
 
 void ConsoleTest::testTraverseOptionWithAZipFile()
 {
-    ConsoleZipper zipper(3, buildCommandArray(3, "./zipper", "-t", "resources/severalFiles.zip"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+    testTask(OK_PROCESS, 3, "./zipper", "-t", "resources/severalFiles.zip");
 }
 
 void ConsoleTest::testTraverseOptionWithLevel()
 {
-    ConsoleZipper zipper(4, buildCommandArray(4, "./zipper", "-t", "resources/severalFiles.zip", "2"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+    testTask(OK_PROCESS, 4, "./zipper", "-t", "resources/severalFiles.zip", "2");
 }
 
 void ConsoleTest::testTraverseOptionWithWrongLevel()
 {
-    ConsoleZipper zipper(4, buildCommandArray(4, "./zipper", "-t", "resources/severalFiles.zip", "lalala"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, UNKNOWN_TRAVERSE_ARGS) == 0);
+    testTask(UNKNOWN_TRAVERSE_ARGS, 4, "./zipper", "-t", "resources/severalFiles.zip", "lalala");
 }
 
 void ConsoleTest::testDecompressionOptionGivenAZipFile()
 {
-    ConsoleZipper zipper(4, buildCommandArray(4, "./zipper", "-d", "resources/severalFiles.zip", "resources"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
-
+    testTask(OK_PROCESS, 4, "./zipper", "-d", "resources/severalFiles.zip", "resources");
     CPPUNIT_ASSERT(exist("resources/directorytest"));
     CPPUNIT_ASSERT(exist("resources/directorytest/dir1"));
     CPPUNIT_ASSERT(exist("resources/directorytest/dir1/dir3"));
@@ -125,56 +100,57 @@ void ConsoleTest::testDecompressionOptionGivenAZipFile()
 
 void ConsoleTest::testDecompressionOptionGivenANonZipFile()
 {
-    ConsoleZipper zipper(4, buildCommandArray(4, "./zipper", "-d", "resources/song.mp3", "resources"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, INVALID_ZIP_FILE_ERROR) == 0);
+    testTask(INVALID_ZIP_FILE_ERROR, 4, "./zipper", "-d", "resources/song.mp3", "resources");
 }
 
 void ConsoleTest::testDecompressionOptionGivenANonExistentFile()
 {
-    ConsoleZipper zipper(4, buildCommandArray(4, "./zipper", "-d", "resources/some.zip", "resources"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, FILE_NOT_FOUND_ERROR) == 0);
+    testTask(FILE_NOT_FOUND_ERROR,4, "./zipper", "-d", "resources/some.zip", "resources");
 }
 
 void ConsoleTest::testDecompressionOptionWithAnyParameter()
 {
-    ConsoleZipper zipper(2, buildCommandArray(2, "./zipper", "-d"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, UNKNOWN_DECOMPRESSION_ARGS) == 0);
+    testTask(UNKNOWN_DECOMPRESSION_ARGS, 2, "./zipper", "-d");
 }
 
 void ConsoleTest::testCompressOptionWithCompressionAlgorithm()
 {
-    ConsoleZipper zipper(5, buildCommandArray(5, "./zipper", "-c", "resources/song.mp3",
-                                              "resources/test.zip", "12"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+    testTask(OK_PROCESS, 5, "./zipper", "-c", "resources/song.mp3", "resources/test.zip", "12");
 }
 
 void ConsoleTest::testCompressOptionWithWrongCompressionAlgorithm()
 {
-    ConsoleZipper zipper(5, buildCommandArray(5, "./zipper", "-c", "resources/song.mp3",
-                                              "resources/test.zip", "ae"));
-    const char* output = zipper.runCommand();
-    CPPUNIT_ASSERT(strcmp(output, OK_PROCESS) == 0);
+    testTask(OK_PROCESS, 5, "./zipper", "-c", "resources/song.mp3", "resources/test.zip", "ae");
 }
 
-char** buildCommandArray(int commandsCount, ...)
+char** buildCommandArray(int commandsCount, va_list vl)
 {
     char** res = new char *[commandsCount];
     int i;
     char* val;
-    va_list vl;
-    va_start(vl, commandsCount);
 
     for (i = 0; i < commandsCount; i++)
     {
         val = va_arg(vl, char*);
-        res[i] = new char[strlen(val)];
+        res[i] = new char[strlen(val) + 1];
         strcpy(res[i], val);
     }
 
-    va_end(vl);
     return res;
+}
+
+void testTask(const char* expectedOutput, int commandsCount, ...)
+{
+    va_list vl;
+    va_start(vl, commandsCount);
+    char** commands = buildCommandArray(commandsCount, vl);
+    ConsoleZipper zipper(commandsCount, commands);
+    const char* output = zipper.runCommand();
+    CPPUNIT_ASSERT(strcmp(output, expectedOutput) == 0);
+    va_end(vl);
+    for (int i = 0; i < commandsCount; i++)
+    {
+        delete[] commands[i];
+    }
+    delete[] commands;
 }

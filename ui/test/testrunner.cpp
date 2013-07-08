@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     // Print test in a compiler compatible format.
     CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
     outputter.write();
-
+    delete g_logger;
     return result.wasSuccessful() ? 0 : 1;
 }
 
