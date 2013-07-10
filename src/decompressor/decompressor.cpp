@@ -85,6 +85,12 @@ void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (File
 void decompressAFileHeader(const FileHeader* fileHeader, const char* outputPath) 
 throw(DecompressException)
 {
+    if(outputPath == NULL || !exist(outputPath) || !isDirectory(outputPath))
+    {
+        WARN("%s", "The output path does not exists");
+        throw DecompressException("Output does not exists", CAN_NOT_FIND_TARGET_PATH);
+    }
+    
     if(!fileHeader)
     {
         WARN("%s", "The file header is NULL");
