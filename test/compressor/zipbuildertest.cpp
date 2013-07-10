@@ -75,6 +75,9 @@ void ZipBuilderTest::testItShouldBuildTheZipFileWithTheCorrectContent()
     expectedZipFile->read(expectedData, size);
 
     CPPUNIT_ASSERT(strcmp(currentData, expectedData) == 0);
+    
+    delete[] currentData;
+    delete[] expectedData;
 }
 
 void ZipBuilderTest::testItShouldBuildTheCentralDirectoryWithAppropriateSize()
@@ -89,6 +92,7 @@ void ZipBuilderTest::testItShouldBuildTheCentralDirectoryWithAppropriateSize()
     currentZipFile->read(currentData, 4);
 
     CPPUNIT_ASSERT(strcmp(cDirectorySignature, currentData));
+    delete[] currentData;
 }
 
 void ZipBuilderTest::testItShouldBuildTheCentralDirectoryWithTheCorrectContent()
@@ -109,7 +113,8 @@ void ZipBuilderTest::testItShouldBuildTheCentralDirectoryWithTheCorrectContent()
     expectedZipFile->read(expectedDataZip, cDirectorySize);
 
     CPPUNIT_ASSERT(strcmp(currentDataZip, expectedDataZip) == 0);
-
+    delete[] currentDataZip;
+    delete[] expectedDataZip;
 }
 
 void ZipBuilderTest::testItShouldBuildTheEndOfCentralDirectoryWithAppropriateSize()
@@ -124,6 +129,7 @@ void ZipBuilderTest::testItShouldBuildTheEndOfCentralDirectoryWithAppropriateSiz
     currentZipFile->read(currentData, 4);
 
     CPPUNIT_ASSERT(strcmp(endOfCDirectorySignature, currentData));
+    delete[] currentData;
 }
 
 void ZipBuilderTest::testItShouldBuildTheEndOfCentralDirectoryWithTheCorrectContent()
@@ -144,4 +150,6 @@ void ZipBuilderTest::testItShouldBuildTheEndOfCentralDirectoryWithTheCorrectCont
     expectedZipFile->read(expectedDataZip, endOfCDirectorySize);
 
     CPPUNIT_ASSERT(strcmp(currentDataZip, expectedDataZip) == 0);
+    delete[] currentDataZip;
+    delete[] expectedDataZip;
 }

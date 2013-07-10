@@ -43,6 +43,9 @@ void AlgorithmsTest::testCompressAndDecompressAMp3FileWithBz2Lib()
     
     CPPUNIT_ASSERT(fileSize == uncompressedData.length);
     CPPUNIT_ASSERT(memcmp(data, uncompressedData.data, fileSize) == 0);
+    free(compressedData.data);
+    free(uncompressedData.data);
+    free(data);
 }
 
 void AlgorithmsTest::testCompressAndDecompressABinaryFileWithBz2lib()
@@ -60,6 +63,9 @@ void AlgorithmsTest::testCompressAndDecompressABinaryFileWithBz2lib()
     
     CPPUNIT_ASSERT(fileSize == uncompressedData.length);
     CPPUNIT_ASSERT(memcmp(data, uncompressedData.data, fileSize) == 0);
+    free(compressedData.data);
+    free(uncompressedData.data);
+    free(data);
 }
 
 void AlgorithmsTest::testCompressAndDecompressAEmptyDataWithBz2lib()
@@ -71,5 +77,7 @@ void AlgorithmsTest::testCompressAndDecompressAEmptyDataWithBz2lib()
     
     CPPUNIT_ASSERT(dataSize == uncompressedData.length);
     CPPUNIT_ASSERT(memcmp(data, uncompressedData.data, 0) == 0);
+    free(compressedData.data);
+    free(uncompressedData.data);
 }
 

@@ -58,6 +58,7 @@ void DecompressorTest::testNavigateGivenAZipWithOneFile()
     CPPUNIT_ASSERT(result->compare(*expected));
 
     delete expected;
+    freeList(fileHeaders);
 }
 
 void DecompressorTest::testNavigateGivenAZipWithSeveralFiles()
@@ -65,18 +66,30 @@ void DecompressorTest::testNavigateGivenAZipWithSeveralFiles()
     std::list<FileHeader*> fileHeaders;
     navigate("resources/severalFiles.zip", fileHeaders);
     CPPUNIT_ASSERT(fileHeaders.size() == 7);
+    freeList(fileHeaders);
 }
 
 void DecompressorTest::testNavigateGivenANonZipFile()
 {
     std::list<FileHeader*> fileHeaders;
     CPPUNIT_ASSERT_THROW(navigate("resources/song.mp3", fileHeaders), NotZipFileException);
+    freeList(fileHeaders);
 }
 
 void DecompressorTest::testNavigateGivenANonExistentFile()
 {
     std::list<FileHeader*> fileHeaders;
     CPPUNIT_ASSERT_THROW(navigate("resources/someFile.zip", fileHeaders), FileNotFoundExpcetion);
+    freeList(fileHeaders);
+}
+
+void freeList(std::list<FileHeader*>& fileHeaders)
+{
+    for (std::list<FileHeader*>::iterator it = fileHeaders.begin(); it != fileHeaders.end(); it++)
+    {
+        delete *it;
+    }
+    fileHeaders.clear();
 }
 
 void DecompressorTest::testDecompressAFileHeaderGivenAFile()
@@ -105,6 +118,7 @@ void DecompressorTest::testDecompressAFileHeaderGivenAFile()
     CPPUNIT_ASSERT(date->tm_hour == 11);
     CPPUNIT_ASSERT(date->tm_min == 1);
     CPPUNIT_ASSERT(date->tm_sec == 8 * 2);
+    delete fileHeader;
 }
 
 void DecompressorTest::testDecompressAFileHeaderGivenADirectory()
@@ -124,6 +138,7 @@ void DecompressorTest::testDecompressAFileHeaderGivenADirectory()
     decompressAFileHeader(fileHeader, "resources");
     CPPUNIT_ASSERT(exist("resources/FolderTest"));
     CPPUNIT_ASSERT(isDirectory("resources/FolderTest"));
+    delete fileHeader;
 }
 
 void DecompressorTest::testDecompressAFileHeaderGivenANull()
@@ -156,4 +171,5 @@ void DecompressorTest::testLastModificationTimeOfADecompressedFile()
     CPPUNIT_ASSERT(result->tm_hour == 11);
     CPPUNIT_ASSERT(result->tm_min == 30);
     CPPUNIT_ASSERT(result->tm_sec == 8);
+    delete fileHeader;
 }

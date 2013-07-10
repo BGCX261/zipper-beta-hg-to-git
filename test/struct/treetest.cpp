@@ -28,7 +28,7 @@ void TreeTest::setUp()
 
 void TreeTest::tearDown()
 {
-
+    delete tree;
 }
 
 void TreeTest::testGetNodeWithEmptyPath()

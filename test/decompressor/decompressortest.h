@@ -35,7 +35,6 @@ public:
     void tearDown();
 
 private:
-    
     void testNavigateGivenAZipWithOneFile();
     void testNavigateGivenAZipWithSeveralFiles();
     void testNavigateGivenANonZipFile();
@@ -47,6 +46,8 @@ private:
     
     void testLastModificationTimeOfADecompressedFile();
 };
+
+void freeList(std::list<FileHeader*>& fileHeaders);
 
 #endif	/* DECOMPRESSORTEST_H */
 

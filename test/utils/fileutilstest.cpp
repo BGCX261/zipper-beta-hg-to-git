@@ -171,6 +171,7 @@ void FileUtilsTest::testListFilesWhenAPathIsNull()
     paths[0] = falseDirectory;
     std::list<Path> files;
     CPPUNIT_ASSERT_THROW(explorePaths(paths, inputCount, files), NullPathException);
+    free(paths);
 }
 
 bool fileComparator(const Path& first, const Path& second)
@@ -225,6 +226,7 @@ void FileUtilsTest::testListFilesCheckNames()
     }
 
     file.close();
+    free(paths);
 }
 
 void FileUtilsTest::testGetFileName()
@@ -380,6 +382,7 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenAFile()
     CPPUNIT_ASSERT(expected->tm_hour == result->tm_hour);
     CPPUNIT_ASSERT(expected->tm_min == result->tm_min);
     CPPUNIT_ASSERT(expected->tm_sec == result->tm_sec);
+    delete expected;
 }
 
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenADirectory()
@@ -387,6 +390,7 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenADirectory()
     tm* expected = new tm();
     const char* path = "resources/directorytest";
     CPPUNIT_ASSERT(!setLastModificationDateAndTime(path, expected));
+    delete expected;
 }
 
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenANonExistentFile()
@@ -394,6 +398,7 @@ void FileUtilsTest::testSetLastModificationDateAndTimeGivenANonExistentFile()
     tm* expected = new tm();
     CPPUNIT_ASSERT_THROW(!setLastModificationDateAndTime("resources/someFile", expected),
             FileNotFoundExpcetion);
+    delete expected;
 }
 
 void FileUtilsTest::testSetLastModificationDateAndTimeGivenANull()

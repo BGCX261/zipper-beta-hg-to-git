@@ -35,6 +35,7 @@ void navigate(const char* path, std::list<FileHeader*>& fileHeaders) throw (File
     if (strlen(path) < 4 || strcmp(path + (strlen(path) - 4), zipExtension) != 0 ||
             signature != FILE_HEADER_SIGNATURE)
     {
+        fclose(file);
         WARN("%s", "The path isn't for a zip file.")
         throw NotZipFileException(path, INVALID_ZIP_FILE);
     }
@@ -139,6 +140,7 @@ throw(DecompressException)
                 DataInfo dataInfo = bz2Decompression(fileHeader->data, 
                         fileHeader->dataSize, fileHeader->uncompressedSize);
                 fwrite(dataInfo.data, sizeof(char), dataInfo.length, file);
+                free(dataInfo.data);
                 fclose(file);
                 break;
             }

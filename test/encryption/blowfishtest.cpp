@@ -49,5 +49,6 @@ void BlowfishTest::testBlowfishFeistel()
         Blowfish* blowfish = new Blowfish();
         int32_t actual = blowfish->blowfishFeistel(data32);
         CPPUNIT_ASSERT_EQUAL(actual, expected);
+        delete blowfish;
     }
 }
