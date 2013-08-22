@@ -17,18 +17,6 @@ void ConsoleTest::setUp()
 
 void ConsoleTest::tearDown()
 {
-    if (exist("resources/directorytest"))
-    {
-        remove("resources/directorytest/dir1/dir3/file2");
-        rmdir("resources/directorytest/dir1/dir3");
-        rmdir("resources/directorytest/dir1");
-        remove("resources/directorytest/dir2/file3");
-        rmdir("resources/directorytest/dir2");
-        remove("resources/directorytest/file1");
-        rmdir("resources/directorytest");
-    }
-
-    remove("resources/test.zip");
 }
 
 void ConsoleTest::itShouldShowTheHelpWhenTheWrittenCommandIsHWithoutArgs()
