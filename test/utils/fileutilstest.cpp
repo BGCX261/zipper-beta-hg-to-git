@@ -32,15 +32,6 @@ void FileUtilsTest::setUp()
 
 void FileUtilsTest::tearDown()
 {
-    const char* path = "resources/folder";
-    if (exist(path))
-    {
-        rmdir(path);
-    }
-    if (exist("resources/testFile"))
-    {
-        remove("resources/testFile");
-    }
 }
 
 void FileUtilsTest::testIsDirectoryWhenExist()

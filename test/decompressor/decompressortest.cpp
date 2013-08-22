@@ -29,10 +29,6 @@ void DecompressorTest::tearDown()
     {
         remove("resources/File1.txt");
     }
-    if (exist("resources/FolderTest"))
-    {
-        rmdir("resources/FolderTest");
-    }
 }
 
 void DecompressorTest::testNavigateGivenAZipWithOneFile()
