@@ -25,25 +25,6 @@ void InterfaceTest::setUp()
 
 void InterfaceTest::tearDown()
 {
-    if (exist("resources/testFile"))
-        remove("resources/testFile");
-    
-    if (exist("resources/song.zip"))
-        remove("resources/song.zip");
-    
-    if (exist("resources/directorytest/song.mp3"))
-        remove("resources/directorytest/song.mp3");
-    
-    if(exist("resources/directorytest2"))
-    {
-        remove("resources/directorytest2/dir1/dir3/file2");
-        rmdir("resources/directorytest2/dir1/dir3");
-        rmdir("resources/directorytest2/dir1");
-        remove("resources/directorytest2/dir2/file3");
-        rmdir("resources/directorytest2/dir2");
-        remove("resources/directorytest2/file1");
-        rmdir("resources/directorytest2");
-    }
 }
 
 void InterfaceTest::testCompressionTask()
